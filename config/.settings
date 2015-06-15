@@ -1,0 +1,32 @@
+{
+    "username": "admin@mysurvey.app", 
+    "environment": "developer", 
+    "project_name": "mySurvey", 
+    "workspace": "C:\\Users\\satya.tenneti\\Documents\\Projects\\mySurvey", 
+    "org_url": "", 
+    "namespace": "", 
+    "id": "DANC5G6XLDM3201HM306MMFD0JK62RL5", 
+    "metadata_container": "1dc28000000A29YAAS", 
+    "subscription": [
+        "ApexClass",
+    "ApexComponent",
+    "ApexPage",
+    "ApexTrigger",
+    "CustomApplication",
+    "CustomLabels",
+    "CustomObject",
+    "CustomTab",
+    "Dashboard",
+    "Document",
+    "EmailTemplate",
+    "Layout",
+    "PermissionSet",
+    "Profile",
+    "QuickAction",
+    "RemoteSiteSetting",
+    "Report",
+    "ReportType",
+    "StaticResource",
+    "Workflow"
+    ]
+}

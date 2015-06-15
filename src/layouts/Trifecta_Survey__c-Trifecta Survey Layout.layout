@@ -33,7 +33,7 @@
                 <field>OwnerId</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Readonly</behavior>
+                <behavior>Required</behavior>
                 <field>Load_Id__c</field>
             </layoutItems>
         </layoutColumns>

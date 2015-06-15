@@ -17,29 +17,25 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>standard__AppLauncher</members>
         <members>My_Survey</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>Account</members>
-        <members>Test__c</members>
+        <members>Trifecta_Survey_Question_Response__c</members>
         <members>Trifecta_Survey_Question__c</members>
         <members>Trifecta_Survey_Submission__c</members>
         <members>Trifecta_Survey__c</members>
-        <members>Trifecta_Survey_Question_Response__c</members>
         <name>CustomObject</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Trifecta_Survey__c</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>Account-Account Layout</members>
-        <members>Trifecta_Survey_Question__c-Trifecta Survey Question Layout</members>
-        <members>Trifecta_Survey__c-Trifecta Survey Layout</members>
         <members>Trifecta_Survey_Question_Response__c-Trifecta Survey Question Response Layout</members>
+        <members>Trifecta_Survey_Question__c-Trifecta Survey Question Layout</members>
         <members>Trifecta_Survey_Submission__c-Trifecta Survey Submission Layout</members>
+        <members>Trifecta_Survey__c-Trifecta Survey Layout</members>
         <name>Layout</name>
     </types>
     <types>

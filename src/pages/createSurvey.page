@@ -1,0 +1,30 @@
+<apex:page standardController="Trifecta_Survey__c"  extensions="CreateSurveyController">
+    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-1.11.3.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
+    <style>
+  		#sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+  		#sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
+  		#sortable li span { position: absolute; margin-left: -1.3em; }
+  	</style>
+    <apex:form >
+    	<div>
+        <ul id="sortable">
+            <apex:repeat value="{!Questions}" var="question">
+            	<li>{!question.Title__c}</li>
+            </apex:repeat>
+            
+        </ul>
+        
+    </div>
+    </apex:form>
+               
+    
+     <script>
+  	$(function() {
+    	$( "#sortable" ).sortable();
+    	$( "#sortable" ).disableSelection();
+  	});
+  </script>
+    
+</apex:page>

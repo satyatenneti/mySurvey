@@ -7,15 +7,15 @@ public with sharing class TrifectaSurveyController {
 		surveyObj = (Trifecta_Survey__c) controllerInstance.getRecord();
 		surveyQuestionsList = new List<Trifecta_Survey_Question__c>();
 		Trifecta_Survey_Question__c newQuestion = new Trifecta_Survey_Question__c(Type__c='Multi Choice',Choices__c='Option 1');
-		surveyObj = verifyAndPutLoadIdForSurvey(surveyObj);
-		newQuestion = verifyAndPutLoadIdForSurveyQuestion(newQuestion);
+		surveyObj.Load_Id__c = GuidUtil.NewGuid();
+		newQuestion.Load_Id__c = GuidUtil.NewGuid();
 		surveyQuestionsList.add(newQuestion);
 		loadIdToDelete = '';
 	}
 
 	public void addNewSurveyQuestion() {
 		Trifecta_Survey_Question__c newSurveyObjQuestion = new Trifecta_Survey_Question__c(Type__c='Multi Choice',Choices__c='Option 1');
-		newSurveyObjQuestion = verifyAndPutLoadIdForSurveyQuestion(newSurveyObjQuestion);
+		newSurveyObjQuestion.Load_Id__c = GuidUtil.NewGuid();
 		surveyQuestionsList.add(newSurveyObjQuestion);
 	}	
 
@@ -49,48 +49,11 @@ public with sharing class TrifectaSurveyController {
 
 	}
 
-////////////////////////////////////////////////////////Helper Methods/////////////////////////////////////////////////////////////////
+	public void addSurveyQuestionChoice() {
 
-	private Trifecta_Survey__c verifyAndPutLoadIdForSurvey(Trifecta_Survey__c surveyObj) {
-		Object surveyAggregateResult = [SELECT Max(Load_Id__c)maxSurveryCount FROM Trifecta_Survey__c ALL ROWS][0].get('maxSurveryCount');
-		surveyObj.Load_Id__c = surveyAggregateResult == null ? 'SURVEY-0000000' : createLoadId(surveyAggregateResult,'Trifecta_Survey__c',null);
-		return surveyObj;
 	}
 
-	private Trifecta_Survey_Question__c verifyAndPutLoadIdForSurveyQuestion(Trifecta_Survey_Question__c surveyQuestion) {
-		Object surveryQuestionAggrResult = [SELECT Max(Load_Id__c)maxSurveryQuestionCount FROM Trifecta_Survey_Question__c ALL ROWS][0].get('maxSurveryQuestionCount');
-		
-		if(surveryQuestionAggrResult == null ) {
+	public void sendSurvey(){
 
-			if(surveyQuestionsList.size() < 1) {
-				surveyQuestion.Load_Id__c = 'SQ-0000000';
-			}
-			else {
-				surveyQuestion.Load_Id__c = createLoadId(surveryQuestionAggrResult,'Trifecta_Survey_Question__c',surveyQuestionsList.size());
-			}
-		}
-		else {
-			surveyQuestion.Load_Id__c = createLoadId(surveryQuestionAggrResult,'Trifecta_Survey_Question__c',null);	
-		}
-		return surveyQuestion;
-	}
-
-	private String createLoadId(Object pAggregateResult,String objName,Integer optionalSize) {
-		String resultantString;
-		String seedText;
-		Integer nextRecordNumber;
-		
-		if(objName == 'Trifecta_Survey_Question__c'){
-			seedText = 'SQ-';	
-			nextRecordNumber = (optionalSize != null && pAggregateResult ==null) ? optionalSize : Integer.valueOf(pAggregateResult)+1;
-			resultantString = seedText+String.valueOf(nextRecordNumber).leftPad(7).replaceAll(' ','0');
-		}
-		else {
-			seedText = 'SURVEY-';
-			nextRecordNumber = Integer.valueOf(pAggregateResult)+1 ;
-			resultantString = seedText+String.valueOf(nextRecordNumber).leftPad(7).replaceAll(' ','0');
-		}
-		
-		return resultantString;
 	}
 }

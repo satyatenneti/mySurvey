@@ -5,10 +5,10 @@ global with sharing class TrifectaSurveyController {
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
         List<String> fields = new List<String>();
         fields.add('Help_Text__c');
-         fields.add('Auto_Response_Message__c');
+        fields.add('Auto_Response_Message__c');
         controllerInstance.addFields(fields);
         surveyObj = (Trifecta_Survey__c) controllerInstance.getRecord();
-        surveyQuestionsList = new List<Trifecta_Survey_Question__c>{new Trifecta_Survey_Question__c(Choices__c='Option 1'), new Trifecta_Survey_Question__c(Choices__c='Option 1')};
+        surveyQuestionsList = new List<Trifecta_Survey_Question__c>{new Trifecta_Survey_Question__c(Choices__c='Option 1')};
     }
 
     public void addNewSurveyQuestion() {
@@ -19,5 +19,7 @@ global with sharing class TrifectaSurveyController {
         return null;
     }
     
-    
+
+    public void addSurveyQuestionChoice() {
+    }
 }

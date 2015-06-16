@@ -21,6 +21,8 @@
         <name>CustomApplication</name>
     </types>
     <types>
+        <members>Account</members>
+        <members>Test__c</members>
         <members>Trifecta_Survey_Question_Response__c</members>
         <members>Trifecta_Survey_Question__c</members>
         <members>Trifecta_Survey_Submission__c</members>

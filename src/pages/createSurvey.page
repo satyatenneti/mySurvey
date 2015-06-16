@@ -3,7 +3,8 @@
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-1.11.3.min.js')}"/>
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
     <style>
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+        input, select, div, { margin: 0; padding: 0;}
+        #sortable { list-style-type: none; margin: 0; padding: 0; width: 55%; }
         #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
         #sortable li span { position: absolute; margin-left: -1.3em; }
         .section { padding: 15px; margin: 5px 0px;background-color: #fff;}
@@ -12,7 +13,10 @@
         input[type='text'] { padding: 10px;  margin: 25px 5px 0px 5px; width: 97%; }
         input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
         .question { box-shadow: 0px 0px 8px #888888; }
-        .table { width: 80%; }
+        .table { width: 80%; margin: 0 auto; }
+        ul.control-buttons { list-style-type: none; margin: 0; padding: 0; display: inline-block; float: right;}
+        li { float: left; }
+        
       </style>
       
     <apex:form >
@@ -22,15 +26,21 @@
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!surveyObj.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
+             
                  <apex:repeat value="{!surveyQuestionsList}" var="question">
+                 
                      <div class="question section">
                          <table class="table">
                              <tr>
-                                 <div class="ui-icon ui-icon-pencil">Edit</div>
-                                 <div class="ui-icon ui-icon-copy">Copy</div>
-                                 <div class="ui-icon ui-icon-trash">Delete</div>
+                                 <td colspan="4">
+                                     <ul class="control-buttons">
+                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil"></span></li>
+                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy"></span></li>
+                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>
+                                     </ul>
+                                 </td>
                              </tr>
-                             <tr>
+                            <tr>
                                  <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Title__c}" /></td>
                              </tr>
                              <tr>
@@ -56,10 +66,9 @@
                                      <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Done"/>
                                  </th>
                              </tr>
-                         </table>
-                          <p></p>
-                         <p></p>
-                     </div>
+                             </table>
+                         </div>
+                       
                  </apex:repeat>
 
                  <apex:commandButton styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" action="{!addNewSurveyQuestion}"/>
@@ -80,10 +89,6 @@
     $(function() {
         $( "#sortable" ).sortable();
         $( "#sortable" ).disableSelection();
-    });
-    
-    $('.addNewChoice').onclick(function(event){
-        console.log('Add new clicked', $this);
     });
   </script>
     

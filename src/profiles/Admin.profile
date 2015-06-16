@@ -80,6 +80,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
+        <layout>Trifecta_Survey_Question_Choice__c-Trifecta Survey Question Choice Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Trifecta_Survey_Question_Response__c-Trifecta Survey Question Response Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -91,6 +94,16 @@
     <layoutAssignments>
         <layout>Trifecta_Survey__c-Trifecta Survey Layout</layout>
     </layoutAssignments>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Trifecta_Survey_Question_Choice__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>

@@ -41,9 +41,11 @@
                              </tr>
                              <tr>
                                  <th colspan=""></th>
-                                 <td><div class="choice">
+                                 <td><div id="choices" class="choice">
                                          <p><apex:inputText styleClass="ui-rounder-all" value="{!question.Choices__c}" /></p>
-                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" value="{!question.Choices__c}" /> </p>
+                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" value="{!question.Choices__c}">
+                                            <apex:actionSupport action="{!addSurveyQuestionChoice}" event="onclick" reRender="choices" />
+                                         </apex:inputText> </p>
                                      </div>
                                  </td>
                                  <td></td>
@@ -52,7 +54,6 @@
                              <tr>
                                  <th colspan="2">
                                      <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Done"/>
-                                     <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add Question"/>
                                  </th>
                              </tr>
                          </table>
@@ -60,6 +61,8 @@
                          <p></p>
                      </div>
                  </apex:repeat>
+
+                 <apex:commandButton styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" action="{!addNewSurveyQuestion}"/>
             </div>
             <div class="section">
                 <label>Confirmation Page</label>

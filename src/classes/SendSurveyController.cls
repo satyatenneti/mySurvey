@@ -43,22 +43,6 @@ public with sharing class SendSurveyController {
     			submittedList.add(String.valueOf(eachMember.UserOrGroupId));
     		}
     	}
-    	sendEmailNotifications(submittedList);	
-    }
-    private void sendEmailNotifications (List<String> idList) {
-    	List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
-    	List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
-
-    	EmailTemplate et = [select Id from EmailTemplate where name ='sample'];
-    	for(String eachId : idList) {
-    		Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-	    	mail.setTemplateId(et.Id);
-	    	mail.setTargetObjectId(eachId);
-	    	Messaging.SendEmailResult[] result = Messaging.sendEmail(new Messaging.SingleEmailMessage[] {mail});	
-    		if(result[0].success) {
-    			submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId, Completed__c = false ));
-    		}
-    	}
-    	insert submissionList;
+    	new EmailServiceBase().sendEmailNotifications(submittedList,surveyId);	
     }
 }

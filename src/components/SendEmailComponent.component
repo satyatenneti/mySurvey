@@ -1,0 +1,4 @@
+<apex:component controller="SendEmailComponentController" access="global">
+	<apex:attribute name="sender" description="The ID of the User or Contact" type="Id" assignTo="{!senderId}"/>
+    <apex:attribute name="submission" description="Trifecta Survey Submission record Id" type="Id" assignTo="{!submissionId}" />
+</apex:component>

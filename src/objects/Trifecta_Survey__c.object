@@ -94,6 +94,19 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Load_Id__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <description>External Unique value for every Survey record created.</description>
+        <externalId>true</externalId>
+        <label>Load Id</label>
+        <length>30</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
         <fullName>Survey_Type__c</fullName>
         <description>Contains &quot;I&quot; for Internal Survey, &quot;E&quot; for External Survey</description>
         <externalId>false</externalId>

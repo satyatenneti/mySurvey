@@ -77,6 +77,19 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Load_Id__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <description>External Unique value for every Survey Question record created.</description>
+        <externalId>true</externalId>
+        <label>Load Id</label>
+        <length>30</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
         <fullName>Sort_Index__c</fullName>
         <description>Number to arrange the question in the survey form generated</description>
         <externalId>false</externalId>

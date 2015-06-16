@@ -29,12 +29,7 @@
         <field>Trifecta_Survey_Question__c.Help_text__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Trifecta_Survey_Question__c.Load_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
+   <fieldPermissions>
         <editable>true</editable>
         <field>Trifecta_Survey_Question__c.Sort_Index__c</field>
         <readable>true</readable>
@@ -77,11 +72,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Trifecta_Survey__c.Help_Text__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Trifecta_Survey__c.Load_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

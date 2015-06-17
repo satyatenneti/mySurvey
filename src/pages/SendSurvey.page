@@ -7,27 +7,46 @@
 				$("input[type='radio']").click(function() {
 					if ($("input[type='radio']:checked").val() == 'I') {
 						$('#users-id').prop("disabled",false);
-						$('#select-users').prop("disabled",false);
-
 						$('#contacts-id').prop("disabled",true);;
-						$('#select-contacts').prop("disabled",true);
+						$("[id*='select-contacts']").attr('disabled',true);
 						$('#contacts-id').prop("checked",false);
-
 						$('#groups-id').prop("disabled",false);
-						$('#select-groups').prop("disabled",false);
 						$('#groups-id').prop("name","usersList");
+
+						$('#users-id').click(function() {
+							if ($('#users-id').is(':checked')) {
+								$("[id*='select-groups']").attr('disabled',true);
+								$("[id*='select-users']").removeAttr('disabled');
+							}
+						});
+						$('#groups-id').click(function() {
+							if ($('#groups-id').is(':checked')) {
+								$("[id*='select-users']").attr('disabled',true);
+								$("[id*='select-groups']").removeAttr('disabled');
+							}
+						});
 					}
 					else if ($("input[type='radio']:checked").val() == 'E') {
 						$('#users-id').prop("disabled",true);
-						$('#select-users').prop("disabled",true);
+						$("[id*='select-users']").attr('disabled',true);
 						$('#users-id').prop("checked",false);
-
 						$('#contacts-id').prop("disabled",false);
-						$('#select-contacts').prop("disabled",false);
-
 						$('#groups-id').prop("disabled",false);
-						$('#select-groups').prop("disabled",false);
 						$('#groups-id').prop("name","contactsList");
+
+						$('#contacts-id').click(function() {
+							if ($('#contacts-id').is(':checked')) {
+								$("[id*='select-groups']").attr('disabled',true);
+								$("[id*='select-contacts']").removeAttr('disabled');
+							}
+						});
+
+						$('#groups-id').click(function() {
+							if ($('#groups-id').is(':checked')) {
+								$("[id*='select-contacts']").attr('disabled',true);
+								$("[id*='select-groups']").removeAttr('disabled');
+							}
+						});
 					}
 				});
 			});
@@ -48,7 +67,7 @@
 		<br/>
 		<div id="contacts">
 			<input id="contacts-id" type="radio" name="contactsList" value="contacts" disabled="true">Contacts</input> 
-			<apex:selectList id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
+			<apex:selectList disabled="true" id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
 				<apex:selectOptions value="{!contactsList}"/>
 			</apex:selectList>
 		</div>

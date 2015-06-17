@@ -1,28 +1,47 @@
 public with sharing class TrifectaSurveyController {
 	public Trifecta_Survey__c surveyObj{get;set;}
 	public List<Trifecta_Survey_Question__c> surveyQuestionsList{get;set;}
-	public String loadIdToDelete{get;set;}
+	public String questionloadId{get;set;}
+	public String choiceLoadId{get;set;}
+	public Map<Id,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoiceMap{get;set;}
 	
 	public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 		surveyObj = (Trifecta_Survey__c) controllerInstance.getRecord();
 		surveyQuestionsList = new List<Trifecta_Survey_Question__c>();
-		Trifecta_Survey_Question__c newQuestion = new Trifecta_Survey_Question__c(Type__c='Multi Choice',Choices__c='Option 1');
+		Trifecta_Survey_Question__c newQuestion = new Trifecta_Survey_Question__c(Type__c='Multi Choice',Choices__c='Option - 1');
+		Trifecta_Survey_Question_Choice__c initialChoice = new Trifecta_Survey_Question_Choice__c(Value__c='');
+		
 		surveyObj.Load_Id__c = GuidUtil.NewGuid();
 		newQuestion.Load_Id__c = GuidUtil.NewGuid();
+		initialChoice.Load_Id__c = GuidUtil.NewGuid();
+
+		surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{initialChoice});
+		
 		surveyQuestionsList.add(newQuestion);
-		loadIdToDelete = '';
+		questionloadId = '';
+		choiceLoadId = '';
 	}
 
 	public void addNewSurveyQuestion() {
 		Trifecta_Survey_Question__c newSurveyObjQuestion = new Trifecta_Survey_Question__c(Type__c='Multi Choice',Choices__c='Option 1');
 		newSurveyObjQuestion.Load_Id__c = GuidUtil.NewGuid();
 		surveyQuestionsList.add(newSurveyObjQuestion);
-	}	
+	}
+
+	public void addNewSurveyQuestionChoice() {
+		for(Id eachQuestionId : surveyQuestionChoiceMap.keySet()) {
+			if(eachQuestionId == questionloadId){
+				Trifecta_Survey_Question_Choice__c newSurveyObjQuestionChoice = new Trifecta_Survey_Question_Choice__c(Value__c='Option - '+String.valueOf(surveyQuestionChoiceMap.get(eachQuestionId).size()+1));
+				newSurveyObjQuestionChoice.Load_Id__c = GuidUtil.NewGuid();
+				surveyQuestionChoiceMap.get(eachQuestionId).add(newSurveyObjQuestionChoice);
+			}
+		}
+	}		
 
 	public void deleteSurveyQuestion() {
 		Integer rowIndex =0;
 		for(Trifecta_Survey_Question__c eachQuestion : surveyQuestionsList) {
-			if(eachQuestion.Load_Id__c != loadIdToDelete) {
+			if(eachQuestion.Load_Id__c != questionloadId) {
 				rowIndex++;
 			}
 			else {
@@ -32,28 +51,44 @@ public with sharing class TrifectaSurveyController {
 		surveyQuestionsList.remove(rowIndex);
 	}
 
+	public void deleteSurveyQuestionChoice() {
+		Integer rowIndex;
+		for(Trifecta_Survey_Question_Choice__c tempSurveyChoices : surveyQuestionChoiceMap.get(questionloadId)) {
+			rowIndex = 0;
+			
+			if(tempSurveyChoices.Load_Id__c != choiceLoadId){
+				rowIndex++;
+			}
+			else {
+				break;
+			}
+		}
+		surveyQuestionChoiceMap.get(questionloadId).remove(rowIndex);
+	}
+
 	public void saveSurvey(){
 		for(Trifecta_Survey_Question__c eachQuestion : surveyQuestionsList) {
 			eachQuestion.Survey__r = new Trifecta_Survey__c(Load_Id__c = surveyObj.Load_Id__c);
 		}
+		for(Id eachQuestion : surveyQuestionChoiceMap.keySet()) {
+			for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoiceMap.get(eachQuestion)){
+				eachChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = eachQuestion);
+			}
+		}
 		try {
 			insert surveyObj;
 			insert surveyQuestionsList;
+			insert SObjectUtils.flatten(surveyQuestionChoiceMap.values());
 		}
 		catch (Exception dmlException) { 
 			System.debug('An Exception Occured While DML'+dmlException.getMessage());
 		}
 	}
 
-	public void copySurveyQuestion(){
-
-	}
-
-	public void addSurveyQuestionChoice() {
-
-	}
-
-	public void sendSurvey(){
-
+	public PageReference sendSurvey(){
+		saveSurvey();
+		PageReference referenceToNewPage = new PageReference('/apex/SendSurvey?id='+surveyObj.Id);
+		referenceToNewPage.setRedirect(true);
+		return referenceToNewPage;
 	}
 }

@@ -1,9 +1,10 @@
 <apex:page standardController="Trifecta_Survey__c" sidebar="false"  extensions="TrifectaSurveyController">
     <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-1.11.3.min.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
     <style>
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+        input, select, div, { margin: 0; padding: 0;}
+        #sortable { list-style-type: none; margin: 0; padding: 0; width: 55%; }
         #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
         #sortable li span { position: absolute; margin-left: -1.3em; }
         .section { padding: 15px; margin: 5px 0px;background-color: #fff;}
@@ -12,25 +13,50 @@
         input[type='text'] { padding: 10px;  margin: 25px 5px 0px 5px; width: 97%; }
         input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
         .question { box-shadow: 0px 0px 8px #888888; }
-        .table { width: 80%; }
+        .table { width: 80%; margin: 0 auto; }
+        ul.control-buttons { list-style-type: none; margin: 0; padding: 0; display: inline-block; float: right;}
+        li { float: left; }
+        
       </style>
-      
-    <apex:form >
+      <script>
+      function addNewSurveyQuestionHelper(value){
+           addNewSurveyQuestion(value);
+      }
+      </script>
+    <apex:form id="survey">
         <div class="form-container">
             <div class="section">
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!surveyObj.Name}" html-placeholder="Untitle Form"/></p>
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!surveyObj.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
+                <apex:actionfunction  action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="survey">
+                        <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>
+                 </apex:actionfunction>
+
+                 <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="survey">
+                    
+                    <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
+                
+                    <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
+                
+                </apex:actionFunction>
+
+
                  <apex:repeat value="{!surveyQuestionsList}" var="question">
+                 
                      <div class="question section">
                          <table class="table">
                              <tr>
-                                 <div class="ui-icon ui-icon-pencil">Edit</div>
-                                 <div class="ui-icon ui-icon-copy">Copy</div>
-                                 <div class="ui-icon ui-icon-trash">Delete</div>
+                                 <td colspan="4">
+                                     <ul class="control-buttons">
+                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil"></span></li>
+                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy"></span></li>
+                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>
+                                     </ul>
+                                 </td>
                              </tr>
-                             <tr>
+                            <tr>
                                  <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Title__c}" /></td>
                              </tr>
                              <tr>
@@ -42,10 +68,13 @@
                              <tr>
                                  <th colspan=""></th>
                                  <td><div id="choices" class="choice">
-                                         <p><apex:inputText styleClass="ui-rounder-all" value="{!question.Choices__c}" /></p>
-                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" value="{!question.Choices__c}">
-                                            <apex:actionSupport action="{!addSurveyQuestionChoice}" event="onclick" reRender="choices" />
-                                         </apex:inputText> </p>
+                                         <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice">   
+                                            <p><apex:inputText styleClass="ui-rounder-all" value="{!choice.Value__c}" /></p>
+                                            <span class="pointer" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> Close ! </span>
+                                         </apex:repeat>
+                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" html-placeholder = "click on new choice" onclick="addNewSurveyQuestionHelper('{!question.Load_Id__c}')">
+                                            
+                                         </apex:inputText> </p>   
                                      </div>
                                  </td>
                                  <td></td>
@@ -56,12 +85,10 @@
                                      <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Done"/>
                                  </th>
                              </tr>
-                         </table>
-                          <p></p>
-                         <p></p>
-                     </div>
+                             </table>
+                         </div>
+                       
                  </apex:repeat>
-
                  <apex:commandButton styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" action="{!addNewSurveyQuestion}"/>
             </div>
             <div class="section">
@@ -73,6 +100,7 @@
                 <apex:commandButton value="Save" styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" action="{!save}" /></p>
             </div>
         </div>
+        
     </apex:form>
                
     
@@ -80,10 +108,6 @@
     $(function() {
         $( "#sortable" ).sortable();
         $( "#sortable" ).disableSelection();
-    });
-    
-    $('.addNewChoice').onclick(function(event){
-        console.log('Add new clicked', $this);
     });
   </script>
     

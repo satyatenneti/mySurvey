@@ -129,6 +129,34 @@
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
+    <listViews>
+        <fullName>External_Surveys</fullName>
+        <columns>NAME</columns>
+        <columns>Description__c</columns>
+        <columns>Survey_Type__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Survey_Type__c</field>
+            <operation>equals</operation>
+            <value>E</value>
+        </filters>
+        <label>External Surveys</label>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Surveys</fullName>
+        <columns>NAME</columns>
+        <columns>Description__c</columns>
+        <columns>Survey_Type__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Survey_Type__c</field>
+            <operation>equals</operation>
+            <value>I</value>
+        </filters>
+        <label>Internal Surveys</label>
+    </listViews>
     <nameField>
         <label>Title</label>
         <trackHistory>false</trackHistory>

@@ -41,21 +41,21 @@
 		<br/>
 		<div id="users">
 			<input id="users-id" type="radio" name="usersList" value="users" disabled="true">Users</input> 
-			<apex:selectList disabled="true" id="select-users" size="1" value="{!selectedUsers}" multiselect="true">
+			<apex:selectList disabled="true" id="select-users" size="5" value="{!selectedUsers}" multiselect="true">
 				<apex:selectOptions value="{!usersList}"/>
 			</apex:selectList>
 		</div>
 		<br/>
 		<div id="contacts">
 			<input id="contacts-id" type="radio" name="contactsList" value="contacts" disabled="true">Contacts</input> 
-			<apex:selectList disabled="true" id="select-contacts" size="1" value="{!selectedContacts}" multiselect="true">
+			<apex:selectList id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
 				<apex:selectOptions value="{!contactsList}"/>
 			</apex:selectList>
 		</div>
 		<br/>
 		<div id="groups">
 			<input id="groups-id" type="radio" name="groupsList" value="groups" disabled="true">Send to Group</input>
-			<apex:selectList disabled="true" id="select-groups" size="1" value="{!selectedGroups}" multiselect="true">
+			<apex:selectList disabled="true" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
 				<apex:selectOptions value="{!groupsList}"/>
 			</apex:selectList>
 		</div>

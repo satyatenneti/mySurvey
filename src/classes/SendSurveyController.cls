@@ -3,27 +3,28 @@ public with sharing class SendSurveyController {
     public List<SelectOption> contactsList {get;set;}
     public List<SelectOption> groupsList {get;set;}
     public List<SelectOption> typeList {get;set;}
-    public String selectedUsers;
-    public String selectedContacts;
-    public String selectedGroups;
-    public String selectedType;
+    public String selectedUsers {get; set;}
+    public String selectedContacts {get; set;}
+    public String selectedGroups {get; set;}
+    public String selectedType {get; set;}
     public Id surveyId;
     public SendSurveyController() {
     	surveyId = ApexPages.currentPage().getParameters().get('id');
-        usersList = new List<SelectOption>();
+      usersList = new List<SelectOption>();
   		contactsList = new List<SelectOption>();
   		groupsList = new List<SelectOption>();
-  		for (User eachActiveUser :[SELECT Id,Name FROM User WHERE IsActive = true]) {
-  			usersList.add(new SelectOption(eachActiveUser.Name, eachActiveUser.Id));
-  		}
-  		for (Contact eachContact :[SELECT Id,Name FROM Contact]) {
-  			contactsList.add(new SelectOption(eachContact.Name, eachContact.Id));
-  		}
-  		for (Group eachGroup :[SELECT Id,Name FROM Group WHERE Type = 'Regular']) {
-  			groupsList.add(new SelectOption(eachGroup.Name, eachGroup.Id));
-  		}
-  		typeList.add(new SelectOption('Internal','I'));
-  		typeList.add(new SelectOption('External','E'));
+  		typeList = new List<SelectOption>();
+        for (User eachActiveUser :[SELECT Id,Name FROM User WHERE IsActive = true]) {
+            usersList.add(new SelectOption(eachActiveUser.Id, eachActiveUser.Name));
+        }
+        for (Contact eachContact :[SELECT Id,Name FROM Contact]) {
+            contactsList.add(new SelectOption(eachContact.Id, eachContact.Name));
+        }
+        for (Group eachGroup :[SELECT Id,Name FROM Group WHERE Type = 'Regular']) {
+            groupsList.add(new SelectOption(eachGroup.Id, eachGroup.Name));
+        }
+        typeList.add(new SelectOption('I', 'Internal'));
+        typeList.add(new SelectOption('E', 'External'));
     }
     
     public void sendForm() {

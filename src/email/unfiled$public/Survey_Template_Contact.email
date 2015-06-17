@@ -1,0 +1,5 @@
+<messaging:emailTemplate subject="Trifecta Survey" recipientType="Contact" relatedToType="Trifecta_Survey_Submission__c">
+<messaging:htmlEmailBody >
+       <c:SendEmailComponent sender="{!relatedTo.Submitted_To__c}" submission="{!relatedTo.Id}"/>
+</messaging:htmlEmailBody>
+</messaging:emailTemplate>

@@ -35,6 +35,11 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>unfiled$public/Survey_Template_Contact</members>
+        <members>unfiled$public/Survey_Template_User</members>
+        <name>EmailTemplate</name>
+    </types>
+    <types>
         <members>Trifecta_Survey_Question_Choice__c-Trifecta Survey Question Choice Layout</members>
         <members>Trifecta_Survey_Question_Response__c-Trifecta Survey Question Response Layout</members>
         <members>Trifecta_Survey_Question__c-Trifecta Survey Question Layout</members>

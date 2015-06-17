@@ -1,11 +1,11 @@
-<apex:page showHeader="false" standardStylesheets="false" >
-	<apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-1.11.3.min.js')}"/>
+<apex:page showHeader="false" standardStylesheets="false" controller="SendSurveyController">
+	<apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
 	<apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
 	<script type="text/javascript">
 		
-			$(document).ready(function()) {
-				$( "input[name="internal-id"]").click(function() {
-					if($(this).is(':checked')) {
+			$(document).ready(function() {
+				$("input[type='radio']").click(function() {
+					if ($("input[type='radio']:checked").val() == 'I') {
 						$('#users-id').prop("disabled",false);
 						$('#select-users').prop("disabled",false);
 
@@ -17,10 +17,7 @@
 						$('#select-groups').prop("disabled",false);
 						$('#groups-id').prop("name","usersList");
 					}
-				});
-
-				$( "input[name="external-id"]").click(function() {
-					if($(this).is(':checked')) {
+					else if ($("input[type='radio']:checked").val() == 'E') {
 						$('#users-id').prop("disabled",true);
 						$('#select-users').prop("disabled",true);
 						$('#users-id').prop("checked",false);
@@ -34,74 +31,35 @@
 					}
 				});
 			});
-
-		/*
-		function disableField() {
-			console.log('function calling...');
-			if (document.getElementById('internal-id').checked == true) {
-				console.log('Internal...');
-				document.getElementById('users-id').disabled = false;
-				document.getElementById('select-users').disabled = false;
-
-				document.getElementById('contacts-id').disabled = true;
-				document.getElementById('select-contacts').disabled = true;
-				document.getElementById('contacts-id').checked = false;
-
-				document.getElementById('groups-id').disabled = false;
-				document.getElementById('select-groups').disabled = false;
-
-				document.getElementById('groups-id').name = "usersList";
-			} else if (document.getElementById('external-id').checked == true) {
-				console.log('External...');
-				document.getElementById('users-id').disabled = true;
-				document.getElementById('select-users').disabled = true;
-				document.getElementById('users-id').checked = false;
-
-				document.getElementById('contacts-id').disabled = false;
-				document.getElementById('select-contacts').disabled = false;
-
-				document.getElementById('groups-id').disabled = false;
-				document.getElementById('select-groups').disabled = false;
-
-				document.getElementById('groups-id').name = "contactsList";
-			}
-		}
-		*/
-
 	</script>
 	<apex:form>
 		<div id="radio-buttons">
-			<input id="internal-id" type="radio" name="radioButton" value="Internal" onchange="disableField()">Internal</input>
-			<input id="external-id" type="radio" name="radioButton" value="External" onchange="disableField()">External</input>
+			<apex:selectRadio id="radio-id" value="{!selectedType}">
+				<apex:selectOptions value="{!typeList}"/>
+			</apex:selectRadio>
 		</div>
 		<br/>
 		<div id="users">
-			<input id="users-id" type="radio" name="usersList" value="users">Users</input>
-			<select id="select-users" name="usersList" size="1">
-				<option value="user1"> User1</option>
-				<option value="user2"> User2</option>
-				<option value="user3"> User3</option>
-			</select>
+			<input id="users-id" type="radio" name="usersList" value="users" disabled="true">Users</input> 
+			<apex:selectList disabled="true" id="select-users" size="1" value="{!selectedUsers}" multiselect="true">
+				<apex:selectOptions value="{!usersList}"/>
+			</apex:selectList>
 		</div>
 		<br/>
 		<div id="contacts">
-			<input id="contacts-id" type="radio" name="contactsList" value="contacts">Contacts</input>
-			<select id="select-contacts" name="contactsList" size="1">
-				<option value="contact1"> Contact1</option>
-				<option value="contact2"> Contact2</option>
-				<option value="contact3"> Contact3</option>
-			</select>
+			<input id="contacts-id" type="radio" name="contactsList" value="contacts" disabled="true">Contacts</input> 
+			<apex:selectList disabled="true" id="select-contacts" size="1" value="{!selectedContacts}" multiselect="true">
+				<apex:selectOptions value="{!contactsList}"/>
+			</apex:selectList>
 		</div>
 		<br/>
 		<div id="groups">
-			<input id="groups-id" type="radio" name="groupsList" value="groups">Send to Group</input>
-			<select id="select-groups" name="groupsList" size="1">
-				<option value="group1"> Group1</option>
-				<option value="group2"> Group2</option>
-				<option value="group3"> Group3</option>
-			</select>
+			<input id="groups-id" type="radio" name="groupsList" value="groups" disabled="true">Send to Group</input>
+			<apex:selectList disabled="true" id="select-groups" size="1" value="{!selectedGroups}" multiselect="true">
+				<apex:selectOptions value="{!groupsList}"/>
+			</apex:selectList>
 		</div>
 		<br/><br/>
-		<apex:commandButton value="Send Form"/>
+		<apex:commandButton value="Send Form" action="{!sendForm}"/>
 	</apex:form>
 </apex:page>

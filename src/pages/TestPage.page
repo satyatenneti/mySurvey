@@ -1,0 +1,60 @@
+<apex:page controller="SendSurveyController" >
+  <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
+  <apex:form >
+       <p><apex:selectradio value="{!currentSurvey.Survey_Type__c}">
+            <apex:selectoption itemValue="Internal" itemLabel="Internal" ></apex:selectoption>
+            <apex:selectoption itemValue="External" itemLabel="External" ></apex:selectoption>
+       </apex:selectradio></p>
+       
+        <label>Users</label><apex:inputText value="{!selectedUsers}" />
+        <label>Contacts</label><apex:inputText value="{!selectedContacts}" />
+        <label>Groups</label><apex:inputText value="{!selectedGroups}" />
+        <apex:commandbutton action="{!sendForm}" value="Send Survey"/>
+       <!-- <p>
+            <input type="radio" id="users-radio" />
+            <label>Users</label>
+
+            <select id="users">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+        </p>
+        <p>
+                    <input type="radio" id="contacts-radio" />
+            <label>Contacts</label>
+
+            <select id="contacts">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+        </p>
+        <p>
+                    <input type="radio" id="groups-radio" />            
+            <label>Groups</label>
+
+                     
+            <select id="groups">
+                <option value="option1">Option 1</option>
+                <option value="option2">Option 2</option>
+                <option value="option3">Option 3</option>
+            </select>
+        </p> -->
+
+  </apex:form>
+  
+  <script>
+      $('#internal').click(function(){
+          $("#users-radio").removeAttr('disabled');
+          $("#contacts-radio").attr('disabled', true);
+      });
+      $('#internal').click(function(){
+          $("#contacts-radio").removeAttr('disabled');
+          $("#users-radio").attr('disabled', true);
+
+      });
+  </script>
+  
+  
+</apex:page>

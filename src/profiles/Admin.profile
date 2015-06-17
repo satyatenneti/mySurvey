@@ -360,6 +360,10 @@
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>
+        <tab>Trifecta_Survey_Submission__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Trifecta_Survey__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>

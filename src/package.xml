@@ -31,7 +31,7 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>Trifecta_Survey__c</members>
+        <members>*</members>
         <name>CustomTab</name>
     </types>
     <types>

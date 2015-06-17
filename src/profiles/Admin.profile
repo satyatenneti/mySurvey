@@ -100,7 +100,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Trifecta_Survey_Question_Choice__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>

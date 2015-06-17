@@ -18,11 +18,6 @@
         li { float: left; }
         
       </style>
-      <script>
-      function addNewSurveyQuestionHelper(value){
-           addNewSurveyQuestion(value);
-      }
-      </script>
     <apex:form id="survey">
         <div class="form-container">
             <div class="section">
@@ -72,7 +67,7 @@
                                             <p><apex:inputText styleClass="ui-rounder-all" value="{!choice.Value__c}" /></p>
                                             <span class="pointer" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> Close ! </span>
                                          </apex:repeat>
-                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" html-placeholder = "click on new choice" onclick="addNewSurveyQuestionHelper('{!question.Load_Id__c}')">
+                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" html-placeholder = "click on new choice" onclick="addNewSurveyQuestion('{!question.Load_Id__c}')">
                                             
                                          </apex:inputText> </p>   
                                      </div>

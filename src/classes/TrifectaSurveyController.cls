@@ -27,6 +27,10 @@ public with sharing class TrifectaSurveyController {
   Trifecta_Survey_Question__c newSurveyObjQuestion = new Trifecta_Survey_Question__c(Type__c='Multi Choice',Choices__c='Option 1');
   newSurveyObjQuestion.Load_Id__c = GuidUtil.NewGuid();
   surveyQuestionsList.add(newSurveyObjQuestion);
+
+  Trifecta_Survey_Question_Choice__c initialChoice = new Trifecta_Survey_Question_Choice__c(Value__c='');
+  surveyQuestionChoiceMap.put(newSurveyObjQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{initialChoice});
+  
  }
 
  public void addNewSurveyQuestionChoice() {

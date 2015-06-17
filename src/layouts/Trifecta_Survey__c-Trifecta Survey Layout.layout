@@ -92,6 +92,9 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Submitted_To__c</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Completed__c</fields>
         <relatedList>Trifecta_Survey_Submission__c.Survey__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

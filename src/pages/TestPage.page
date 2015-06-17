@@ -1,12 +1,7 @@
 <apex:page controller="SendSurveyController" >
   <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
   <apex:form >
-       <p><apex:selectradio value="{!currentSurvey.Survey_Type__c}">
-            <apex:selectoption itemValue="Internal" itemLabel="Internal" ></apex:selectoption>
-            <apex:selectoption itemValue="External" itemLabel="External" ></apex:selectoption>
-       </apex:selectradio></p>
-       
-        <label>Users</label><apex:inputText value="{!selectedUsers}" />
+       <label>Users</label><apex:inputText value="{!selectedUsers}" />
         <label>Contacts</label><apex:inputText value="{!selectedContacts}" />
         <label>Groups</label><apex:inputText value="{!selectedGroups}" />
         <apex:commandbutton action="{!sendForm}" value="Send Survey"/>

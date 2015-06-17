@@ -30,10 +30,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SurveySubmissionController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>TrifectaSurveyController</apexClass>
         <enabled>true</enabled>
     </classAccesses>

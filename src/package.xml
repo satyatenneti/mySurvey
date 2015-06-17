@@ -1,59 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
-    <types>
-        <members>*</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexComponent</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexPage</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>ApexTrigger</name>
-    </types>
-    <types>
-        <members>My_Survey</members>
-        <name>CustomApplication</name>
-    </types>
-    <types>
-        <members>Account</members>
-        <members>Test__c</members>
-        <members>Trifecta_Survey_Question_Choice__c</members>
-        <members>Trifecta_Survey_Question_Response__c</members>
-        <members>Trifecta_Survey_Question__c</members>
-        <members>Trifecta_Survey_Submission__c</members>
-        <members>Trifecta_Survey__c</members>
-        <name>CustomObject</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>CustomTab</name>
-    </types>
-    <types>
-        <members>unfiled$public/Survey_Template_Contact</members>
-        <members>unfiled$public/Survey_Template_User</members>
-        <name>EmailTemplate</name>
-    </types>
-    <types>
-        <members>Trifecta_Survey_Question_Choice__c-Trifecta Survey Question Choice Layout</members>
-        <members>Trifecta_Survey_Question_Response__c-Trifecta Survey Question Response Layout</members>
-        <members>Trifecta_Survey_Question__c-Trifecta Survey Question Layout</members>
-        <members>Trifecta_Survey_Submission__c-Trifecta Survey Submission Layout</members>
-        <members>Trifecta_Survey__c-Trifecta Survey Layout</members>
-        <name>Layout</name>
-    </types>
-    <types>
-        <members>Admin</members>
-        <name>Profile</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>StaticResource</name>
-    </types>
-    <version>32.0</version>
+	<types>
+		<members>*</members>
+		<name>ApexClass</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>ApexComponent</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>ApexPage</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>ApexTrigger</name>
+	</types>
+	<types>
+		<members>My_Survey</members>
+		<name>CustomApplication</name>
+	</types>
+	<types>
+		<members>Account</members>
+		<members>Test__c</members>
+		<members>Trifecta_Survey_Question_Choice__c</members>
+		<members>Trifecta_Survey_Question_Response__c</members>
+		<members>Trifecta_Survey_Question__c</members>
+		<members>Trifecta_Survey_Submission__c</members>
+		<members>Trifecta_Survey__c</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>CustomTab</name>
+	</types>
+	<types>
+		<members>unfiled$public/Survey_Template_Contact</members>
+		<members>unfiled$public/Survey_Template_User</members>
+		<name>EmailTemplate</name>
+	</types>
+	<types>
+		<members>Trifecta_Survey_Question_Choice__c-Trifecta Survey Question Choice Layout</members>
+		<members>Trifecta_Survey_Question_Response__c-Trifecta Survey Question Response Layout</members>
+		<members>Trifecta_Survey_Question__c-Trifecta Survey Question Layout</members>
+		<members>Trifecta_Survey_Submission__c-Trifecta Survey Submission Layout</members>
+		<members>Trifecta_Survey__c-Trifecta Survey Layout</members>
+		<name>Layout</name>
+	</types>
+	<types>
+		<members>Admin</members>
+		<name>Profile</name>
+	</types>
+	<types>
+		<members>*</members>
+		<name>StaticResource</name>
+	</types>
+	<version>31.0</version>
 </Package>

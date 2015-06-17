@@ -25,7 +25,7 @@
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!surveyObj.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
-                <apex:actionfunction  action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="survey">
+                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="survey">
                         <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>
                  </apex:actionfunction>
 
@@ -67,7 +67,7 @@
                                             <p><apex:inputText styleClass="ui-rounder-all" value="{!choice.Value__c}" /></p>
                                             <span class="pointer" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> Close ! </span>
                                          </apex:repeat>
-                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" html-placeholder = "click on new choice" onclick="addNewSurveyQuestion('{!question.Load_Id__c}')">
+                                         <p><apex:inputText styleClass="addNewChoice ui-rounder-all" html-placeholder="click on new choice" onclick="addNewSurveyQuestion('{!question.Load_Id__c}')">
                                             
                                          </apex:inputText> </p>   
                                      </div>

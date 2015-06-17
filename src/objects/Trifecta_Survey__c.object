@@ -108,6 +108,7 @@
     </fields>
     <fields>
         <fullName>Survey_Type__c</fullName>
+        <defaultValue>&quot;I&quot;</defaultValue>
         <description>Contains &quot;I&quot; for Internal Survey, &quot;E&quot; for External Survey</description>
         <externalId>false</externalId>
         <label>Survey Type</label>

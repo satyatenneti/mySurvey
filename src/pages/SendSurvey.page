@@ -1,84 +1,113 @@
 <apex:page showHeader="false" standardStylesheets="false" controller="SendSurveyController">
-	<apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
-	<apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
-	<script type="text/javascript">
-		
-			$(document).ready(function() {
-				$("input[type='radio']").click(function() {
-					if ($("input[type='radio']:checked").val() == 'I') {
-						$('#users-id').prop("disabled",false);
-						$('#contacts-id').prop("disabled",true);;
-						$("[id*='select-contacts']").attr('disabled',true);
-						$('#contacts-id').prop("checked",false);
-						$('#groups-id').prop("disabled",false);
-						$('#groups-id').prop("name","usersList");
+    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
+    <style>
+        .form-container { width: 60%; margin: 0 auto; padding: 15px; }
+        .table { width: 80%; margin: 0 auto; }
+        input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
+        input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
+        input.control-button:hover { background-color:#357ae8; }
+    </style>
+    <script type="text/javascript">
+        
+            $(document).ready(function() {
+                $("input[type='radio']").click(function() {
+                    if ($("input[type='radio']:checked").val() == 'I') {
+                        $('#users-id').prop("disabled",false);
+                        $('#contacts-id').prop("disabled",true);;
+                        $("[id*='select-contacts']").attr('disabled',true);
+                        $('#contacts-id').prop("checked",false);
+                        $('#groups-id').prop("disabled",false);
+                        $('#groups-id').prop("name","usersList");
 
-						$('#users-id').click(function() {
-							if ($('#users-id').is(':checked')) {
-								$("[id*='select-groups']").attr('disabled',true);
-								$("[id*='select-users']").removeAttr('disabled');
-							}
-						});
-						$('#groups-id').click(function() {
-							if ($('#groups-id').is(':checked')) {
-								$("[id*='select-users']").attr('disabled',true);
-								$("[id*='select-groups']").removeAttr('disabled');
-							}
-						});
-					}
-					else if ($("input[type='radio']:checked").val() == 'E') {
-						$('#users-id').prop("disabled",true);
-						$("[id*='select-users']").attr('disabled',true);
-						$('#users-id').prop("checked",false);
-						$('#contacts-id').prop("disabled",false);
-						$('#groups-id').prop("disabled",false);
-						$('#groups-id').prop("name","contactsList");
+                        $('#users-id').click(function() {
+                            if ($('#users-id').is(':checked')) {
+                                $("[id*='select-groups']").attr('disabled',true);
+                                $("[id*='select-users']").removeAttr('disabled');
+                            }
+                        });
+                        $('#groups-id').click(function() {
+                            if ($('#groups-id').is(':checked')) {
+                                $("[id*='select-users']").attr('disabled',true);
+                                $("[id*='select-groups']").removeAttr('disabled');
+                            }
+                        });
+                    }
+                    else if ($("input[type='radio']:checked").val() == 'E') {
+                        $('#users-id').prop("disabled",true);
+                        $("[id*='select-users']").attr('disabled',true);
+                        $('#users-id').prop("checked",false);
+                        $('#contacts-id').prop("disabled",false);
+                        $('#groups-id').prop("disabled",false);
+                        $('#groups-id').prop("name","contactsList");
 
-						$('#contacts-id').click(function() {
-							if ($('#contacts-id').is(':checked')) {
-								$("[id*='select-groups']").attr('disabled',true);
-								$("[id*='select-contacts']").removeAttr('disabled');
-							}
-						});
+                        $('#contacts-id').click(function() {
+                            if ($('#contacts-id').is(':checked')) {
+                                $("[id*='select-groups']").attr('disabled',true);
+                                $("[id*='select-contacts']").removeAttr('disabled');
+                            }
+                        });
 
-						$('#groups-id').click(function() {
-							if ($('#groups-id').is(':checked')) {
-								$("[id*='select-contacts']").attr('disabled',true);
-								$("[id*='select-groups']").removeAttr('disabled');
-							}
-						});
-					}
-				});
-			});
-	</script>
-	<apex:form>
-		<div id="radio-buttons">
-			<apex:selectRadio id="radio-id" value="{!selectedType}">
-				<apex:selectOptions value="{!typeList}"/>
-			</apex:selectRadio>
-		</div>
-		<br/>
-		<div id="users">
-			<input id="users-id" type="radio" name="usersList" value="users" disabled="true">Users</input> 
-			<apex:selectList disabled="true" id="select-users" size="5" value="{!selectedUsers}" multiselect="true">
-				<apex:selectOptions value="{!usersList}"/>
-			</apex:selectList>
-		</div>
-		<br/>
-		<div id="contacts">
-			<input id="contacts-id" type="radio" name="contactsList" value="contacts" disabled="true">Contacts</input> 
-			<apex:selectList disabled="true" id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
-				<apex:selectOptions value="{!contactsList}"/>
-			</apex:selectList>
-		</div>
-		<br/>
-		<div id="groups">
-			<input id="groups-id" type="radio" name="groupsList" value="groups" disabled="true">Send to Group</input>
-			<apex:selectList disabled="true" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
-				<apex:selectOptions value="{!groupsList}"/>
-			</apex:selectList>
-		</div>
-		<br/><br/>
-		<apex:commandButton value="Send Form" action="{!sendForm}"/>
-	</apex:form>
+                        $('#groups-id').click(function() {
+                            if ($('#groups-id').is(':checked')) {
+                                $("[id*='select-contacts']").attr('disabled',true);
+                                $("[id*='select-groups']").removeAttr('disabled');
+                            }
+                        });
+                    }
+                });
+            });
+    </script>
+    <apex:form id="sendSurvey">
+    <div class="form-container">
+        <table class="table">
+            <tr>
+                <th colspan="2" align="center">
+                <label>
+                        <apex:selectRadio id="radio-id" value="{!selectedType}">
+                        <apex:selectOptions value="{!typeList}"/>
+                        </apex:selectRadio>
+                </label>
+                </th>
+            </tr>
+            <tr>
+                <th>
+                   <label><input id="users-id" type="radio" name="usersList" value="users" disabled="true">Users</input></label>
+                </th>
+                <td>
+                        <apex:selectList disabled="true" id="select-users" size="5" value="{!selectedUsers}" multiselect="true" styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto">
+                        <apex:selectOptions value="{!usersList}"/>
+                        </apex:selectList>
+                    
+                </td>
+            </tr>
+            <tr>
+                <th>
+                   <label><input id="contacts-id" type="radio" name="contactsList" value="contacts" disabled="true">Contacts</input></label>
+                </th>
+                <td> 
+                        <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" disabled="true" id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
+                        <apex:selectOptions value="{!contactsList}"/>
+                        </apex:selectList>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label><input id="groups-id" type="radio" name="groupsList" value="groups" disabled="true">Send to Group</input></label>
+                </th>
+                <td>
+                        <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" disabled="true" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
+                        <apex:selectOptions value="{!groupsList}"/>
+                        </apex:selectList>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" align="center">
+                    <apex:commandButton styleClass="control-button" value="Send Form" action="{!sendForm}"/>
+                </td>
+            </tr>
+        </table>
+    </div>
+    </apex:form>
 </apex:page>

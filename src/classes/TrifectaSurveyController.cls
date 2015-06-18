@@ -20,7 +20,7 @@ public with sharing class TrifectaSurveyController {
         Trifecta_Survey_Question__c newQuestion = getNewQuestion();
         surveyQuestions.add(newQuestion);
         
-        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice()});
+        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
         
         questionloadId = '';
         choiceLoadId = '';
@@ -31,14 +31,14 @@ public with sharing class TrifectaSurveyController {
     public void addNewSurveyQuestion() {
       Trifecta_Survey_Question__c newQuestion = getNewQuestion();
       surveyQuestions.add(newQuestion);
-      surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice()});
+      surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
     }
     
     /**
     * Adds a new choice to the question identified by questionLoadId
     */
     public void addNewSurveyQuestionChoice() {
-        surveyQuestionChoiceMap.get(questionloadId).add(getNewChoice());
+        surveyQuestionChoiceMap.get(questionloadId).add(getNewChoice(questionloadId));
     }  
     
     /**
@@ -55,6 +55,7 @@ public with sharing class TrifectaSurveyController {
             }
         }
         surveyQuestions.remove(rowIndex); 
+        surveyQuestionChoiceMap.remove(questionloadId);
     }
     
     /**
@@ -62,9 +63,8 @@ public with sharing class TrifectaSurveyController {
     * (The method will identify the choice to be deleted from the valeus questionLoadId and choiceLoadId)    
     */
     public void deleteSurveyQuestionChoice() {
-        Integer rowIndex;
+        Integer rowIndex = 0;
         for(Trifecta_Survey_Question_Choice__c tempSurveyChoices : surveyQuestionChoiceMap.get(questionloadId)) {
-            rowIndex = 0;
             
             if(tempSurveyChoices.Load_Id__c != choiceLoadId){
                 rowIndex++;
@@ -94,6 +94,7 @@ public with sharing class TrifectaSurveyController {
       try {
             insert survey;
             insert surveyQuestions;
+            //system.assert(false,JSON.serialize(SObjectUtils.flatten(surveyQuestionChoiceMap.values())));
             insert SObjectUtils.flatten(surveyQuestionChoiceMap.values());
         }
         catch (Exception dmlException) { 
@@ -114,7 +115,7 @@ public with sharing class TrifectaSurveyController {
         return sendSurveyPage;
     }
     
-    private Trifecta_Survey_Question_Choice__c getNewChoice() {
+    private Trifecta_Survey_Question_Choice__c getNewChoice(String questionLoadId) {
         String defaultValue = 'Option ';
         defaultValue += (surveyQuestionChoiceMap.get(questionloadId) != null ) ? (String.valueOf(surveyQuestionChoiceMap.get(questionloadId).size()+1)) : '1';
         return new Trifecta_Survey_Question_Choice__c(Value__c=defaultValue, Load_Id__c=GuidUtil.NewGuid());

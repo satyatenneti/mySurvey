@@ -32,13 +32,14 @@ public with sharing class TrifectaSurveyController {
         surveyQuestionsList.add(newSurveyObjQuestion);
         
         Trifecta_Survey_Question_Choice__c initialChoice = getNewChoice(newSurveyObjQuestion.Load_Id__c);
+        initialChoice.Load_Id__c = GuidUtil.NewGuid();
         surveyQuestionChoiceMap.put(newSurveyObjQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{initialChoice});
-        
     }
     
     public void addNewSurveyQuestionChoice() {
         Trifecta_Survey_Question_Choice__c newSurveyObjQuestionChoice = getNewChoice(questionloadId);
         newSurveyObjQuestionChoice.Load_Id__c = GuidUtil.NewGuid();
+        system.debug(newSurveyObjQuestionChoice);
         surveyQuestionChoiceMap.get(questionloadId).add(newSurveyObjQuestionChoice);
     }  
     
@@ -101,4 +102,4 @@ public with sharing class TrifectaSurveyController {
         defaultValue += (surveyQuestionChoiceMap.get(questionloadId) != null ) ? (String.valueOf(surveyQuestionChoiceMap.get(questionloadId).size()+1)) : '1';
         return new Trifecta_Survey_Question_Choice__c(Value__c=defaultValue);
     }
-                                                                                                   }
+}

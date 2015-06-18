@@ -9,11 +9,11 @@ public with sharing class SendSurveyController {
     public String selectedType {get; set;}
     public Id surveyId;
     public SendSurveyController() {
-    	surveyId = ApexPages.currentPage().getParameters().get('id');
-      usersList = new List<SelectOption>();
-  		contactsList = new List<SelectOption>();
-  		groupsList = new List<SelectOption>();
-  		typeList = new List<SelectOption>();
+        surveyId = ApexPages.currentPage().getParameters().get('id');
+        usersList = new List<SelectOption>();
+        contactsList = new List<SelectOption>();
+        groupsList = new List<SelectOption>();
+        typeList = new List<SelectOption>();
         for (User eachActiveUser :[SELECT Id,Name FROM User WHERE IsActive = true]) {
             usersList.add(new SelectOption(eachActiveUser.Id, eachActiveUser.Name));
         }
@@ -28,22 +28,22 @@ public with sharing class SendSurveyController {
     }
     
     public void sendForm() {
-    	List<String> submittedList = new List<String>();
-    	String s1 = schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix();
-    	if (selectedUsers != null) {
-    		submittedList = selectedUsers.split(';');
-    	}
-    	if (selectedContacts != null) {
-    		submittedList = selectedContacts.split(';');
-    	}
-    	if (selectedGroups != null) {
-    		List<Id> submittedGroups =new List<Id>();
-    		submittedGroups = selectedGroups.split(';');
-    		List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
-    		for (GroupMember eachMember : memberList) {
-    			submittedList.add(String.valueOf(eachMember.UserOrGroupId));
-    		}
-    	}
-    	new EmailServiceBase().sendEmailNotifications(submittedList,surveyId);	
+        List<String> submittedList = new List<String>();
+        String s1 = schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix();
+        if (selectedUsers != null) {
+            submittedList = selectedUsers.split(';');
+        }
+        if (selectedContacts != null) {
+            submittedList = selectedContacts.split(';');
+        }
+        if (selectedGroups != null) {
+            List<Id> submittedGroups =new List<Id>();
+            submittedGroups = selectedGroups.split(';');
+            List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
+            for (GroupMember eachMember : memberList) {
+                submittedList.add(String.valueOf(eachMember.UserOrGroupId));
+            }
+        }
+        new EmailServiceBase().sendEmailNotifications(submittedList,surveyId);  
     }
 }

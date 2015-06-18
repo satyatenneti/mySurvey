@@ -3,11 +3,14 @@
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
     <style>
+        * { margin: 0; padding: 0;}
         .form-container { width: 60%; margin: 0 auto; padding: 15px; }
+        .section { padding: 15px; margin: 5px 0px;background-color: #fff;}
         .table { width: 80%; margin: 0 auto; }
         input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
         input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
         input.control-button:hover { background-color:#357ae8; }
+        select { padding: 10px;  margin: 25px 5px 0px 5px;  }
     </style>
     <script type="text/javascript">
         
@@ -61,6 +64,7 @@
     </script>
     <apex:form id="sendSurvey">
     <div class="form-container">
+        <div class="section">
         <table class="table">
             <tr>
                 <th colspan="2" align="center">
@@ -108,6 +112,8 @@
                 </td>
             </tr>
         </table>
+        </div>
     </div>
     </apex:form>
+      
 </apex:page>

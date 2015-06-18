@@ -29,16 +29,15 @@ public with sharing class SendSurveyController {
     
     public void sendForm() {
         List<String> submittedList = new List<String>();
-        String s1 = schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix();
-        if (selectedUsers != null) {
-            submittedList = selectedUsers.split(';');
+        if (selectedUsers.length() > 3) {
+            submittedList = selectedUsers.substring(1,selectedUsers.length()-1).split(',');
         }
-        if (selectedContacts != null) {
-            submittedList = selectedContacts.split(';');
+        else if (selectedContacts.length() > 3) {
+            submittedList = selectedContacts.substring(1,selectedContacts.length()-1).split(',');
         }
-        if (selectedGroups != null) {
+        else if (selectedGroups.length() > 3) {
             List<Id> submittedGroups =new List<Id>();
-            submittedGroups = selectedGroups.split(';');
+            submittedGroups = selectedGroups.substring(1,selectedGroups.length()-1).split(',');
             List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
             for (GroupMember eachMember : memberList) {
                 submittedList.add(String.valueOf(eachMember.UserOrGroupId));

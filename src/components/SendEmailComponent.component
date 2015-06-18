@@ -10,7 +10,7 @@
                     <img src="{!$Resource.Trifecta_Logo}" height="70" width="100" />
                 </td>
                 <td style="font-size:32pt;font-weight:bold;text-align:center;">
-                	Trifecta Survey
+                	{!SurveyName}
                 </td>
             </tr>
         </table>

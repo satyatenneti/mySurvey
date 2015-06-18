@@ -19,6 +19,9 @@ public with sharing class SendEmailComponentController {
         }
         set;
     }
+    public String getSurveyName() {
+        return [Select Name from Trifecta_Survey__c where Id =:getSurveyId(submissionId)].Name;
+    }
     private Id getSurveyId(Id submissionId) {
     	return [Select Survey__c from Trifecta_Survey_Submission__c Where Id =:submissionId][0].Survey__c;
     }

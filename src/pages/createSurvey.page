@@ -2,119 +2,103 @@
     <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
-    <style>
-        * { margin: 0; padding: 0;}
-        #sortable { list-style-type: none; margin: 0; padding: 0; width: 55%; }
-        #sortable li { margin: 0 3px 3px 3px; padding: 0.4em; padding-left: 1.5em; font-size: 1.4em; height: 18px; }
-        #sortable li span { position: absolute; margin-left: -1.3em; }
-        .section { padding: 15px; margin: 5px 0px;background-color: #fff;}
-        .form-container { width: 60%; margin: 0 auto; padding: 15px; }
-        body .bodyDiv #bodyTable { padding-right: 0; padding-left: 0; background-color: #eee; }
-        input[type='text'] { padding: 10px;  margin: 25px 5px 0px 5px; width: 97%; }
-        select { padding: 10px;  margin: 25px 5px 0px 5px;  }
-        input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
-        .question { box-shadow: 0px 0px 8px #888888; }
-        .table { width: 80%; margin: 0 auto; }
-        ul.control-buttons { list-style-type: none; margin: 0; padding: 0; display: inline-block; float: right;}
-        li { float: left; }
-        .grayed-out { background-color: #eee; cursor: pointer; border: dashed 1px black; }
-        .pointer { cursor: pointer; }
-        input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
-        input.control-button:hover { background-color:#357ae8; }
-        input.input-choice { width: auto; }
-        .x-box { padding: 5px; border-radius: 5px; font-size: 1.2em; }
-        .x-box:hover { background-color: #eee; }
-      </style>
+    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
     <apex:form id="survey">
         <div class="form-container">
             <div class="section">
-                <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!surveyObj.Name}" html-placeholder="Untitle Form"/></p>
-                <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!surveyObj.Help_Text__c}" html-placeholder="Form Description"/></p>
+                <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!survey.Name}" html-placeholder="Untitle Form"/></p>
+                <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
                 <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="survey">
-                        <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>
-                 </apex:actionfunction>
+                    <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>
+                </apex:actionfunction>
                 <apex:actionfunction action="{!sendSurvey}" name="sendSurvey" />
                 <apex:actionfunction action="{!saveSurvey}" name="saveSurvey" />
-                 <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="survey">
-                    
+                <apex:actionfunction action="{!addNewSurveyQuestion}" name="addNewQuestion" rerender="questions" />
+                <apex:actionfunction action="{!deleteSurveyQuestion}" name="deleteQuestion" rerender="questions" >
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
-                
+                </apex:actionfunction>
+                <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="survey">
+                    <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
-                
                 </apex:actionFunction>
-
-
-                 <apex:repeat value="{!surveyQuestionsList}" var="question">
-                 
-                     <div class="question section">
-                         <table class="table">
-                             <tr>
-                                 <td colspan="4">
-                                     <ul class="control-buttons">
-                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil"></span></li>
-                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy"></span></li>
-                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash"></span></li>
-                                     </ul>
-                                 </td>
-                             </tr>
-                            <tr>
-                                 <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Title__c}" /></td>
-                             </tr>
-                             <tr>
-                                <th><label>Help Text</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Help_text__c}" /> </td>
-                             </tr>
-                             <tr>
-                                 <th><label>Question Type</label></th><td><apex:inputField styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" value="{!question.Type__c}"/></td>
-                             </tr>
-                             <tr>
-                                 <th colspan=""></th>
-                                 <td><div id="choices" class="choice">
-                                         <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice">   
+                
+                <apex:outputPanel id="questions">
+                    <apex:repeat value="{!surveyQuestions}" var="question">
+                        <div class="question section">
+                            <table class="table">
+                                <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
+                                    <tr>
+                                        <td colspan="4">
+                                            <ul class="control-buttons">
+                                                <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil pointer"></span></li>
+                                                <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer"></span></li>
+                                                <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                </apex:outputPanel>
+                                <tr>
+                                    <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Title__c}" /></td>
+                                </tr>
+                                <tr>
+                                    <th><label>Help Text</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Help_text__c}" /> </td>
+                                </tr>
+                                <tr>
+                                    <th><label>Question Type</label></th><td><apex:inputField styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" value="{!question.Type__c}"/></td>
+                                </tr>
+                                <tr>
+                                    <th colspan=""></th>
+                                    <td><div id="choices" class="choice">
+                                        <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
+                                            <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
                                             <div>
                                                 <apex:inputText styleClass="ui-autocomplete-input ui-corner-all input-choice" value="{!choice.Value__c}" />
-                                                <span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
-                                             </div>
+                                                <apex:outputPanel rendered="{! (choiceList.size !=  1) }">
+                                                    <span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
+                                                </apex:outputPanel>
+                                                
+                                            </div>
                                             
-                                         </apex:repeat>
-                                         <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" html-placeholder="Click to add new choice" html-readonly="true"  onclick="addNewSurveyQuestion('{!question.Load_Id__c}')">
-                                            
-                                         </apex:inputText> </p>   
-                                     </div>
-                                 </td>
-                                 <td></td>
-                                 <td></td>
-                             </tr>
-                             <tr>
-                                 <th colspan="2">
-                                     <input type="button" class="control-button" value="Done"/>
-                                 </th>
-                             </tr>
-                             </table>
-                         </div>
-                       
-                 </apex:repeat>
-                 <apex:commandButton styleClass="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" action="{!addNewSurveyQuestion}"/>
+                                        </apex:repeat>
+                                        <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
+                                                           html-placeholder="Click to add new choice" html-readonly="true"  
+                                                           onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>   
+                                        </div>
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <tr>
+                                    <th colspan="2">
+                                        <input type="button" class="control-button" value="Done"/>
+                                    </th>
+                                </tr>
+                            </table>
+                        </div>
+                    </apex:repeat>
+                </apex:outputPanel>
+                <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" onclick="addNewQuestion()"/>
             </div>
             <div class="section">
                 <label>Confirmation Page</label>
-                <p><apex:inputText value="{!surveyObj.Auto_Response_Message__c}" html-placeholder="Thank you for your time and feedback."/></p>
+                <p><apex:inputText value="{!survey.Auto_Response_Message__c}" html-placeholder="Thank you for your time and feedback."/></p>
             </div>
             <div class="section">
                 <p><input type="button" value="Send Form" class="control-button" onclick="sendSurvey()" />
-                <input type="button" value="Save" class="control-button" onclick="saveSurvey()" /></p>
+                    <input type="button" value="Save" class="control-button" onclick="saveSurvey()" /></p>
             </div>
         </div>
         
     </apex:form>
-               
     
-     <script>
+    
+    <script>
     $(function() {
         $( "#sortable" ).sortable();
         $( "#sortable" ).disableSelection();
     });
-  </script>
+    </script>
     
 </apex:page>

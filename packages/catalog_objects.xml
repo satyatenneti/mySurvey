@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>Attribute__c</members>
+        <members>Attribute_Value__c</members>
+        <members>Base_Product__c</members>
+        <members>Base_Product_Attribute__c</members>
+        <members>Base_Product_Attribute_Value__c</members>
+        <members>Base_Product_Category__c</members>
+        <members>Base_Product_Image__c</members>
+        <members>Base_Product_Relationship__c</members>
+        <members>Base_Product_Shipping_Option_Exception__c</members>
+        <members>Catalog__c</members>
+        <members>Catalog_Product_Assignment__c</members>
+        <members>Category__c</members>
+        <members>Image__c</members>
+        <members>Price_Book_Entry_Price__c</members>
+        <members>Product_Attribute_Value__c</members>
+        <members>Product_Image__c</members>
+        <members>Product_Kit__c</members>
+        <members>Product_Type__c</members>
+        <members>Related_Content__c</members>
+        <members>Sales_Channel__c</members>
+        <members>Shipping_Option__c</members>
+        <name>CustomObject</name>
+    </types>
+    <types>
+        <members>Product2.Unavailable_Message__c</members>
+        <members>Product2.Product_Kit__c</members>
+        <members>Product2.Base_Product__c</members>
+        <members>Product2.Call_For_Price__c</members>
+        <name>CustomField</name>
+    </types>
+    <types>
+        <members>Attribute__c</members>
+        <members>Base_Product__c</members>
+        <members>Base_Product_Image__c</members>
+        <members>Catalog__c</members>
+        <members>Category__c</members>
+        <members>Image__c</members>
+        <members>Product_Type__c</members>
+        <members>Sales_Channel__c</members>
+        <members>Shipping_Option__c</members>
+        <name>CustomTab</name>
+    </types>
+    <types>
+        <members>Attribute_Value__c-Attribute Value Layout</members>
+        <members>Attribute__c-Attribute Layout</members>
+        <members>Base_Product_Attribute_Value__c-Base Product Attribute Value Layout</members>
+        <members>Base_Product_Attribute__c-Base Product Attribute Layout</members>
+        <members>Base_Product_Category__c-Base Product Category Layout</members>
+        <members>Base_Product_Image__c-Base Product Image Layout</members>
+        <members>Base_Product_Relationship__c-Base Product Relationship Layout</members>
+        <members>Base_Product_Shipping_Option_Exception__c-Base Product Shipping Option Exception Layout</members>
+        <members>Base_Product__c-Base Product Layout</members>
+        <members>Catalog_Product_Assignment__c-Catalog Product Assignment Layout</members>
+        <members>Catalog__c-Catalog Layout</members>
+        <members>Category__c-Category Layout</members>
+        <members>Image__c-Image Layout</members>
+        <members>Pricebook2-Price Book Layout</members>
+        <members>Price_Book_Entry_Price__c-Price Book Entry Price Layout</members>
+        <members>Product2-Product Layout</members>
+        <members>Product_Attribute_Value__c-Product Attribute Value Layout</members>
+        <members>Product_Image__c-Product Image Layout</members>
+        <members>Product_Kit__c-Product Kit Layout</members>
+        <members>Product_Type__c-Product Type Layout</members>
+        <members>Related_Content__c-Related Content Layout</members>
+        <members>Sales_Channel__c-Sales Channel Layout</members>
+        <members>Shipping_Option__c-Shipping Option Layout</members>
+        <name>Layout</name>
+    </types>
+    <types>
+        <members>Admin</members>
+        <name>Profile</name>
+    </types>
+    <types>
+        <members>Product2.Product_Bundle</members>
+        <members>Product2.Individual_Product</members>
+        <name>RecordType</name>
+    </types>
+    <version>29.0</version>
+</Package>

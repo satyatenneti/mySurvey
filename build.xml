@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Tasks for building and deploying to Salesforce" default="retrieveOrg" basedir="." xmlns:sf="antlib:com.salesforce">
+	<!-- this can be overwritten in your property file -->
+	<property name="sf.api" value="31" />
+	<property name="externalIdField" value="Load_ID__c" />
+    <property name="prefix" value="" />
+    <property name="sdlprefix" value="" />
+    
+    <import file="${basedir}/lib/ant-salesforce.xml"/>
+    <import file="${basedir}/lib/ant-salesforce-tests.xml"/>
+
+	<!-- Define required jars-->
+        <path id="taskDependencies">
+            <pathelement location="./lib/ant.jar"/>
+            <pathelement location="./lib/trifectaSalesforceANT-1.0.jar"/>
+            <pathelement location="./lib/commons-io-2.4.jar"/>
+            <pathelement location="./lib/SfApexDoc.jar"/>
+        </path>
+
+	<taskdef uri="antlib:com.salesforce"
+            resource="com/salesforce/antlib.xml"
+            classpath="./lib/ant-salesforce-${sf.api}.jar"/>
+
+    <taskdef name="executeAnonymous" className="com.trifecta.ant.ExecuteAnonymousTask" classpath="./lib/salesforce-client.jar"/>
+	
+	<taskdef name="createDeploymentPackage" classname="com.trifecta.salesforce.deploy.CreateDeploymentPackage">
+		<classpath refid="taskDependencies" />
+	</taskdef>
+
+	<taskdef name="rebaselineBranch" classname="com.trifecta.salesforce.deploy.RebaselineBranch">
+		<classpath refid="taskDependencies" />
+	</taskdef>
+
+	<taskdef name="compareDirectories" classname="com.trifecta.salesforce.compare.CompareDirectories">
+		<classpath refid="taskDependencies" />
+	</taskdef>
+
+	<property environment="env"/>
+
+	<target name="createDeployPackage" description="Reads a deploy package.xml file and creates a deployment package containing the referenced files and the package.xml file.  Pass deployment file via -DdeployFile=[filename] command line argument">
+		<echo message="Will create deploy package for ${deployFile}" />
+
+		<antcall target="createDeploySource" />
+
+		<!-- Create file structure -->
+		<delete dir="${basedir}/deploystage" />
+		<mkdir dir="${basedir}/deploystage" />
+
+                <createDeploymentPackage deployFile="${deployFile}" sourceDirectory="${basedir}/deploysource" destDirectory="${basedir}/deploystage" />
+
+		<!-- Copy deploy XML file to package.xml -->
+		<copy file="${deployFile}" tofile="${basedir}/deploystage/package.xml" /> 
+
+                <!-- Create zip file with entire structure -->
+		<zip destfile="${basedir}/deploystage/deploy.zip" update="true">
+    			<fileset dir="${basedir}/deploystage" includes="**/*"/>
+		</zip>
+
+		<echo message="Created ZIP file ${basedir}/deploystage/deploy.zip" />
+	</target>
+
+	<target name="createDeploySource" >
+		<!-- Create file structure -->
+		<delete dir="${basedir}/deploysource" />
+		<mkdir dir="${basedir}/deploysource" />
+		<copy todir="${basedir}/deploysource" >
+			<fileset dir="${basedir}/projects/someProject/src" />
+		</copy>
+	</target>
+
+	<target name="diffProdDeployPackage" description="Reads a deploy package.xml file and compares the files from the current branch to the versions from the production org.">
+		<echo message="Comparing deploy package for ${deployFile} to production." />
+
+		<antcall target="createDeploySource" />
+
+		<delete dir="${basedir}/workarea" />
+		<mkdir dir="${basedir}/workarea" />
+		<mkdir dir="${basedir}/workarea/deployCompareSource" />
+		<mkdir dir="${basedir}/workarea/deployCompareDest" />
+
+		<createDeploymentPackage deployFile="${deployFile}" sourceDirectory="${basedir}/orgs/prod/src" destDirectory="${basedir}/workarea/deployCompareSource" />
+                <createDeploymentPackage deployFile="${deployFile}" sourceDirectory="${basedir}/deploysource" destDirectory="${basedir}/workarea/deployCompareDest" />
+		
+		<!-- Now run a comparison on the directories -->
+		<compareDirectories srcDir="${basedir}/workarea/deployCompareSource" destDir="${basedir}/workarea/deployCompareDest" outputDir="${basedir}/workarea" />
+
+	</target>
+
+	<target name="diffProdAgainstMaster" description="Compares the master branch against the metadata from the production org.">
+		<echo message="Comparing master branch to production." />
+
+		<delete dir="${basedir}/workarea" />
+		<mkdir dir="${basedir}/workarea" />
+		<mkdir dir="${basedir}/workarea/masterSource" />
+
+		<!-- Copy over everything from the master branch to the combined source directory. -->
+		<!-- Switch branch to master -->
+		<exec executable="git">
+			<arg value="checkout" />
+			<arg value="master" />
+		</exec>
+
+		<copy todir="${basedir}/workarea/masterSource" >
+			<fileset dir="${basedir}/projects/someProject/src" />
+		</copy>
+
+		<!-- Now run a comparison on the directories -->
+		<compareDirectories srcDir="${basedir}/workarea/masterSource" destDir="${basedir}/orgs/prod/src" outputDir="${basedir}/workarea" />
+	</target>
+
+	<target name="rebaselineMaster" description="Rebaselines the metadata in the master branch from the current org (defined by -propertyfile option).">
+		<echo message="Copying ${orgname} metadata to master branch." />
+
+		<!-- Fetch the org data. -->
+		<!-- NOTE:  force user to call retrieve org first.
+                <antcall target="retrieveOrg" />
+		-->
+
+		<!-- Switch branch to master -->
+		<exec executable="git">
+			<arg value="checkout" />
+			<arg value="master" />
+		</exec>
+		
+		<!-- Now rebaseline from the metadata pulled down from Salesforce -->
+		<rebaselineBranch sourceDir="${basedir}/orgs/${orgname}" destDir="${basedir}/projects/someProject" />
+	</target>
+
+	<target name="schemaSpyClean" description="Cleans old SchemaSpy directories.">
+		<delete dir="${basedir}/workarea" />
+		<mkdir dir="${basedir}/workarea" />
+	</target>
+
+	<target name="schemaSpy" description="Generates SchemaSpy documentation for a given project from the selected Salesforce organization (indicated via -propertyfile). Parameters are -Dproject, -Ddescription and -Dobjects">
+		<mkdir dir="${basedir}/workarea/${project}_schemaspy" />
+
+		<!-- Run the schemaSpy command now. -->
+		<exec executable="java">
+			<arg value="-cp" />
+			<arg value="lib/schemaSpy_5.0.0.jar:lib/force-metadata-jdbc-driver-2.2.jar" />
+			<arg value="net.sourceforge.schemaspy.Main" />
+			<arg value="-t" />
+			<arg value="force" />
+			<arg value="-u" />
+			<arg value="${sf.username}" />
+			<arg value="-p" />
+			<arg value="${sf.password}" />
+			<arg value="-font" />
+			<arg value="Arial" />
+			<arg value="-fontsize" />
+			<arg value="8" />
+			<arg value="-hq" />
+			<arg value="-norows" />
+			<arg value="-o" />
+			<arg value="workarea/${project}_schemaspy" />
+			<arg value="-db" />
+			<arg value="VarsitySalesforce" />
+			<arg value="-connprops" />
+			<arg value="url\=${sf.server}/services/Soap/u/29.0" />
+			<arg value="-i" />
+			<arg value="${objects}" />
+			<arg value="-desc" />
+			<arg value="${description}" />
+		</exec>
+	</target>
+
+	<target name="compareOrgs" description="Compares two orgs, specified by -Dorg1=[org1] and -Dorg2=[org2], and lists the results in an HTML file in workarea/orgdiff.html.  Assumes the orgs have been retrieved already via the retrieveOrg target." >
+		<delete dir="${basedir}/workarea" />
+		<mkdir dir="${basedir}/workarea" />
+		<compareDirectories srcDir="${basedir}/orgs/${org1}/src" destDir="${basedir}/orgs/${org2}/src" outputDir="${basedir}/workarea" />
+	</target>
+
+	<target name="updateDataFiles" description="Refreshes the data files found in datascripts/datafiles from a specified org's data directory.  This expects the exportData target to have been run first to generate output CSV data load files.  Invoke with -Dorg=[org name, ex. asdevqa] to specify the org to copy files from." >
+	    <copy todir="${basedir}/datascripts/datafiles">
+		<fileset dir="${basedir}/orgs/${org}/data" includes="**/*__cExport.csv"/>
+		<mapper type="glob" from="*__cExport.csv" to="*__cInsert.csv"/>
+	    </copy>
+	</target>
+	<target name="updateStandardDataFiles" description="Used for Standard Objects" >
+	    <copy todir="${basedir}/datascripts/datafiles">
+		<fileset dir="${basedir}/orgs/${org}/data" includes="**/*Export.csv"/>
+		<mapper type="glob" from="*Export.csv" to="*Insert.csv"/>
+	    </copy>
+	</target>
+
+	<target name="retrieveOrg" description="Retrieves all metadata from the specified organization.  Note - be sure your ANT_OPTS environment variable is set to -Xmx512m or you could get an OutOfMemory error." >
+		<delete dir="${basedir}/orgs/${orgname}/src" />
+		<mkdir dir="${basedir}/orgs/${orgname}/src" />
+
+		<echo>Retrieving code into ${basedir}/orgs/${orgname}/src from ${sf.username}, ${sf.server}</echo>
+		<sf:retrieve 
+		   username="${sf.username}" 
+		   password="${sf.password}" 
+		   serverurl="${sf.server}" 
+		   retrieveTarget="${basedir}/orgs/${orgname}/src"
+		   unpackaged="packages/package-all.xml"
+		   pollWaitMillis="10000"
+		   maxPoll="100"/>
+	</target>
+
+	<target name="sfDeploy">
+    	<if>
+    		<equals arg1="${sf.api}" arg2="34"/>    
+			<then>
+				<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.server}" 
+						   deployRoot="${deployRoot}"
+						   maxPoll="2000" pollWaitMillis="10000" rollbackOnError="true" 
+						   checkOnly="${isValidate}" 
+						   logType="Debugonly" singlePackage="true" allowMissingFiles="false" />
+			</then>
+			<else>
+				<sf:deploy username="${sf.username}" password="${sf.password}" serverurl="${sf.server}" 
+						   deployRoot="${deployRoot}"
+						   maxPoll="2000" pollWaitMillis="10000" rollbackOnError="true" 
+						   runAllTests="${runAllTests}" 
+						   checkOnly="${isValidate}" 
+						   logType="Debugonly" singlePackage="true" allowMissingFiles="false" />
+			</else>
+		</if>
+	</target>
+	
+    <macrodef name="sfInsert">
+        <attribute name="object"/>
+		<attribute name="basedir"/>
+		<attribute name="orgname"/>
+		<attribute name="username"/>
+		<attribute name="password"/>
+		<attribute name="orgserver"/>
+
+        <sequential>
+            <echo message="Importing @{object}"/>
+            <mkdir dir="@{basedir}/orgs/@{orgname}/data"/>
+            <copy file="@{basedir}/datascripts/template-insert-process-conf.xml" tofile="@{basedir}/orgs/@{orgname}/data/process-conf.xml" overwrite="true" failonerror="true"/>
+            <replace file="@{basedir}/orgs/@{orgname}/data/process-conf.xml">
+                <replacefilter token="_ORGSERVER_" value="@{orgserver}"/>
+                <replacefilter token="_USERNAME_" value="@{username}"/>
+                <replacefilter token="_ENCRYPTED_PASSWORD_" value="@{password}"/>
+                <replacefilter token="_ENCRYPTION_KEY_FILE_" value="@{basedir}/datascripts/dataloader_encryption_key.txt"/>
+                <replacefilter token="_DEBUG_MSG_FILE_" value="@{basedir}/orgs/@{orgname}/data/debug.log"/>
+                <replacefilter token="_OBJECT_" value="@{object}"/>
+                <replacefilter token="_DATA_FILENAME_" value="@{basedir}/datascripts/datafiles/@{object}Insert.csv"/>
+                <replacefilter token="_MAPPING_FILE_" value="@{basedir}/datascripts/mappingfiles/@{object}InsertMap.sdl"/>
+                <replacefilter token="_OUTPUT_SUCCESS_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{object}Insert_success.csv"/>
+                <replacefilter token="_OUTPUT_ERROR_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{object}Insert_error.csv"/>
+            	<replacefilter token="_PROCESS_NAME_" value="@{object}InsertProcess"/>
+            </replace>
+            <java classname="com.salesforce.dataloader.process.ProcessRunner" classpath="@{basedir}/lib/dataloader-27.0.1-uber.jar" failonerror="true">
+                <sysproperty key="salesforce.config.dir" value="@{basedir}/orgs/@{orgname}/data"/>
+                <arg line="process.name=insertObject"/>
+            </java>
+        </sequential>
+    </macrodef>
+	
+	<macrodef name="sfUpsert">
+	        <attribute name="object"/>
+	        <attribute name="prefix"/>
+	        <attribute name="sdlprefix"/>
+			<attribute name="basedir"/>
+			<attribute name="orgname"/>
+			<attribute name="username"/>
+			<attribute name="password"/>
+			<attribute name="orgserver"/>
+	    	<attribute name="externalIdField"/>
+
+	        <sequential>
+	            <echo message="Upserting @{object}"/>
+	            <mkdir dir="@{basedir}/orgs/@{orgname}/data"/>
+	            <copy file="@{basedir}/datascripts/template-upsert-process-conf.xml" tofile="@{basedir}/orgs/@{orgname}/data/process-conf.xml" overwrite="true" failonerror="true"/>
+	            <replace file="@{basedir}/orgs/@{orgname}/data/process-conf.xml">
+	                <replacefilter token="_ORGSERVER_" value="@{orgserver}"/>
+	                <replacefilter token="_USERNAME_" value="@{username}"/>
+	                <replacefilter token="_ENCRYPTED_PASSWORD_" value="@{password}"/>
+	                <replacefilter token="_ENCRYPTION_KEY_FILE_" value="@{basedir}/datascripts/dataloader_encryption_key.txt"/>
+	                <replacefilter token="_DEBUG_MSG_FILE_" value="@{basedir}/orgs/@{orgname}/data/debug.log"/>
+	                <replacefilter token="_OBJECT_" value="@{object}"/>
+	                <replacefilter token="_DATA_FILENAME_" value="@{basedir}/datascripts/datafiles/@{prefix}@{object}Insert.csv"/>
+	                <replacefilter token="_MAPPING_FILE_" value="@{basedir}/datascripts/mappingfiles/@{sdlprefix}@{object}InsertMap.sdl"/>
+	                <replacefilter token="_OUTPUT_SUCCESS_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{prefix}@{object}Insert_success.csv"/>
+	                <replacefilter token="_OUTPUT_ERROR_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{prefix}@{object}Insert_error.csv"/>
+	            	<replacefilter token="_EXTERNAL_ID_FIELD_" value="@{externalIdField}"/>
+	            	<replacefilter token="_PROCESS_NAME_" value="@{object}UpsertProcess"/>
+	            </replace>
+	            <java classname="com.salesforce.dataloader.process.ProcessRunner" classpath="@{basedir}/lib/dataloader-27.0.1-uber.jar" failonerror="true">
+	                <sysproperty key="salesforce.config.dir" value="@{basedir}/orgs/@{orgname}/data"/>
+	                <arg line="process.name=upsertObject"/>
+	            </java>
+	        </sequential>
+	    </macrodef>
+
+
+	<macrodef name="sfDelete">
+	        <attribute name="object"/>
+		<attribute name="basedir"/>
+		<attribute name="orgname"/>
+		<attribute name="username"/>
+		<attribute name="password"/>
+		<attribute name="orgserver"/>
+
+	        <sequential>
+	            <echo message="Deleting @{object}"/>
+	            <mkdir dir="@{basedir}/orgs/@{orgname}/data"/>
+	            <copy file="@{basedir}/datascripts/template-delete-process-conf.xml" tofile="@{basedir}/orgs/@{orgname}/data/process-conf.xml" overwrite="true" failonerror="true"/>
+	            <replace file="@{basedir}/orgs/@{orgname}/data/process-conf.xml">
+	                <replacefilter token="_ORGSERVER_" value="@{orgserver}"/>
+	                <replacefilter token="_USERNAME_" value="@{username}"/>
+	                <replacefilter token="_ENCRYPTED_PASSWORD_" value="@{password}"/>
+	                <replacefilter token="_ENCRYPTION_KEY_FILE_" value="@{basedir}/datascripts/dataloader_encryption_key.txt"/>
+	                <replacefilter token="_DEBUG_MSG_FILE_" value="@{basedir}/orgs/@{orgname}/data/debug.log"/>
+	                <replacefilter token="_OBJECT_" value="@{object}"/>
+	                <replacefilter token="_DATA_FILENAME_" value="@{basedir}/datascripts/datafiles/@{object}Delete.csv"/>
+	                <replacefilter token="_MAPPING_FILE_" value="@{basedir}/datascripts/delete.sdl"/>
+	                <replacefilter token="_OUTPUT_SUCCESS_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{object}Delete_success.csv"/>
+	                <replacefilter token="_OUTPUT_ERROR_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{object}Delete_error.csv"/>
+	            	<replacefilter token="_PROCESS_NAME_" value="@{object}DeleteProcess"/>
+	            </replace>
+	            <java classname="com.salesforce.dataloader.process.ProcessRunner" classpath="@{basedir}/lib/dataloader-27.0.1-uber.jar" failonerror="true">
+	                <sysproperty key="salesforce.config.dir" value="@{basedir}/orgs/@{orgname}/data"/>
+	                <arg line="process.name=deleteObject"/>
+	            </java>
+	        </sequential>
+	    </macrodef>
+
+
+    <macrodef name="sfExport">
+        <attribute name="object"/>
+		<attribute name="basedir"/>
+		<attribute name="orgname"/>
+		<attribute name="username"/>
+		<attribute name="password"/>
+		<attribute name="orgserver"/>
+		<attribute name="soql"/>
+
+        <sequential>
+            <echo message="Exporting @{object}"/>
+            <mkdir dir="@{basedir}/orgs/@{orgname}/data"/>
+            <copy file="@{basedir}/datascripts/template-export-process-conf.xml" tofile="@{basedir}/orgs/@{orgname}/data/process-conf.xml" overwrite="true" failonerror="true"/>
+            <replace file="@{basedir}/orgs/@{orgname}/data/process-conf.xml">
+                <replacefilter token="_ORGSERVER_" value="@{orgserver}"/>
+                <replacefilter token="_USERNAME_" value="@{username}"/>
+                <replacefilter token="_ENCRYPTED_PASSWORD_" value="@{password}"/>
+                <replacefilter token="_ENCRYPTION_KEY_FILE_" value="@{basedir}/datascripts/dataloader_encryption_key.txt"/>
+                <replacefilter token="_DEBUG_MSG_FILE_" value="@{basedir}/orgs/@{orgname}/data/debug.log"/>
+                <replacefilter token="_OBJECT_" value="@{object}"/>
+                <replacefilter token="_DATA_FILENAME_" value="@{basedir}/orgs/@{orgname}/data/@{object}Export.csv"/>
+                <replacefilter token="_MAPPING_FILE_" value="@{basedir}/datascripts/mappingfiles/@{object}ExportMap.sdl"/>
+                <replacefilter token="_OUTPUT_SUCCESS_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{object}Export_success.csv"/>
+                <replacefilter token="_OUTPUT_ERROR_FILE_" value="@{basedir}/orgs/@{orgname}/data/@{object}Export_error.csv"/>
+                <replacefilter token="_EXTRACTION_SOQL_" value="@{soql}"/>
+            </replace>
+            <java classname="com.salesforce.dataloader.process.ProcessRunner" classpath="@{basedir}/lib/dataloader-27.0.1-uber.jar" failonerror="true">
+                <sysproperty key="salesforce.config.dir" value="@{basedir}/orgs/@{orgname}/data"/>
+                <arg line="process.name=exportObject"/>
+            </java>
+        </sequential>
+    </macrodef>
+
+    <target name="initDataDirectory" description="Removes and re-creates a blank data directory in orgs/${orgname}">
+        <delete dir="${basedir}/orgs/${orgname}/data"/>
+    </target>
+	<target name="insertData" description="Export Salesforce objects">
+        <sfInsert object="${object}" orgserver="${sf.orgserver}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}" />
+	</target>
+    <target name="exportData" description="Export Salesforce objects">
+        <sfExport object="${object}" orgserver="${sf.orgserver}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}" soql="${soql}" />
+    </target>
+
+    <target name="upsertDataByExternalId" description="Upsert Salesforce objects">
+        <sfUpsert object="${object}" sdlprefix="${sdlprefix}" prefix="${prefix}" orgserver="${sf.orgserver}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}" externalIdField="${externalIdField}" />
+    </target>
+
+    <target name="upsertData" description="Upsert Salesforce objects">
+        <sfUpsert object="${object}" sdlprefix="${sdlprefix}" prefix="${prefix}" orgserver="${sf.orgserver}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}" externalIdField="${externalIdField}" />
+    </target>
+
+    <target name="deleteData" description="Delete Salesforce objects">
+        <sfExport object="${object}" orgserver="${sf.orgserver}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}" soql="${soql}" />
+        <copy file="${basedir}/orgs/${orgname}/data/${object}Export.csv" tofile="${basedir}/datascripts/datafiles/${object}Delete.csv"/>
+        <sfDelete object="${object}" orgserver="${sf.orgserver}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}" />
+        <delete file="${basedir}/datascripts/datafiles/${object}Delete.csv" />
+    </target>
+
+	<target name="importCustomSettings" description="Import Initial Custom Setting Data">
+        <sfInsert object="someCustomSetting__c" orgserver="${sf.server}" basedir="${basedir}" orgname="${orgname}" username="${sf.username}" password="${sf.passwordencrypted}"/>
+    </target>
+
+    <target name="retrievePackage" description="Retrieves the specified package from the specified organization. Pass the name of the deployment file to build the package from via -DdeployFile=[xml file name]." >
+		<delete dir="${basedir}/deploystage" />
+		<mkdir dir="${basedir}/deploystage" />
+	
+		<echo>Retrieving code into ${basedir}/deploystage from ${sf.username}, ${sf.server} from packages/${deployFile}</echo>
+		<sf:retrieve 
+		   username="${sf.username}" 
+		   password="${sf.password}" 
+		   serverurl="${sf.server}" 
+		   retrieveTarget="${basedir}/deploystage"
+		   unpackaged="packages/${deployFile}"
+		   pollWaitMillis="10000"
+		   maxPoll="100"/>
+	</target>
+	
+	<target name="cleanupDeploy">
+		<echo>Deleting the ${basedir}/deploystage directory</echo>
+		<delete dir="${basedir}/deploystage"/>
+	</target>
+
+	<target name="preDeployDirectory">
+		<sequential>
+			<if>
+				<or>
+    				<equals arg1="${testLevel}" arg2="RunLocalTests"/>    
+					<equals arg1="${runAllTests}" arg2="true"/>
+				</or>
+				<then>
+					<executeAnonymous username="${sf.username}" password="${sf.password}" loginUrl="${sf.server}" instanceUrl="https://${sf.orgserver}.salesforce.com">
+						<fileset dir="apexscripts/pretest" includes="**/*.apex"/>
+					</executeAnonymous>
+				</then>
+			</if>
+		</sequential>
+	</target>
+
+	<target name="postDeployDirectory">
+		<sequential>
+			<if>
+				<or>
+    				<equals arg1="${testLevel}" arg2="RunLocalTests"/>    
+					<equals arg1="${runAllTests}" arg2="true"/>
+				</or>
+				<then>
+					<executeAnonymous username="${sf.username}" password="${sf.password}" loginUrl="${sf.server}" instanceUrl="https://${sf.orgserver}.salesforce.com">
+						<fileset dir="apexscripts/posttest" includes="**/*.apex"/>
+					</executeAnonymous>
+				</then>
+			</if>
+		</sequential>
+	</target>
+
+	<!-- default the deployRoot to the src directory -->
+    <property name="deployRoot" value="src"/>
+    <property name="isValidate" value="true"/>
+    <property name="checkOnly" value="false"/>
+    <property name="testLevel" value="NoTestRun"/>
+    <target name="cleanDeploy" description="Deploys the files in the directory specified by -DdeployRoot=[relative/path/to/dir] (defaults to src/ directory). Use -DrunAllTests=[booleanValue] (api lt34) OR -DtestLevel=[RunLocalTests] (api 34) to run all the tests or skip them. Use -DisValidate=[booleanValue] to determine if you only want to validate the deploy (i.e., not actually deploy anything)">
+		<antcall target="sfDeploy" /> 
+    </target>
+	
+    <!-- default the deployRoot to the src directory -->
+    <property name="deployRoot" value="src"/>
+    <property name="isValidate" value="true"/>
+    <property name="checkOnly" value="false"/>
+	<target name="deployDirectory" description="Deploys the files in the directory specified by -DdeployRoot=[relative/path/to/dir] (defaults to src/ directory). Use -DrunAllTests=[booleanValue] (api lt 34) OR -DtestLevel=[RunLocalTests] (api 34) to run all the tests or skip them. Use -DisValidate=[booleanValue] to determine if you only want to validate the deploy (i.e., not actually deploy anything)">
+		<sequential>
+			<antcall target="preDeployDirectory" />
+			<trycatch>
+				<try>
+					<antcall target="sfDeploy" /> 
+				</try>
+				<finally>
+					<antcall target="postDeployDirectory" />
+				</finally>
+			</trycatch>
+		</sequential>
+    </target>
+
+    <target name="undeployCode" description="Applies the destructive changes in the deletes directory">
+      <antcall target="sfDeploy" /> 
+    </target>
+
+	<target name="testPackageFile" description="This will test the package file by retrieving the package from a specified org. Use -propertyfile to specify the environment and -DdeployFile=[filename] to specify the package file to test">
+		<record name="build.log" loglevel="verbose" append="false"/>
+		<echo>Testing the package file found at ${basedir}/packages/${deployFile}</echo>
+		<antcall target="retrievePackage" />
+		<antcall target="cleanupDeploy" />
+		<condition property="failedDeploy">
+			<resourcecontains resource="build.log" substring="[sf:retrieve] Retrieve warnings"/>
+		</condition>
+		<delete file="${basedir}/build.log"/>
+		<fail message="Errors occurred during retrieve. Check above log for details.">
+			<condition>
+				<isset property="failedDeploy"/>
+			</condition>
+		</fail>
+	</target>
+
+	<target name="generateDocHeader">
+	    <delete file="${docAuthor}" quiet="true"/>
+	    <copy file="${docAuthor}.tpl" tofile="${docAuthor}" >
+	        <filterchain>
+	           <replacetokens>
+	                <token key="branchName" value="${branchName}"/>
+	                <token key="revision" value="${revision}"/>
+	                <token key="repositoryName" value="${repositoryName}"/>
+	            </replacetokens>
+	        </filterchain>
+	    </copy>
+	</target>
+
+	<target name="generateDocs" description="Generates the Apex Docs">
+	    <java fork="true" classname="apex.com.main.SfApexDoc" failonerror="true">
+	        <classpath refid="taskDependencies"/>
+	        <arg line="-s ${docSource} -t ${docTargetRoot}/${docTargetSubdirectory} -a ${docAuthor} -h ${docHome}" />
+	    </java>
+	    <copy file="${docLogo}" tofile="${docTargetRoot}/${docTargetSubdirectory}/SfApexDocs/logo.png" overwrite="true" />
+	</target>
+
+	<target name="compileAndTest">
+    		<property name="isValidate" value="true"/>
+		<sfCompileAndTest deployRoot="${basedir}/projects/HerffJonesECommerce/src" isValidate="${isValidate}"/>
+	</target>
+</project>

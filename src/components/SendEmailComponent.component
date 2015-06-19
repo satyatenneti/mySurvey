@@ -20,7 +20,7 @@
             <tr>
             	<td colspan="2" align="left">
             		Hi {!submittedToName},<br /><br />
-            		Please submit your feedback&nbsp;&nbsp;<apex:outputLink value ="{!SurveyURL}" >here</apex:outputLink>.
+            		Please submit your feedback&nbsp;&nbsp;<apex:outputLink value="{!SurveyURL}" >here</apex:outputLink>.
             		<br /><br /><br />
             		Thanking You.<br/>
             		{!$User.FirstName} {!$User.LastName}
@@ -28,4 +28,4 @@
             </tr>
     	</table>
     </div>
-</apex:component>   
+</apex:component>

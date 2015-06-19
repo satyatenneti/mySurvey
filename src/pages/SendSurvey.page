@@ -1,4 +1,4 @@
-<apex:page showHeader="true" standardStylesheets="false" controller="SendSurveyController">
+<apex:page showHeader="true" sidebar="false" standardStylesheets="false" controller="SendSurveyController">
     <c:ScriptIncludes />
     <style>
         * { margin: 0; padding: 0;}
@@ -9,110 +9,79 @@
         input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
         input.control-button:hover { background-color:#357ae8; }
         select { padding: 10px;  margin: 25px 5px 0px 5px;  }
-     </style>
-    <script type="text/javascript">
-        
-            $(document).ready(function() {
-                $("input[type='radio']").click(function() {
-                    if ($("input[type='radio']:checked").val() == 'I') {
-                        $('#users-id').prop("disabled",false);
-                        $('#contacts-id').prop("disabled",true);;
-                        $("[id*='select-contacts']").attr('disabled',true);
-                        $('#contacts-id').prop("checked",false);
-                        $('#groups-id').prop("disabled",false);
-                        $('#groups-id').prop("name","usersList");
-
-                        $('#users-id').click(function() {
-                            if ($('#users-id').is(':checked')) {
-                                $("[id*='select-groups']").attr('disabled',true);
-                                $("[id*='select-users']").removeAttr('disabled');
-                            }
-                        });
-                        $('#groups-id').click(function() {
-                            if ($('#groups-id').is(':checked')) {
-                                $("[id*='select-users']").attr('disabled',true);
-                                $("[id*='select-groups']").removeAttr('disabled');
-                            }
-                        });
-                    }
-                    else if ($("input[type='radio']:checked").val() == 'E') {
-                        $('#users-id').prop("disabled",true);
-                        $("[id*='select-users']").attr('disabled',true);
-                        $('#users-id').prop("checked",false);
-                        $('#contacts-id').prop("disabled",false);
-                        $('#groups-id').prop("disabled",false);
-                        $('#groups-id').prop("name","contactsList");
-
-                        $('#contacts-id').click(function() {
-                            if ($('#contacts-id').is(':checked')) {
-                                $("[id*='select-groups']").attr('disabled',true);
-                                $("[id*='select-contacts']").removeAttr('disabled');
-                            }
-                        });
-
-                        $('#groups-id').click(function() {
-                            if ($('#groups-id').is(':checked')) {
-                                $("[id*='select-contacts']").attr('disabled',true);
-                                $("[id*='select-groups']").removeAttr('disabled');
-                            }
-                        });
-                    }
-                });
-            });
-    </script>
+        .survey-title { font-size: 2em; font-weight: bold; margin: 10px; }
+    </style>
+    
     <apex:form id="sendSurvey">
-   <div class="form-container">
-        {!SurveyName}
-        <div class="section">
-        
-        <table class="table">
-            
-            <tr><th colspan="2"><label>Send Survey to </label></th></tr>
-            
-            <tr>
-                <th> 
-                    <apex:selectRadio >
-                    <label><apex:selectOption itemLabel="Internal Users" itemValue="Internal"/></label>
-                    </apex:selectRadio>
-                </th>
-                <td>
-                    <apex:selectList disabled="true" id="select-users" size="5" value="{!selectedUsers}" multiselect="true" styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto">
-                    <apex:selectOptions value="{!usersList}"/>
-                    </apex:selectList>
-                </td>
-            </tr>
-            
-            <tr>
-                <th> 
-                    <apex:selectRadio >
-                    <label><apex:selectOption itemLabel="External Contacts" itemValue="External"/></label>
-                    </apex:selectRadio>
-                </th>
-                <td>
-                    <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" disabled="true" id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
-                    <apex:selectOptions value="{!contactsList}"/>
-                    </apex:selectList>
-                </td>
-            </tr>
-            
-            <tr>
-                <th><apex:selectRadio ><label><apex:selectOption itemLabel="Groups" itemValue="Groups"/></label></apex:selectRadio></th>
-                <td>
-                    <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" disabled="true" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
-                    <apex:selectOptions value="{!groupsList}"/>
-                    </apex:selectList>
-                </td>
-            </tr>
-            
-            <tr>
-                <td colspan="2" align="center">
-                    <apex:commandButton styleClass="control-button" value="Send Form" action="{!sendForm}"/>
-                </td>
-            </tr>
-        </table>
+        <div class="form-container">
+            <div><apex:pageMessages /></div>
+            <div class="survey-title">{!survey.Name}</div>
+            <hr />
+            <table class="table">
+                <tr><th colspan="2"><label>Send Survey to </label></th></tr>
+                
+                <tr>
+                    <th> 
+                        <input type="radio" name="surveyType" html-data-select="select-users"/>&nbsp;Internal Users
+                    </th>
+                    <td><apex:outputPanel rendered="{! usersList.size != 0}">
+                        <apex:selectList id="select-users" size="5" value="{!selectedUsers}" multiselect="true" styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto">
+                            <apex:selectOptions value="{!usersList}"/>
+                        </apex:selectList>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!usersList.size == 0}">No Users exist.</apex:outputPanel>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th> 
+                        <input type="radio" name="surveyType" html-data-select="select-contacts" />&nbsp;External Contacts
+                    </th>
+                    <td><apex:outputPanel rendered="{! contactsList.size != 0}">
+                        <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" id="select-contacts" size="5" value="{!selectedContacts}" multiselect="true">
+                            <apex:selectOptions value="{!contactsList}"/>
+                        </apex:selectList>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!contactsList.size == 0}">No Contacts exist.</apex:outputPanel>
+                    </td>
+                </tr>
+                
+                <tr>
+                    <th> 
+                        <input type="radio" name="surveyType" html-data-select="select-groups"/>&nbsp;Groups
+                    </th>
+                    <td><apex:outputPanel rendered="{! groupsList.size != 0}">
+                        	<apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
+                            	<apex:selectOptions value="{!groupsList}"/>
+                        	</apex:selectList>
+                        </apex:outputPanel>
+                        <apex:outputPanel rendered="{!groupsList.size == 0}">No Groups exist.</apex:outputPanel>
+                        
+                    </td>
+                </tr>
+                
+                <tr>
+                    <td colspan="2" align="center">
+                    <input type="button" class="control-button" value="Send Form" onclick="sendSurveyForm()" />
+                    </td>
+                </tr>
+            </table>
         </div>
-
-    </div>
+        <apex:actionFunction action="{!sendForm}" name="sendSurveyForm"  />
     </apex:form>
-      
+    <script type="text/javascript">
+    
+    $(document).ready(function(){
+        $('select').prop('disabled', 'disabled'); 
+        $('input[type="radio"]').click(function(){ 
+            $('select').prop('disabled', 'disabled'); 
+            $('select option:selected').each( function(){
+                $(this).removeAttr('selected');
+            });
+            var selectToEnable = $(this).attr('html-data-select');
+            $("select[id*='"+selectToEnable+"']").removeAttr('disabled');
+        });    
+    });
+    
+    </script>
 </apex:page>

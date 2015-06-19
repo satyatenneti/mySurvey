@@ -1,0 +1,10 @@
+<apex:component controller="UserInfoController" >
+    
+    <apex:outputPanel >
+        <apex:repeat value="{!users}" var="user">
+           <ul><li><apex:image value="{!user.smallphotourl}"/> <span class="firstname">{!user.FirstName}</span></li>
+           <li>{!user.LastName}</li></ul>
+        </apex:repeat>
+    </apex:outputPanel>
+    
+</apex:component>

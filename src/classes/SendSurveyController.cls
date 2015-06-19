@@ -69,7 +69,8 @@ public with sharing class SendSurveyController {
             }
             insert submissionList;
 
-            emailService.sendEmailNotifications(submissionList, surveyId);      
+            emailService.sendEmailNotifications(submissionList, surveyId);
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));     
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
         }

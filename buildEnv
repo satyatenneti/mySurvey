@@ -1,0 +1,2 @@
+ant -propertyfile properties/$1.properties -DtestLevel=NoTestRun -DrunAllTests=false -DisValidate=false -DdeployRoot=src deployDirectory
+

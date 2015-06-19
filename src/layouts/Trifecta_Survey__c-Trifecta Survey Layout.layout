@@ -22,10 +22,6 @@
                 <behavior>Edit</behavior>
                 <field>Auto_Response_Message__c</field>
             </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Survey_Type__c</field>
-            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -88,6 +84,9 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>Title__c</fields>
+        <fields>Type__c</fields>
+        <fields>isRequired__c</fields>
         <relatedList>Trifecta_Survey_Question__c.Survey__c</relatedList>
     </relatedLists>
     <relatedLists>

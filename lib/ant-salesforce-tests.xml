@@ -1,0 +1,75 @@
+<project>
+	<macrodef name="sfCompileAndTest">
+		<attribute name="deployRoot"/>
+		<attribute name="isValidate"/>
+
+		<sequential>
+			<sfDeployUnmanaged
+					username="${sf.username}"
+					password="${sf.password}"
+					serverUrl="${sf.server}"
+					deployRoot="@{deployRoot}"
+					isValidate="@{isValidate}" >
+
+				<fileset dir="@{deployRoot}">
+					<include name="**/*.cls"/>
+				</fileset>
+			</sfDeployUnmanaged>
+		</sequential>
+	</macrodef>
+
+    <scriptdef name="sfDeployUnmanaged" language="javascript">
+        <attribute name="username"/>
+        <attribute name="password"/>
+        <attribute name="serverurl"/>
+        <attribute name="deployRoot"/>
+        <attribute name="isValidate"/>
+        <element name="fileset" type="fileset"/>
+
+        <![CDATA[
+            var filesets = elements.get("fileset");
+            var filesetsIterator = filesets.iterator();
+            var projectClasses = [];
+
+            self.log("Deploy Root: " + attributes.get("deployroot"));
+
+            while(filesetsIterator.hasNext()){
+                var fs = filesetsIterator.next();
+                var iter = fs.iterator();
+                while(iter.hasNext()){
+                    var resource = iter.next();
+                    var clazz = resource.getName().replaceAll("[.]cls$","");
+                    self.log("Class: " + clazz);
+                    projectClasses.push(clazz);
+                }
+            }
+
+            var task = project.createTask("antlib:com.salesforce:deploy");
+            task.setUsername(attributes.get("username"));
+            task.setPassword(attributes.get("password"));
+            task.setServerURL(attributes.get("serverurl"));
+            task.setDeployRoot(attributes.get("deployroot"));
+            task.setMaxPoll("2000");
+            task.setPollWaitMillis("10000");
+            task.setRollbackOnError(true);
+            task.setCheckonly(attributes.get("isValidate") === 'true');
+            task.setLogType("Debugonly");
+            task.setSinglePackage(true);
+            task.setAllowMissingFiles(false);
+            task.setAutoUpdatePackage(false);
+
+            //Blows up when build timeout is reached if we don't set this (it uses this value when formatting the exception it throws)
+            task.setOwningTarget(self.owningTarget);
+
+            var classClazz = task.getClass().getClassLoader().loadClass("com.salesforce.ant.DeployTask$CodeNameElement");
+            for(var i = 0; i < projectClasses.length; i++){
+				var projectClass = projectClasses[i];
+                var clazz = classClazz.newInstance();
+                clazz.addText(projectClasses[i]);
+                task.addRunTest(clazz);
+            }
+
+            task.execute();
+         ]]>
+    </scriptdef>
+</project>

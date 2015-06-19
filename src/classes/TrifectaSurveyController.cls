@@ -126,7 +126,7 @@ public with sharing class TrifectaSurveyController {
       return new Trifecta_Survey_Question__c(
                                       Type__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE, 
                                       Load_Id__c=GuidUtil.NewGuid(),
-                                      Title__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE,
+                                      Title__c=TrifectaSurveyController.DEFAULT_QUESTION_TITLE,
                                       isRequired__c = false);
     }
 }

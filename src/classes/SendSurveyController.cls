@@ -55,4 +55,7 @@ public with sharing class SendSurveyController {
         }
         new EmailServiceBase().sendEmailNotifications(submittedList,surveyId);  
     }
+    public String getSurveyName() {
+        return [select Name from Trifecta_Survey__c where Id =:surveyId].Name;
+    }
 }

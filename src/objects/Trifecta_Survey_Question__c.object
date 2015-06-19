@@ -146,7 +146,7 @@
         <defaultValue>false</defaultValue>
         <description>Flag to mark this as a required question</description>
         <externalId>false</externalId>
-        <label>isRequired</label>
+        <label>Required Question</label>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>

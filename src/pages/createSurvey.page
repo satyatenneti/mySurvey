@@ -10,7 +10,7 @@
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
-                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="survey">
+                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="questions">
                     <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
                 <apex:actionfunction action="{!sendSurvey}" name="sendSurvey" />
@@ -19,7 +19,7 @@
                 <apex:actionfunction action="{!deleteSurveyQuestion}" name="deleteQuestion" rerender="questions" >
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
-                <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="survey">
+                <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="questions">
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
@@ -71,8 +71,12 @@
                                     <td></td>
                                 </tr>
                                 <tr>
-                                    <th colspan="2">
+                                    <th>
                                         <input type="button" class="control-button" value="Done"/>
+                                    </th>
+                                    <th>
+                                        <apex:inputCheckbox value="{!question.isRequired__c}"/>
+                                        <label>Required question</label>
                                     </th>
                                 </tr>
                             </table>

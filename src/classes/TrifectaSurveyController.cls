@@ -7,6 +7,7 @@ public with sharing class TrifectaSurveyController {
     public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoiceMap{get;set;}
     public static final String DEFAULT_QUESTION_TYPE = 'Multi Choice';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
+    public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
@@ -124,6 +125,8 @@ public with sharing class TrifectaSurveyController {
     private Trifecta_Survey_Question__c getNewQuestion() {
       return new Trifecta_Survey_Question__c(
                                       Type__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE, 
-                                      Load_Id__c=GuidUtil.NewGuid());
+                                      Load_Id__c=GuidUtil.NewGuid(),
+                                      Title__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE,
+                                      isRequired__c = false);
     }
 }

@@ -92,6 +92,43 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <label>Trifecta Survey Submission</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Survey__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Completed__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Completed_Submissions</fullName>
+        <columns>NAME</columns>
+        <columns>Survey__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Completed__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Completed__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Completed Submissions</label>
+    </listViews>
+    <listViews>
+        <fullName>Open_Submissions</fullName>
+        <columns>NAME</columns>
+        <columns>Survey__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Completed__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Completed__c</field>
+            <operation>equals</operation>
+            <value>0</value>
+        </filters>
+        <label>Open Submissions</label>
+    </listViews>
     <nameField>
         <displayFormat>SS-{000000}</displayFormat>
         <label>Trifecta Survey Submission Name</label>
@@ -99,6 +136,10 @@
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Trifecta Survey Submissions</pluralLabel>
-    <searchLayouts/>
+    <searchLayouts>
+        <customTabListAdditionalFields>Survey__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>CREATEDBY_USER</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Completed__c</customTabListAdditionalFields>
+    </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

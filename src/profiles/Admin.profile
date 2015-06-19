@@ -219,11 +219,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trifecta_Survey_Question__c.Choices__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Trifecta_Survey_Question__c.Help_text__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -270,11 +265,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Trifecta_Survey__c.Help_Text__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Trifecta_Survey__c.Survey_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

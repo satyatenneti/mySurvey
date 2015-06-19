@@ -1,0 +1,1 @@
+ant undeployCode -propertyfile properties/$1.properties -DdeleteDir=$2

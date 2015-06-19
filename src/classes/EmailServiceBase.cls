@@ -1,31 +1,33 @@
 public with sharing class EmailServiceBase implements EmailService {
-	public void sendEmailNotifications (List<String> idList, Id surveyId) {
+    
+	public void sendEmailNotifications (List<Trifecta_Survey_Submission__c> submissions, Id surveyId) {
     	List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
-    	List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
+    	
+    	Messaging.SingleEmailMessage[] mails = new List<Messaging.SingleEmailMessage>();
         
-    	EmailTemplate contactTemplate = [select Id from EmailTemplate where name ='Survey Template Contact'];
-        EmailTemplate userTemplate = [select Id from EmailTemplate where name ='Survey Template User'];
-        Messaging.SingleEmailMessage[] mails = new List<Messaging.SingleEmailMessage>();
-        for(String eachId : idList) {
-            submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Completed__c = false ));
         
-        }
-        insert submissionList;
-        
-    	for(Trifecta_Survey_Submission__c submission : submissionList) {
+    	for(Trifecta_Survey_Submission__c submission : submissions) {
+
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            if (submission.Submitted_To__c.substring(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
-	    	  mail.setTemplateId(userTemplate.Id);
-              mail.setSaveAsActivity(false);
+            if (isValidId(submission.Submitted_To__c, 'User')) {
+                EmailTemplate userTemplate = [select Id from EmailTemplate where name ='Survey Template User'];
+                mail.setTemplateId(userTemplate.Id);
+                mail.setSaveAsActivity(false);
             }
-            else if (submission.Submitted_To__c.substring(0,3) == schema.getGlobalDescribe().get('Contact').getDescribe().getKeyPrefix()) {
-               	mail.setTemplateId(contactTemplate.Id);
+            else if (isValidId(submission.Submitted_To__c, 'Contact')) {
+                EmailTemplate contactTemplate = [select Id from EmailTemplate where name ='Survey Template Contact'];
+                mail.setTemplateId(contactTemplate.Id);
                 mail.setSaveAsActivity(true);
             }
             mail.setTargetObjectId(submission.Submitted_To__c);
             mail.setWhatId(submission.Id);
             mails.add(mail);
         }
-        List<Messaging.SendEmailResult> results = Messaging.sendEmail(mails,false);
+        Messaging.sendEmail(mails,false);
+    }
+
+    private Boolean isValidId(String idString, String type) {
+        //Validates depending on the Key Prefix for the Id
+       return (idString.substring(0,3) == schema.getGlobalDescribe().get(type).getDescribe().getKeyPrefix()) ? true : false;
     }
 }

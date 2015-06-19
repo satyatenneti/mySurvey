@@ -7,11 +7,13 @@ public with sharing class SendSurveyController {
     public String selectedGroups {get; set;}
     public String selectedType {get; set;}
     public Id surveyId;
+    public EmailServiceBase emailService;
     public SendSurveyController() {
         surveyId = ApexPages.currentPage().getParameters().get('id');
         init();
     }
     private void init() {
+        emailService = new EmailServiceBase();
         usersList = getActiveUsers();
         contactsList = getContacts();
         groupsList = getGroups();
@@ -39,13 +41,18 @@ public with sharing class SendSurveyController {
     }
     public void sendForm() {
         List<String> submittedList = new List<String>();
-        if (selectedUsers.length() > 3) {
+        //When no users are selected this will get an empty square branckets. Remove them before validation.
+        selectedUsers = (selectedUsers != null ) ? selectedUsers.remove('[]') : null;
+        selectedContacts = (selectedContacts != null ) ? selectedContacts.remove('[]') : null;
+        selectedGroups = (selectedGroups != null ) ? selectedGroups.remove('[]') : null;
+
+        if (!String.isEmpty(selectedUsers)) {
             submittedList = selectedUsers.substring(1,selectedUsers.length()-1).split(',');
         }
-        else if (selectedContacts.length() > 3) {
+        else if (! String.isEmpty(selectedContacts)) {
             submittedList = selectedContacts.substring(1,selectedContacts.length()-1).split(',');
         }
-        else if (selectedGroups.length() > 3) {
+        else if (! String.isEmpty(selectedGroups)) {
             List<Id> submittedGroups =new List<Id>();
             submittedGroups = selectedGroups.substring(1,selectedGroups.length()-1).split(',');
             List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
@@ -53,9 +60,22 @@ public with sharing class SendSurveyController {
                 submittedList.add(String.valueOf(eachMember.UserOrGroupId));
             }
         }
-        new EmailServiceBase().sendEmailNotifications(submittedList,surveyId);  
+
+        if(!submittedList.isEmpty()){
+			List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
+            //create the submission records for every user/contact/group member selected
+            for(String eachId : submittedList) {
+                submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Completed__c = false ));
+            }
+            insert submissionList;
+
+            emailService.sendEmailNotifications(submissionList, surveyId);      
+        } else {
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
+        }
+        
     }
-    public String getSurveyName() {
-        return [select Name from Trifecta_Survey__c where Id =:surveyId].Name;
+    public Trifecta_Survey__c getSurvey() {
+        return [select Name from Trifecta_Survey__c where Id =:surveyId];
     }
 }

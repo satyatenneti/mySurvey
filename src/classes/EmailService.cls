@@ -1,3 +1,3 @@
 public interface EmailService {
-	void sendEmailNotifications (List<String> idList, Id SurveyId);
+	void sendEmailNotifications (List<Trifecta_Survey_Submission__c> submissions, Id SurveyId);
 }

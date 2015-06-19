@@ -1,7 +1,5 @@
-<apex:page showHeader="false" standardStylesheets="false" controller="SendSurveyController">
-    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
+<apex:page showHeader="true" standardStylesheets="false" controller="SendSurveyController">
+    <c:ScriptIncludes />
     <style>
         * { margin: 0; padding: 0;}
         .form-container { width: 60%; margin: 0 auto; padding: 15px; }
@@ -67,15 +65,6 @@
     <div class="form-container">
         <div class="section">
         <table class="table">
-            <tr>
-                <th colspan="2" align="center">
-                <label>
-                        <apex:selectRadio id="radio-id" value="{!selectedType}">
-                        <apex:selectOptions value="{!typeList}"/>
-                        </apex:selectRadio>
-                </label>
-                </th>
-            </tr>
             <tr>
                 <th>
                    <label><input id="users-id" type="radio" name="usersList" value="users" disabled="true">Users</input></label>

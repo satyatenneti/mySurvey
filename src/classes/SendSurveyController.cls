@@ -2,7 +2,6 @@ public with sharing class SendSurveyController {
     public List<SelectOption> usersList {get;set;}
     public List<SelectOption> contactsList {get;set;}
     public List<SelectOption> groupsList {get;set;}
-    public List<SelectOption> typeList {get;set;}
     public String selectedUsers {get; set;}
     public String selectedContacts {get; set;}
     public String selectedGroups {get; set;}
@@ -10,23 +9,34 @@ public with sharing class SendSurveyController {
     public Id surveyId;
     public SendSurveyController() {
         surveyId = ApexPages.currentPage().getParameters().get('id');
-        usersList = new List<SelectOption>();
-        contactsList = new List<SelectOption>();
-        groupsList = new List<SelectOption>();
-        typeList = new List<SelectOption>();
+        init();
+    }
+    private void init() {
+        usersList = getActiveUsers();
+        contactsList = getContacts();
+        groupsList = getGroups();
+    }
+    private List<SelectOption> getActiveUsers() {
+        List<SelectOption> usersList = new List<SelectOption>();
         for (User eachActiveUser :[SELECT Id,Name FROM User WHERE IsActive = true]) {
             usersList.add(new SelectOption(eachActiveUser.Id, eachActiveUser.Name));
         }
+        return usersList;
+    }
+    private List<SelectOption> getContacts() {
+        contactsList = new List<SelectOption>();
         for (Contact eachContact :[SELECT Id,Name FROM Contact]) {
             contactsList.add(new SelectOption(eachContact.Id, eachContact.Name));
         }
+        return contactsList;
+    }
+    private List<SelectOption> getGroups() {
+        groupsList = new List<SelectOption>();
         for (Group eachGroup :[SELECT Id,Name FROM Group WHERE Type = 'Regular']) {
             groupsList.add(new SelectOption(eachGroup.Id, eachGroup.Name));
         }
-        typeList.add(new SelectOption('I', 'Internal'));
-        typeList.add(new SelectOption('E', 'External'));
+        return groupsList;
     }
-    
     public void sendForm() {
         List<String> submittedList = new List<String>();
         if (selectedUsers.length() > 3) {

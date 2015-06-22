@@ -120,7 +120,31 @@ public with sharing class TrifectaSurveyController {
     * Copies the requested question and its choices and creates a duplicate copy
     */
     public void copyQuestion() {
+        Integer rowIndex =0;
+        
+        for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
+            if(eachQuestion.Load_Id__c != questionloadId) {
+                rowIndex++;
+            }
+            else {
+                break; 
+            }
+        }
+        
+        Trifecta_Survey_Question__c copyQuestion = surveyQuestions.get(rowIndex).clone(false,true);
+        copyQuestion.Load_Id__c = GuidUtil.NewGuid();
 
+        Trifecta_Survey_Question_Choice__c tempSurveyChoice = new Trifecta_Survey_Question_Choice__c();
+        List<Trifecta_Survey_Question_Choice__c> copyQuestionChoices = new List<Trifecta_Survey_Question_Choice__c>();
+        
+        for(Trifecta_Survey_Question_Choice__c eachChoiceForTheQuestion : surveyQuestionChoiceMap.get(questionloadId)) {
+            tempSurveyChoice = eachChoiceForTheQuestion.clone(false,true);
+            tempSurveyChoice.Load_Id__c = GuidUtil.NewGuid();
+            copyQuestionChoices.add(tempSurveyChoice);
+        }
+        
+        surveyQuestions.add(copyQuestion);
+        surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
 	
     private Trifecta_Survey_Question_Choice__c getNewChoice(String questionLoadId) {

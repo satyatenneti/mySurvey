@@ -142,6 +142,16 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>isEdit__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Boolean flag to indicate whether this question is under edit mode or preview mode</description>
+        <externalId>false</externalId>
+        <label>isEdit</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
         <fullName>isRequired__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Flag to mark this as a required question</description>

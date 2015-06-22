@@ -116,6 +116,13 @@ public with sharing class TrifectaSurveyController {
         return sendSurveyPage;
     }
     
+	/**
+    * Copies the requested question and its choices and creates a duplicate copy
+    */
+    public void copyQuestion() {
+
+    }
+	
     private Trifecta_Survey_Question_Choice__c getNewChoice(String questionLoadId) {
         String defaultValue = 'Option ';
         defaultValue += (surveyQuestionChoiceMap.get(questionloadId) != null ) ? (String.valueOf(surveyQuestionChoiceMap.get(questionloadId).size()+1)) : '1';

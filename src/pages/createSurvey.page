@@ -82,8 +82,7 @@
                                 </tr>
                                 <tr>
                                     <th>
-                                        <input type="button" class="control-button" value="Done"/>
-                                                                                    <input type="button" class="control-button" value="Done" onclick="toggleQuestion('{!question.Load_Id__c}')" />
+                                        <input type="button" class="control-button" value="Done" onclick="toggleQuestion('{!question.Load_Id__c}')" />
 
                                     </th>
                                     <th>

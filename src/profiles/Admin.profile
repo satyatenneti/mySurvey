@@ -224,6 +224,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trifecta_Survey_Question__c.isEdit__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trifecta_Survey_Question__c.Sort_Index__c</field>
         <readable>true</readable>
     </fieldPermissions>

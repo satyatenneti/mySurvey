@@ -10,6 +10,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DisplayFormController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailService</apexClass>
         <enabled>true</enabled>
     </classAccesses>

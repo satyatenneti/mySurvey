@@ -176,4 +176,14 @@ public with sharing class TrifectaSurveyController {
         Trifecta_Survey_Question__c question = surveyQuestions.get(rowIndex);
         return question;
     }
+    public class SurveyWrapper{
+        public Trifecta_Survey__c survey;
+        public List<Trifecta_Survey_Question__c> surveyQuestions;
+        public List<Trifecta_Survey_Question_Choice__c> surveyQuestionChoices;
+
+        public SurveyWrapper(Trifecta_Survey__c survey,List<Trifecta_Survey_Question__c> surveyQuestions){
+            this.survey = survey;
+            this.surveyQuestions = surveyQuestions;
+        }
+    }
 }

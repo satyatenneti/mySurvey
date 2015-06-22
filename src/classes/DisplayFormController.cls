@@ -5,6 +5,8 @@ public with sharing class DisplayFormController {
 	public List<Trifecta_Survey_Question__c> surveyQuestions{get; set;}
 	public List<Trifecta_Survey_Question_Choice__c> surveyQuestionChoices{get; set;}
 	public List<Trifecta_Survey_Question_Response__c> surveyResponses {get; set;}
+	public static final String THANKING_YOU_PAGE_URL = '/apex/thankingYou?id=';
+    
 	public Map<String,String> surveyQuestionChoiceMap{get;set;} 
 	public DisplayFormController() {
 		surveyId = ApexPages.currentPage().getParameters().get('Survey');
@@ -14,7 +16,16 @@ public with sharing class DisplayFormController {
 		surveyQuestions = surveyData.surveyQuestions;
 		surveyQuestionChoices = surveyData.surveyQuestionChoices;
 	}
-	public void submitSurvey() {
+	public PageReference submitSurvey(){
+        //Save the survey before the user can be redirected to Send Survey Page
+        saveResponses();
+        PageReference thankingYouPage = 
+          new PageReference(DisplayFormController.THANKING_YOU_PAGE_URL+submissionId);
+        
+        thankingYouPage.setRedirect(true);
+        return thankingYouPage;
+    }
+	public void saveResponses() {
 		Trifecta_Survey_Question_Response__c surveyResponse;
 		for (String eachResponse: surveyQuestionChoiceMap.keySet()) {
 			surveyResponse = new Trifecta_Survey_Question_Response__c(Survey_Submission__c=submissionId, 

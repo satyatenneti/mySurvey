@@ -76,6 +76,22 @@ public with sharing class TrifectaSurveyController {
         }
         surveyQuestionChoiceMap.get(questionloadId).remove(rowIndex);
     }
+
+    /*
+    * Toggling Edit of the Question
+    */
+    public void toggleQuestionEdit() {
+        Trifecta_Survey_Question__c question = extractQuestion();
+        question.isEdit__c = question.isEdit__c == false ? true : false;
+    }
+
+    /*
+    * Finished Edit of the Question
+    */
+    public void finishedQuestionEditing() {
+        extractQuestion().isEdit__c = false;
+    }
+
     /**
     * Saves the Current Survey
     */
@@ -116,22 +132,12 @@ public with sharing class TrifectaSurveyController {
         return sendSurveyPage;
     }
     
-	/**
+    /**
     * Copies the requested question and its choices and creates a duplicate copy
     */
     public void copyQuestion() {
-        Integer rowIndex =0;
         
-        for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
-            if(eachQuestion.Load_Id__c != questionloadId) {
-                rowIndex++;
-            }
-            else {
-                break; 
-            }
-        }
-        
-        Trifecta_Survey_Question__c copyQuestion = surveyQuestions.get(rowIndex).clone(false,true);
+        Trifecta_Survey_Question__c copyQuestion = extractQuestion().clone(false,true);
         copyQuestion.Load_Id__c = GuidUtil.NewGuid();
 
         Trifecta_Survey_Question_Choice__c tempSurveyChoice = new Trifecta_Survey_Question_Choice__c();
@@ -146,7 +152,7 @@ public with sharing class TrifectaSurveyController {
         surveyQuestions.add(copyQuestion);
         surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
-	
+    
     private Trifecta_Survey_Question_Choice__c getNewChoice(String questionLoadId) {
         String defaultValue = 'Option ';
         defaultValue += (surveyQuestionChoiceMap.get(questionloadId) != null ) ? (String.valueOf(surveyQuestionChoiceMap.get(questionloadId).size()+1)) : '1';
@@ -158,6 +164,23 @@ public with sharing class TrifectaSurveyController {
                                       Type__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE, 
                                       Load_Id__c=GuidUtil.NewGuid(),
                                       Title__c=TrifectaSurveyController.DEFAULT_QUESTION_TITLE,
-                                      isRequired__c = false);
+                                      isRequired__c = false,
+                                      isEdit__c = true);
+    }
+
+    private Trifecta_Survey_Question__c extractQuestion() {
+        Integer rowIndex =0;
+        
+        for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
+            if(eachQuestion.Load_Id__c != questionloadId) {
+                rowIndex++;
+            }
+            else {
+                break; 
+            }
+        }
+        
+        Trifecta_Survey_Question__c question = surveyQuestions.get(rowIndex);
+        return question;
     }
 }

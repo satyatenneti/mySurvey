@@ -8,23 +8,47 @@ public with sharing class TrifectaSurveyController {
     public static final String DEFAULT_QUESTION_TYPE = 'Multi Choice';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
+	public Id surveyId;
     
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
-        // Get the current Survey Record 
-        survey = (Trifecta_Survey__c) controllerInstance.getRecord();
-        survey.Load_Id__c = GuidUtil.NewGuid();
-
-        surveyQuestions = new List<Trifecta_Survey_Question__c>();
-        surveyQuestionChoiceMap = new Map<String,List<Trifecta_Survey_Question_Choice__c>>();
-        
-        Trifecta_Survey_Question__c newQuestion = getNewQuestion();
-        surveyQuestions.add(newQuestion);
-        
-        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
-        
         questionloadId = '';
         choiceLoadId = '';
+        
+        surveyId = ApexPages.currentPage().getParameters().get('Id');
+        // Loading Existing Survey
+        if(surveyId != null) {
+
+            SurveyWrapper dbSurvey = TrifectaSurveyControllerHelper.createTrifectaSurveyWrapper(surveyId);
+            
+            if(dbSurvey != null) {
+                
+                surveyQuestionChoiceMap = new Map<String,List<Trifecta_Survey_Question_Choice__c>>();
+
+                survey = dbSurvey.survey;
+                surveyQuestions = dbSurvey.surveyQuestions;
+                
+                for(Trifecta_Survey_Question_Choice__c eachChoice : dbSurvey.surveyQuestionChoices) {
+                    if(!surveyQuestionChoiceMap.containsKey(eachChoice.Survey_Question__r.Load_Id__c)){
+                        surveyQuestionChoiceMap.put(eachChoice.Survey_Question__r.Load_Id__c, new List<Trifecta_Survey_Question_Choice__c>{});
+                    }    
+                    surveyQuestionChoiceMap.get(eachChoice.Survey_Question__r.Load_Id__c).add(eachChoice);
+                }
+            }
+        }
+        else {
+            // Get the current Survey Record 
+            survey = (Trifecta_Survey__c) controllerInstance.getRecord();
+            survey.Load_Id__c = GuidUtil.NewGuid();
+
+            surveyQuestions = new List<Trifecta_Survey_Question__c>();
+            surveyQuestionChoiceMap = new Map<String,List<Trifecta_Survey_Question_Choice__c>>();
+            
+            Trifecta_Survey_Question__c newQuestion = getNewQuestion();
+            surveyQuestions.add(newQuestion);
+            
+            surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
+        }
     }
     /**
     * Adds new Question
@@ -89,26 +113,40 @@ public with sharing class TrifectaSurveyController {
     * Saves the Current Survey
     */
     public void saveSurvey(){
-      //Link Survey with Survey Questions via External Id
+	
+        Set<String> questionLoadIdsToRemain = new Set<String>();
+        Set<String> choicesLoadIdsToRemain = new Set<String>();
+
+        //Link Survey with Survey Questions via External Id
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
-            eachQuestion.Survey__r = new Trifecta_Survey__c(Load_Id__c = survey.Load_Id__c);
+            if(eachQuestion.Survey__c == null) {
+                eachQuestion.Survey__r = new Trifecta_Survey__c(Load_Id__c = survey.Load_Id__c);
+            }
+            questionLoadIdsToRemain.add(eachQuestion.Load_Id__c);
         }
-      //Link Survey Question Choices with Survey Question via External Id
-      for(String eachQuestion : surveyQuestionChoiceMap.keySet()) {
+        //Link Survey Question Choices with Survey Question via External Id
+        for(String eachQuestion : surveyQuestionChoiceMap.keySet()) {
             for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoiceMap.get(eachQuestion)){
-                eachChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = eachQuestion);
+                if(eachChoice.Survey_Question__c == null) {
+                    eachChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = eachQuestion);
+                } 
+                choicesLoadIdsToRemain.add(eachChoice.Load_Id__c);
             }
         }
-      
-      //Save all the records
-      try {
-            insert survey;
-            insert surveyQuestions;
-            //system.assert(false,JSON.serialize(SObjectUtils.flatten(surveyQuestionChoiceMap.values())));
-            insert SObjectUtils.flatten(surveyQuestionChoiceMap.values());
+
+        if(surveyId != null) {
+            TrifectaSurveyControllerHelper.checkForSurveyQuestionsAndChoicesToRemain(surveyId,questionLoadIdsToRemain,choicesLoadIdsToRemain);
+        }
+        
+        //Save all the records
+        try {
+            upsert survey;
+            upsert surveyQuestions;
+            upsert getChoicesToUpsert(surveyQuestionChoiceMap.values());
         }
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());
+            system.assert(false,dmlException.getMessage());
         }
     }
     /**
@@ -176,6 +214,15 @@ public with sharing class TrifectaSurveyController {
         Trifecta_Survey_Question__c question = surveyQuestions.get(rowIndex);
         return question;
     }
+	
+	private List<Trifecta_Survey_Question_Choice__c> getChoicesToUpsert(List<List<Trifecta_Survey_Question_Choice__c>> mapChoices){
+        List<Trifecta_Survey_Question_Choice__c> choicesToReturn = new List<Trifecta_Survey_Question_Choice__c>();
+        for(List<Trifecta_Survey_Question_Choice__c> eachQuestionChoices : mapChoices) {
+            choicesToReturn.addAll(eachQuestionChoices);
+        }
+        return choicesToReturn;
+    }
+	
     public class SurveyWrapper{
         public Trifecta_Survey__c survey;
         public List<Trifecta_Survey_Question__c> surveyQuestions;

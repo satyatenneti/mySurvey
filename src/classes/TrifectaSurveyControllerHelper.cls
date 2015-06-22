@@ -31,4 +31,16 @@ public with sharing class TrifectaSurveyControllerHelper {
   }
   return surveyInstance;  
  }
+ 
+ public static void checkForSurveyQuestionsAndChoicesToRemain(Id surveyId,Set<String> questionsToRemain,Set<String> choicesToRemain) {
+		List<Trifecta_Survey_Question__c> questionsToDelete = [Select Id,Name from Trifecta_Survey_Question__c Where Load_Id__c NOT IN : questionsToRemain];
+		List<Trifecta_Survey_Question_Choice__c> choicesToDelete = [Select Id,Name from Trifecta_Survey_Question_Choice__c Where Load_Id__c NOT IN : choicesToRemain];
+		
+		if(questionsToDelete.size() > 0) {
+			delete questionsToDelete;
+		}
+		if(choicesToDelete.size() > 0) {
+			delete choicesToDelete;
+		}
+ }
 }

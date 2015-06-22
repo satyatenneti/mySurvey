@@ -85,13 +85,6 @@ public with sharing class TrifectaSurveyController {
         question.isEdit__c = question.isEdit__c == false ? true : false;
     }
 
-    /*
-    * Finished Edit of the Question
-    */
-    public void finishedQuestionEditing() {
-        extractQuestion().isEdit__c = false;
-    }
-
     /**
     * Saves the Current Survey
     */

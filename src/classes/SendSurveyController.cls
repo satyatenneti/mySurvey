@@ -79,7 +79,4 @@ public with sharing class SendSurveyController {
     public Trifecta_Survey__c getSurvey() {
         return [select Name from Trifecta_Survey__c where Id =:surveyId];
     }
-    public Boolean isValidGroup(String groupId) {
-        return null;
-    }
 }

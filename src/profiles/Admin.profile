@@ -42,6 +42,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ThankingYouController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrifectaSurveyController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -368,6 +372,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>displayForm</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ThankingYou</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>

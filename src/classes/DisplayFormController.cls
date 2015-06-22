@@ -5,7 +5,7 @@ public with sharing class DisplayFormController {
 	public List<Trifecta_Survey_Question__c> surveyQuestions{get; set;}
 	public List<Trifecta_Survey_Question_Choice__c> surveyQuestionChoices{get; set;}
 	public List<Trifecta_Survey_Question_Response__c> surveyResponses {get; set;}
-	public static final String THANKING_YOU_PAGE_URL = '/apex/thankingYou?id=';
+	public static final String THANKING_YOU_PAGE_URL = '/apex/ThankingYou?id=';
     
 	public Map<String,String> surveyQuestionChoiceMap{get;set;} 
 	public DisplayFormController() {

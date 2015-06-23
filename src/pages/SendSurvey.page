@@ -15,28 +15,7 @@
         .margin-10px { margin: 10px; }
         .small-text {   font-size: 0.95em;}
     </style>
-    <script type="text/javascript">
-    	$(document).ready(function(){
-            $('div.section').hide();
-            $('input.control-button').hide();
-            $('select.sender-list').change(function(){
-                if($(this).find('option:selected').length > 0 ) {
-                    $('input.control-button').removeAttr('disabled');
-                    $('input.control-button').show();
-                } else {
-                    $('input.control-button').prop('disabled', 'disabled');
-                }
-                
-            });
-        	$('#send-form-to-select').change(function(){
-               	var sectionToDisplay = $('#send-form-to-select option:selected').val();
-                $('div.section').hide();
-                $('input.control-button').hide();
-                $('select option:selected').each(function(){$(this).removeAttr('selected')});
-                $('#'+sectionToDisplay).show();
-            });
-        });
-    </script>
+    
     <apex:form id="sendSurvey">
         <div class="form-container">
             <div><apex:pageMessages /></div>
@@ -53,7 +32,7 @@
                 </tr>
                <tr>
                     <td><div id="users" class="section" style="display: none;">
-                     	<apex:outputPanel rendered="{! usersList.size != 0}">
+                     	<apex:outputPanel rendered="{! usersList.size != 0}" >
                             <label class="bold-text">Select Users</label><br/ >
                             <label class="small-text">Hold Ctrl to select multiple entries.</label>
                         <apex:selectList id="select-users" size="5" value="{!selectedUsers}" multiselect="true" styleClass="sender-list ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto">
@@ -90,7 +69,7 @@
                     </td>
                 </tr>
                 <tr><td>
-                    	<apex:outputPanel style="display: none;" >
+                    	<apex:outputPanel >
                             <input type="button" disabled="disabled" class="control-button" value="Send Form" onclick="sendSurveyForm()" />
                         </apex:outputPanel>
                     </td>
@@ -99,5 +78,26 @@
         </div>
         <apex:actionFunction action="{!sendForm}" name="sendSurveyForm"  />
     </apex:form>
-    
+    <script type="text/javascript">
+    	$(document).ready(function(){
+            $('div.section').hide();
+            $('input.control-button').hide();
+            $('select.sender-list').change(function(){
+                if($(this).find('option:selected').length > 0 ) {
+                    $('input.control-button').removeAttr('disabled');
+                    $('input.control-button').show();
+                } else {
+                    $('input.control-button').prop('disabled', 'disabled');
+                }
+                
+            });
+        	$('#send-form-to-select').change(function(){
+               	var sectionToDisplay = $('#send-form-to-select option:selected').val();
+                $('div.section').hide();
+                $('input.control-button').hide();
+                $('select option:selected').each(function(){$(this).removeAttr('selected')});
+                $('#'+sectionToDisplay).show();
+            });
+        });
+    </script>
 </apex:page>

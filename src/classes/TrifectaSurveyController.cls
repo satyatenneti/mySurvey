@@ -189,10 +189,8 @@ public with sharing class TrifectaSurveyController {
         surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
 
-    private Trifecta_Survey_Question_Choice__c getNewChoice(String questionLoadId) {
-        String defaultValue = 'Option ';
-        defaultValue += (surveyQuestionChoiceMap.get(questionloadId) != null ) ? (String.valueOf(surveyQuestionChoiceMap.get(questionloadId).size()+1)) : '1';
-        return new Trifecta_Survey_Question_Choice__c(Value__c=defaultValue, Load_Id__c=GuidUtil.NewGuid());
+    public void changeType(){ 
+    
     }
 
     private Trifecta_Survey_Question__c getNewQuestion() {

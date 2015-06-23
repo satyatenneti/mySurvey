@@ -10,6 +10,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>DisplayFormController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>EmailService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -35,6 +39,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>SoqlUtils</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ThankingYouController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -364,6 +372,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>displayForm</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>ThankingYou</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>

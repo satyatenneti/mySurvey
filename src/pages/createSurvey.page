@@ -4,6 +4,7 @@
     <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
     <apex:form id="survey">
+       
         <div class="form-container">
             <div class="section">
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!survey.Name}" html-placeholder="Untitle Form"/></p>
@@ -11,19 +12,25 @@
             </div>
             <div class="section questions">
                 <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="questions">
-                    <apex:param name="questionloadId" value="" assignTo="{!questionloadId}"/>
+                    <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
                 <apex:actionfunction action="{!sendSurvey}" name="sendSurvey" />
                 <apex:actionfunction action="{!saveSurvey}" name="saveSurvey" />
                 <apex:actionfunction action="{!addNewSurveyQuestion}" name="addNewQuestion" rerender="questions" />
                 <apex:actionfunction action="{!deleteSurveyQuestion}" name="deleteQuestion" rerender="questions" >
-                    <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
+                       <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
                 <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="questions">
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
-                <apex:actionfunction action="{!toggleQuestionEdit}" name="toggleQuestion" reRender="questions">
+                <apex:actionfunction action="{!copyQuestion}" name="copyQuestion" rerender="questions">
+                <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
+                </apex:actionfunction>
+                <apex:actionfunction action="{!changeType}" name="changeType" rerender="questions">
+
+                </apex:actionfunction>
+                 <apex:actionfunction action="{!toggleQuestionEdit}" name="toggleQuestion" reRender="questions">
                     <apex:param name="questionloadId" value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
                 
@@ -38,7 +45,7 @@
                                                 <td colspan="4">
                                                     <ul class="control-buttons">
                                                         <li onclick="toggleQuestion('{!question.Load_Id__c}')" class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil pointer"></span></li>
-                                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer"></span></li>
+                                                        <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
                                                         <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
                                                     </ul>
                                                 </td>
@@ -71,7 +78,7 @@
                                             <td colspan="4">
                                                 <ul class="control-buttons">
                                                     <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil pointer"></span></li>
-                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer"></span></li>
+                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
                                                     <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
                                                 </ul>
                                             </td>
@@ -84,11 +91,13 @@
                                         <th><label>Help Text</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Help_text__c}" /> </td>
                                     </tr>
                                     <tr>
-                                        <th><label>Question Type</label></th><td><apex:inputField styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" value="{!question.Type__c}"/></td>
+                                        <th><label>Question Type</label></th><td><apex:inputField styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" value="{!question.Type__c}" onchange="changeType()" /></td>
                                     </tr>
                                     <tr>
                                         <th colspan=""></th>
-                                        <td><div id="choices" class="choice">
+                                        <td>
+                                        <apex:panelGroup rendered="{!question.Type__c!='Text'}">
+                                        <div id="choices" class="choice">
                                             <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
                                                 <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
                                                 <div>
@@ -100,10 +109,15 @@
                                                 </div>
                                                 
                                             </apex:repeat>
+
                                             <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
                                                                html-placeholder="Click to add new choice" html-readonly="true"  
                                                                onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>   
                                             </div>
+                                        </apex:panelGroup>
+                                        <apex:panelGroup rendered="{!question.Type__c=='Text'}">
+                                        <apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" html-placeholder="Answer" html-readonly="true"/>
+                                        </apex:panelGroup>
                                         </td>
                                         <td></td>
                                         <td></td>
@@ -138,10 +152,12 @@
     
     
     <script>
+
     $(function() {
         $( "#sortable" ).sortable();
         $( "#sortable" ).disableSelection();
     });
+        
     </script>
     
 </apex:page>

@@ -159,6 +159,8 @@ public with sharing class TrifectaSurveyController {
         
         Trifecta_Survey_Question__c copyQuestion = surveyQuestions.get(questionloadId).clone(false,true);
         copyQuestion.Load_Id__c = GuidUtil.NewGuid();
+        copyQuestion.isEdit__c = false;
+        surveyQuestions.put(copyQuestion.Load_Id__c,copyQuestion);
 
         Trifecta_Survey_Question_Choice__c tempSurveyChoice = new Trifecta_Survey_Question_Choice__c();
         List<Trifecta_Survey_Question_Choice__c> copyQuestionChoices = new List<Trifecta_Survey_Question_Choice__c>();
@@ -169,7 +171,10 @@ public with sharing class TrifectaSurveyController {
             copyQuestionChoices.add(tempSurveyChoice);
         }
         
-        surveyQuestions.put(copyQuestion.Load_Id__c,copyQuestion);
+        this.questionloadId = copyQuestion.Load_Id__c;
+        //Move the copied question to editMode.
+        toggleQuestionEdit();
+
         surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
 

@@ -104,6 +104,8 @@ public with sharing class TrifectaSurveyController {
     
         Set<String> questionLoadIdsToRemain = new Set<String>();
         Set<String> choicesLoadIdsToRemain = new Set<String>();
+		
+		Set<String> textQuestionLoadIds = new Set<String>();
 
         //Link Survey with Survey Questions via External Id
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions.values()) {
@@ -112,14 +114,23 @@ public with sharing class TrifectaSurveyController {
             }
             eachQuestion.isEdit__c = false;
             questionLoadIdsToRemain.add(eachQuestion.Load_Id__c);
+			
+			if(eachQuestion.Type__c == 'Text') {
+                textQuestionLoadIds.add(eachQuestion.Load_Id__c);
+            }
         }
         //Link Survey Question Choices with Survey Question via External Id
         for(String eachQuestion : surveyQuestionChoiceMap.keySet()) {
-            for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoiceMap.get(eachQuestion)){
-                if(eachChoice.Survey_Question__c == null) {
-                    eachChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = eachQuestion);
-                } 
-                choicesLoadIdsToRemain.add(eachChoice.Load_Id__c);
+            if(textQuestionLoadIds.contains(eachQuestion)) {
+                surveyQuestionChoiceMap.remove(eachQuestion);
+            }
+            else {
+                for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoiceMap.get(eachQuestion)){
+                    if(eachChoice.Survey_Question__c == null) {
+                        eachChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = eachQuestion);
+                    } 
+                    choicesLoadIdsToRemain.add(eachChoice.Load_Id__c);
+                }
             }
         }
 

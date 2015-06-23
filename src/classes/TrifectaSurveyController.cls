@@ -189,10 +189,6 @@ public with sharing class TrifectaSurveyController {
         surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
 
-    public void changeType(){ 
-    
-    }
-
     private Trifecta_Survey_Question__c getNewQuestion() {
       return new Trifecta_Survey_Question__c(
                                       Type__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE, 

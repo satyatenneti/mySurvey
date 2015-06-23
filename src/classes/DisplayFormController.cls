@@ -13,9 +13,9 @@ public with sharing class DisplayFormController {
 		submissionId = ApexPages.currentPage().getParameters().get('Id');
 		TrifectaSurveyController.SurveyWrapper surveyData = TrifectaSurveyControllerHelper.createTrifectaSurveyWrapper(surveyId);
 		survey = surveyData.survey;
-		surveyQuestions = surveyData.surveyQuestions;
-		surveyQuestionChoices = surveyData.surveyQuestionChoices;
-	}
+		surveyQuestions = surveyData.surveyQuestions.values();
+		surveyQuestionChoices = (List<Trifecta_Survey_Question_Choice__c>)SobjectUtils.flatten(surveyData.surveyQuestionChoices.values());
+	}	
 	public PageReference submitSurvey(){
         //Save the survey before the user can be redirected to Send Survey Page
         saveResponses();

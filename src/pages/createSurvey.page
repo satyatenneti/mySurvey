@@ -19,7 +19,7 @@
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
-                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="questions">
+                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewChoice" reRender="questions">
                     <apex:param name="questionloadId" value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
                 <apex:actionfunction action="{!sendSurvey}" name="sendSurvey" />
@@ -72,7 +72,7 @@
                                         </apex:outputPanel>
                                      </apex:repeat>
                                     <apex:outputPanel rendered="{! question.Type__c == 'Text'}">
-                                            <input type="text" />
+                                            <input type="text" disabled="true" />
                                     </apex:outputPanel>
                                     </td>
                                 </tr>
@@ -117,7 +117,7 @@
                                             </apex:repeat>
                                             <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
                                                                html-placeholder="Click to add new choice" html-readonly="true"  
-                                                               onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>   
+                                                               onclick="addNewChoice('{!question.Load_Id__c}')"/></p>   
                                             </div>
                                         </td>
                                         <td></td>

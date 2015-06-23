@@ -22,6 +22,7 @@
     </types>
     <types>
         <members>Account</members>
+        <members>Survey_Global_Settings__c</members>
         <members>Test__c</members>
         <members>Trifecta_Survey_Question_Choice__c</members>
         <members>Trifecta_Survey_Question_Response__c</members>
@@ -55,5 +56,5 @@
         <members>*</members>
         <name>StaticResource</name>
     </types>
-    <version>31.0</version>
+    <version>32.0</version>
 </Package>

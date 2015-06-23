@@ -19,7 +19,7 @@
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
-                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewChoice" reRender="questions">
+                <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewChoice" reRender="choices">
                     <apex:param name="questionloadId" value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
                 <apex:actionfunction action="{!sendSurvey}" name="sendSurvey" />
@@ -28,14 +28,14 @@
                 <apex:actionfunction action="{!deleteSurveyQuestion}" name="deleteQuestion" rerender="questions" >
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
-                <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="questions">
+                <apex:actionFunction name="deleteChoice" action="{!deleteSurveyQuestionChoice}" reRender="choices">
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
                 <apex:actionfunction action="{!copyQuestion}" name="copyQuestion" rerender="questions">
                 <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>
-                <apex:actionfunction name="changeOptionType" rerender="questions">
+                <apex:actionfunction name="changeOptionType" rerender="questionTypes">
                 </apex:actionfunction>
                 <apex:actionfunction action="{!toggleQuestionEdit}" name="toggleQuestion" reRender="questions">
                     <apex:param name="questionloadId" value="" assignTo="{!questionloadId}"/>
@@ -77,7 +77,7 @@
                                         </apex:outputPanel>
                                      </apex:repeat>
                                     <apex:outputPanel rendered="{! question.Type__c == 'Text'}">
-                                            <input type="text" disabled="true" />
+                                            <input type="text" disabled="true"/>
                                     </apex:outputPanel>
                                     </td>
                                 </tr>
@@ -109,27 +109,31 @@
                                     <tr>
                                         <th colspan=""></th>
                                         <td>
-                                        <apex:panelGroup rendered="{!question.Type__c!='Text'}">
-                                        <div id="choices" class="choice">
-                                            <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
-                                                <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
-                                                <div>
-                                                    <apex:inputText styleClass="ui-autocomplete-input ui-corner-all input-choice" value="{!choice.Value__c}" />
-                                                    <apex:outputPanel rendered="{! (choiceList.size !=  1) }">
-                                                        <span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
-                                                    </apex:outputPanel>
-                                                    
-                                                </div>
-                                                
-                                            </apex:repeat>
-                                            <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
-                                                               html-placeholder="Click to add new choice" html-readonly="true"  
-                                                               onclick="addNewChoice('{!question.Load_Id__c}')"/></p>   
-                                            </div>
-                                            </apex:panelGroup>
-                                            <apex:panelGroup rendered="{!question.Type__c=='Text'}">
-                                            <apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" html-placeholder="Answer" html-readonly="true"/>
-                                            </apex:panelGroup>
+                                            <apex:outputPanel  id="questionTypes">
+                                                <apex:panelGroup rendered="{!question.Type__c!='Text'}">
+                                                    <div class="choice">
+                                                        <apex:outputPanel  id="choices">
+                                                            <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
+                                                                <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
+                                                                <div>
+                                                                    <apex:inputText styleClass="ui-autocomplete-input ui-corner-all input-choice" value="{!choice.Value__c}" />
+                                                                    <apex:outputPanel rendered="{! (choiceList.size !=  1) }">
+                                                                        <span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
+                                                                    </apex:outputPanel>
+                                                                    
+                                                                </div>
+                                                                
+                                                            </apex:repeat>
+                                                        </apex:outputPanel>
+                                                        <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
+                                                                       html-placeholder="Click to add new choice" html-readonly="true"  
+                                                                       onclick="addNewChoice('{!question.Load_Id__c}')"/></p>   
+                                                    </div>
+                                                </apex:panelGroup>
+                                                <apex:panelGroup rendered="{!question.Type__c=='Text'}">
+                                                    <apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" html-placeholder="Answer" html-readonly="true" />
+                                                </apex:panelGroup>
+                                            </apex:outputPanel>
                                         </td>
                                         <td></td>
                                         <td></td>

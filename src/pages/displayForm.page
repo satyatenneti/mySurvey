@@ -1,59 +1,64 @@
 <apex:page showHeader="true" sidebar="false" standardStylesheets="false" controller="DisplayFormController">
- <style>
+    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
+    <style>
+        
         * { margin: 0; padding: 0;}
         body .bodyDiv #bodyTable { padding-right: 0; padding-left: 0; background-color: #eee; }
         .form-container {width: 60%; padding: 20px; margin: 20px auto; background-color: #fff; box-shadow: 0px 0px 8px #888888; border-radius: 5px;}
-        .section { padding: 15px; margin: 5px 0px; background-color: #fff; box-shadow: 0px 0px 8px #888888;}
-        .table { width: 80%; margin: 0 auto; }
-        input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
-        input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
-        input.control-button:hover { background-color:#357ae8; }
-        select { padding: 10px;  margin: 25px 5px 0px 5px; width: 100%  }
-        .font-large { font-size: 2em; }
-        .bold-text{  font-weight: bold; }
-        .margin-10px { margin: 10px; }
-        .small-text {   font-size: 0.95em;}
+        .font-question-title { font-size: 1.5em;}
+        .help-text { font-size: 1.15em; margin-bottom: 0.5em; color: #717171; }
+        .font-survey-title { font-size: 2em;}
+        *[data-preview='on'] {  background-color: #eee; }
+        .table {margin: 5px; width: 100%; padding: 10px;}
+        .question-container { height: 3em; min-height: 3em; }
+        table.options { margin-left: 10px; }
+        table.options tr { height: 1.875em; min-height: 1.875em; }
+        .question-section { margin-top: 10px;}
     </style>
-   <!--
+    
     <apex:form id="displaySurvey">
-        <div class="form-container">
-            <div class="font-large bold-text margin-10px">{!survey.Name}</div>
-            <hr />
-            <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
-            <apex:pageBlock>
-            <apex:repeat value="{!surveyQuestions}" var="key">
-                <apex:variable var="question" value="{!surveyQuestions[key]}"/>
-               
-                <apex:outputText value="{!surveyQuestions[question].title__c}" />
-                
-                <apex:repeat value="{!questionChoices}" var="choice" >
-               
-                    <apex:panelGrid rendered="{!question == choice}">
-                    <apex:outputPanel rendered="{!surveyQuestions[question].type__c == 'Multi Choice'}">
-                	<apex:selectRadio value="{!surveyQuestionChoiceMap[question]}">
- 							<apex:selectOptions value="{!questionChoices[choice]}"/>
-                        </apex:SelectRadio>
-
-                    </apex:outputPanel>
-                    <apex:outputPanel rendered="{!surveyQuestions[question].type__c == 'Checkbox'}">
-                		<apex:selectCheckboxes value="{!surveyQuestionChoiceMap[question]}">
-                			<apex:selectOptions value="{!questionChoices[choice]}"/>
-                		</apex:selectCheckboxes>
-                	</apex:outputPanel>
-                    <apex:outputPanel rendered="{!surveyQuestions[question].type__c == 'Text'}">
-                		<apex:inputText value="{!surveyQuestionChoiceMap[question]}"/>
-                    </apex:outputPanel>
-                    </apex:panelGrid>
-                </apex:repeat>
-                <br/>
-                <hr/>
-            </apex:repeat>
-        </apex:pageBlock>
-
-        	<div class="section">
-                <p><input type="button" value="Submit Survey" class="control-button" onclick="submitSurvey()" /></p>
-            </div>
+        <div>
+            <apex:pageMessages />
         </div>
-        
-    </apex:form>-->
+        <div class="form-container">
+            <div class="font-survey-title">{!survey.Name}</div>
+            <div class="help-text">{!survey.Help_Text__c}</div>
+            <hr />
+            <div >
+                <table class="table">
+                    <apex:repeat value="{!surveyQuestions}" var="key">
+                        <apex:variable var="question" value="{!surveyQuestions[key]}"/>
+                        
+                        <tr>
+                            <td class="question-container">
+                                <div class="question-section">
+                                    <p class="font-question-title">{!question.Title__c}</p>
+                                    <p class="help-text">{!question.Help_text__c}</p>
+                                </div>
+                            </td>
+                        </tr>
+                        
+                        <tr><td>
+                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Multi Choice'}">
+                                <apex:selectRadio value="{!surveyQuestionChoiceMap[key]}" styleClass="options" layout="pageDirection">
+                                    <apex:selectOptions value="{!questionChoices[key]}"/>
+                                </apex:selectRadio>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Checkbox'}">
+                                <apex:selectCheckboxes value="{!checkboxChoiceMap[key]}" styleClass="options" layout="pageDirection">
+                                    <apex:selectOptions value="{!questionChoices[key]}"/>
+                                </apex:selectCheckboxes>
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Text'}">
+                                <apex:inputText value="{!surveyQuestionChoiceMap[key]}"/>
+                            </apex:outputPanel>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+                <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
+            </div>
+            <input type="button" value="Submit Survey" class="control-button" onclick="submitSurvey()" />
+        </div>
+    </apex:form>
 </apex:page>

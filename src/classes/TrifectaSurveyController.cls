@@ -6,6 +6,7 @@ public with sharing class TrifectaSurveyController {
     
     public String questionloadId{get;set;}
     public String choiceLoadId{get;set;}
+    public String questionType{get;set;}
     public static final String DEFAULT_QUESTION_TYPE = 'Multi Choice';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
@@ -21,7 +22,8 @@ public with sharing class TrifectaSurveyController {
 
         questionloadId = '';
         choiceLoadId = '';
-        
+        questionType = '';
+
         surveyId = ApexPages.currentPage().getParameters().get('Id');
         // Loading Existing Survey
         if(surveyId != null) {
@@ -52,6 +54,7 @@ public with sharing class TrifectaSurveyController {
     public void addNewSurveyQuestion() {
         Trifecta_Survey_Question__c newQuestion = getNewQuestion();
         surveyQuestions.put(newQuestion.Load_Id__c,newQuestion);
+        putAllOtherQuestionsInPreviewMode(newQuestion.Load_Id__c);
         surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
     }
 
@@ -96,9 +99,13 @@ public with sharing class TrifectaSurveyController {
         
         question.isEdit__c = (question.isEdit__c == true ) ? false : true;
         
-        for(Trifecta_Survey_Question__c eachOtherQuestion : surveyQuestions.values()) {
-            if(eachOtherQuestion.Load_Id__c != question.Load_Id__c){
-                eachOtherQuestion.isEdit__c = false;
+        putAllOtherQuestionsInPreviewMode(questionloadId);
+    }
+
+    private void putAllOtherQuestionsInPreviewMode(String currentQuestionLoadId) {
+        for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions.values()) {
+            if(eachQuestion.Load_Id__c != currentQuestionLoadId){
+                eachQuestion.isEdit__c = false;
             }
         }
     }
@@ -194,8 +201,9 @@ public with sharing class TrifectaSurveyController {
         surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
 
-    public void changeType(){ 
-    
+    public void changeQuestionType(){ 
+        Trifecta_Survey_Question__c question = surveyQuestions.get(questionloadId);
+        question.Type__c = questionType;
     }
 
     private Trifecta_Survey_Question__c getNewQuestion() {

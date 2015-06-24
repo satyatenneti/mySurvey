@@ -9,7 +9,13 @@ public with sharing class TrifectaSurveyController {
     public static final String DEFAULT_QUESTION_TYPE = 'Multi Choice';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
-	public Id surveyId;
+    public Id surveyId;
+    public Integer questionCount{
+        get{ return surveyQuestions.size(); 
+
+        }
+        set;
+    }
     
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
@@ -104,8 +110,8 @@ public with sharing class TrifectaSurveyController {
     
         Set<String> questionLoadIdsToRemain = new Set<String>();
         Set<String> choicesLoadIdsToRemain = new Set<String>();
-		
-		Set<String> textQuestionLoadIds = new Set<String>();
+
+        Set<String> textQuestionLoadIds = new Set<String>();
 
         //Link Survey with Survey Questions via External Id
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions.values()) {
@@ -114,8 +120,7 @@ public with sharing class TrifectaSurveyController {
             }
             eachQuestion.isEdit__c = false;
             questionLoadIdsToRemain.add(eachQuestion.Load_Id__c);
-			
-			if(eachQuestion.Type__c == 'Text') {
+            if(eachQuestion.Type__c == 'Text') {
                 textQuestionLoadIds.add(eachQuestion.Load_Id__c);
             }
         }
@@ -189,6 +194,10 @@ public with sharing class TrifectaSurveyController {
         surveyQuestionChoiceMap.put(copyQuestion.Load_Id__c,copyQuestionChoices);
     }
 
+    public void changeType(){ 
+    
+    }
+
     private Trifecta_Survey_Question__c getNewQuestion() {
       return new Trifecta_Survey_Question__c(
                                       Type__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE, 
@@ -211,7 +220,7 @@ public with sharing class TrifectaSurveyController {
         }
         return choicesToReturn;
     }
-	
+    
     public class SurveyWrapper{
         public Trifecta_Survey__c survey;
         public Map<String,Trifecta_Survey_Question__c> surveyQuestions;

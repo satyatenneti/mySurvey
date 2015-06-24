@@ -50,12 +50,12 @@
                             <table class="table">
                               <tr>
                                     <td class="question-container">
-                                        	<ul class="control-buttons">
+                                            <ul class="control-buttons">
                                                 <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleQuestion('{!question.Load_Id__c}')"></span></li>
                                                 <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
-                                        		<apex:outputPanel rendered="{!surveyQuestions[key] != null }">
-                                                	<li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
-                                        		</apex:outputPanel>
+                                                <apex:outputPanel rendered="{!questionCount > 1 }">
+                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
+                                                </apex:outputPanel>
                                                 </ul>
                                 <div>
                                     <p class="font-question-title">{!question.Title__c}</p>
@@ -87,7 +87,7 @@
                         <apex:outputPanel rendered="{!question.isEdit__c}">
                             <div class="question section">
                                 <table class="table">
-                                    <apex:outputPanel rendered="{! (surveyQuestions[key] != null) }">
+                                    <apex:outputPanel rendered="{! (questionCount > 1) }">
                                         <tr>
                                             <td colspan="4">
                                                 <ul class="control-buttons">
@@ -163,10 +163,10 @@
                             $('[data-preview]').each(function(){
                               $(this)
                               .mouseover(function(){
-                              	$(this).find("tr[id*='control-buttons']").css('display', 'block');
+                                $(this).find("tr[id*='control-buttons']").css('display', 'block');
                                })
                               .mouseout(function(){
-                              	$(this).find("tr[id*='control-buttons']").css('display', 'none');
+                                $(this).find("tr[id*='control-buttons']").css('display', 'none');
                                });
                             });
                             
@@ -198,7 +198,7 @@
     function rebindEvents() {
         $( "#sortable" ).sortable();
         $( "#sortable" ).disableSelection();
-   	}
+    }
     function thisElt(thisElt){
         console.log(thisElt);
         }

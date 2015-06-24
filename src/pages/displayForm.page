@@ -14,19 +14,20 @@
         .margin-10px { margin: 10px; }
         .small-text {   font-size: 0.95em;}
     </style>
-    
+   <!--
     <apex:form id="displaySurvey">
         <div class="form-container">
             <div class="font-large bold-text margin-10px">{!survey.Name}</div>
             <hr />
             <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
             <apex:pageBlock>
-            <apex:repeat value="{!surveyQuestions}" var="question" >
-                <!-- display questions  -->
+            <apex:repeat value="{!surveyQuestions}" var="key">
+                <apex:variable var="question" value="{!surveyQuestions[key]}"/>
+               
                 <apex:outputText value="{!surveyQuestions[question].title__c}" />
                 
                 <apex:repeat value="{!questionChoices}" var="choice" >
-                    <!-- display choices  -->
+               
                     <apex:panelGrid rendered="{!question == choice}">
                     <apex:outputPanel rendered="{!surveyQuestions[question].type__c == 'Multi Choice'}">
                 	<apex:selectRadio value="{!surveyQuestionChoiceMap[question]}">
@@ -54,5 +55,5 @@
             </div>
         </div>
         
-    </apex:form>
+    </apex:form>-->
 </apex:page>

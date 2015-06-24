@@ -41,14 +41,14 @@ public with sharing class TrifectaSurveyControllerHelper {
     }
  
     public static void checkForSurveyQuestionsAndChoicesToRemain(Id surveyId,Set<String> questionsToRemain,Set<String> choicesToRemain) {
-  		  List<Trifecta_Survey_Question__c> questionsToDelete = [Select Id,Name from Trifecta_Survey_Question__c Where Load_Id__c NOT IN : questionsToRemain AND Survey__c =:surveyId];
-  		  List<Trifecta_Survey_Question_Choice__c> choicesToDelete = [Select Id,Name from Trifecta_Survey_Question_Choice__c Where Load_Id__c NOT IN : choicesToRemain AND Survey_Question__r.Survey__c =:surveyId];
-  		
-  		  if(questionsToDelete.size() > 0) {
-  			   delete questionsToDelete;
-  		  }
-  		  if(choicesToDelete.size() > 0) {
-  			   Database.delete(choicesToDelete,false);
-  		  }
-  	}
+        List<Trifecta_Survey_Question__c> questionsToDelete = [Select Id,Name from Trifecta_Survey_Question__c Where Load_Id__c NOT IN : questionsToRemain AND Survey__c =:surveyId];
+        List<Trifecta_Survey_Question_Choice__c> choicesToDelete = [Select Id,Name from Trifecta_Survey_Question_Choice__c Where Load_Id__c NOT IN : choicesToRemain AND Survey_Question__r.Survey__c =:surveyId];
+      
+        if(questionsToDelete.size() > 0) {
+           delete questionsToDelete;
+        }
+        if(choicesToDelete.size() > 0) {
+           Database.delete(choicesToDelete,false);
+        }
+    }
 }

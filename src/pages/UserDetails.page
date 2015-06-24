@@ -1,0 +1,33 @@
+<apex:page controller="UserDetailsController">
+    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
+    <style>
+        ul.no-li-style { list-style-type: none; }
+        ul.no-li-style li { display: block; } 
+        .font-question-title { font-size: 1.5em;}
+        .font-question-choice { font-size: 1.15em;}
+        *[data-preview='on'] {  background-color: #eee; }
+        .table {margin: 5px; width: 100%; padding: 10px;}
+        .question-container { height: 3em; min-height: 3em; }
+    </style>
+    <apex:form>
+        <apex:panelGroup>
+            <apex:panelGrid columns="1">
+                <apex:inputText value="{!userIds}" size="100"/>
+                <apex:commandButton value="Load" action="{!loadUserDetails}" />
+            </apex:panelGrid>
+            
+            <apex:repeat value="{!userDetails}" var="userinfo">
+                <div>
+                    <apex:image url="{!userinfo.smallphotourl}" />
+                    <apex:outputText value="{!userinfo.FirstName}" />
+                    <apex:outputText value="{!userinfo.LastName}" />
+                </div>
+            </apex:repeat>
+
+
+        </apex:panelGroup>
+    </apex:form>    
+</apex:page>

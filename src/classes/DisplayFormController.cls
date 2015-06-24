@@ -35,7 +35,7 @@ public with sharing class DisplayFormController {
   			surveyResponses = new List<Trifecta_Survey_Question_Response__c>();
   			for (String eachQuestionId : surveyQuestions.keySet()) {
    				List<SelectOption> tempOptions = new List<SelectOption>();
-	   			if (surveyQuestionChoices.size() != 0) {
+	   			if (surveyQuestionChoices.size() != 0 && surveyQuestions.get(eachQuestionId).Type__c != 'Text' ) {
 		   			for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoices.get(eachQuestionId)){
 	    				tempOptions.add(new SelectOption(eachChoice.Value__c,eachChoice.Value__c));
    					}
@@ -48,7 +48,7 @@ public with sharing class DisplayFormController {
    					surveyQuestionChoiceMap.put(eachQuestionId,'');
    				}
   			}	
- 		} 
+  		} 
  	}
 	public PageReference submitSurvey(){
         //Save the survey before the user can be redirected to Send Survey Page
@@ -61,7 +61,7 @@ public with sharing class DisplayFormController {
 
 	public void saveResponses() {
   		Trifecta_Survey_Question_Response__c surveyResponse = new Trifecta_Survey_Question_Response__c();
-  		for (String eachResponse: surveyQuestionChoiceMap.keySet()) {
+  		for (String eachResponse: surveyQuestions.keySet()) {
   			if (surveyQuestions.get(eachResponse).Type__c == 'Checkbox') {
   				surveyResponse = new Trifecta_Survey_Question_Response__c(Survey_Submission__c=submissionId, 
        							Survey_Question__c = surveyQuestions.get(eachResponse).Id, 

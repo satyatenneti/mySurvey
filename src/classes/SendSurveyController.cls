@@ -5,7 +5,7 @@ public with sharing class SendSurveyController {
     public String selectedUsers {get; set;}
     public String selectedContacts {get; set;}
     public String selectedGroups {get; set;}
-    public String selectedType {get; set;}
+    public String externalContacts {get; set;}
     public Id surveyId;
     public EmailServiceBase emailService;
     public SendSurveyController() {
@@ -40,6 +40,7 @@ public with sharing class SendSurveyController {
         return groupsList;
     }
     public void sendForm() {
+        System.assert(false, 'emails -- '+externalContacts);
         List<String> submittedList = new List<String>();
         //When no users are selected this will get an empty square branckets. Remove them before validation.
         selectedUsers = (selectedUsers != null ) ? selectedUsers.remove('[]') : null;

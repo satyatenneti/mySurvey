@@ -165,7 +165,7 @@ for (index = 0; index &lt; records.length; index++) {
     recordIds[index] = records[index].Id
 }
 // Upon User confirming , we go ahead and delete the Submission records
-if (confirm(&apos;Are you sure you want to delete all responses for the Survey ?&apos;)) {
+if (confirm(&apos;Are you sure you want to delete all existing Submissions for the Survey ?&apos;)) {
    sforce.connection.deleteIds(recordIds); 
 }
 

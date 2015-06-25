@@ -106,11 +106,11 @@ ul.no-li-style li { display: block; }
                             <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Title__c}" /></td>
                         </tr>
                         <tr>
-                            <th><label>Help Text</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Help_text__c}" /> </td>
+                            <th><label>Help Text</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Help_text__c}"  /> </td>
                         </tr>
                         <tr>
                                 <th><label>Question Type</label></th><td>
-                                <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" value="{!question.Type__c}" onchange="changeQuestionTypeJS('{! question.Load_Id__c}', this.value )">
+                                <apex:selectList styleClass="ui-corner-all" size="1" value="{!question.Type__c}" onchange="changeQuestionTypeJS('{! question.Load_Id__c}', this.value )">
                                     <apex:selectOption itemLabel="Multi Choice" itemValue="Multi Choice" />
                                     <apex:selectOption itemLabel="Text" itemValue="Text" />
                                     <apex:selectOption itemLabel="Checkbox" itemValue="Checkbox" />

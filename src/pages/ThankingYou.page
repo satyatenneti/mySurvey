@@ -1,4 +1,0 @@
-<apex:page controller="ThankingYouController" showHeader="false" sidebar="false">
-	Hi &nbsp; &nbsp;{!submitterName},<br />
-	{!thankingMessage}
-</apex:page>

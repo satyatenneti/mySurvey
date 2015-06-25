@@ -22,7 +22,9 @@
     </types>
     <types>
         <members>Account</members>
+        <members>EmailsSentPerDay__c</members>
         <members>Test__c</members>
+        <members>Trifecta_Email_Sent__c</members>
         <members>Trifecta_Survey_Question_Choice__c</members>
         <members>Trifecta_Survey_Question_Response__c</members>
         <members>Trifecta_Survey_Question__c</members>
@@ -41,6 +43,7 @@
         <name>EmailTemplate</name>
     </types>
     <types>
+        <members>Trifecta_Email_Sent__c-Trifecta Email Sent Layout</members>
         <members>Trifecta_Survey_Question_Choice__c-Trifecta Survey Question Choice Layout</members>
         <members>Trifecta_Survey_Question_Response__c-Trifecta Survey Question Response Layout</members>
         <members>Trifecta_Survey_Question__c-Trifecta Survey Question Layout</members>

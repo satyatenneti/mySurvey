@@ -277,6 +277,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>
+        <layout>Trifecta_Email_Sent__c-Trifecta Email Sent Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Trifecta_Survey_Question_Choice__c-Trifecta Survey Question Choice Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -307,6 +310,15 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Test__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Trifecta_Email_Sent__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>

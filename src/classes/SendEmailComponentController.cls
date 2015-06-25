@@ -1,7 +1,9 @@
 public with sharing class SendEmailComponentController {
     public String submissionId { get; set; }
     public String senderId { get; set; }
-    public String SurveyURL {get; set;}
+    public String getSurveyURL() {
+    	return 'https://login.salesforce.com/apex/displayForm?Id='+submissionId+'&Survey='+getSurveyId(submissionId);
+    }
     public String submittedToName {
         get {
             Trifecta_Survey_Submission__c submission = [select Submitted_To__c from Trifecta_Survey_Submission__c where id =:submissionId];

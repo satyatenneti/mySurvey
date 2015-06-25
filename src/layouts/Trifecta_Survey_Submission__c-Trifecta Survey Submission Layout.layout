@@ -74,6 +74,7 @@
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
+		<customButtons>Delete_All_Responses</customButtons>
         <fields>NAME</fields>
         <relatedList>Trifecta_Survey_Question_Response__c.Survey_Submission__c</relatedList>
     </relatedLists>

@@ -13,7 +13,7 @@
         .font-large { font-size: 2em; }
         .bold-text{  font-weight: bold; }
         .margin-10px { margin: 10px; }
-        .small-text {   font-size: 0.95em;}
+        .small-text { font-size: 0.95em;}
     </style>
     
     <apex:form id="sendSurvey">
@@ -33,7 +33,7 @@
                 </tr>
                <tr>
                     <td><div id="users" class="section" style="display: none;">
-                     	<apex:outputPanel rendered="{! usersList.size != 0}" >
+                        <apex:outputPanel rendered="{! usersList.size != 0}" >
                             <label class="bold-text">Select Users</label><br/ >
                             <label class="small-text">Hold Ctrl to select multiple entries.</label>
                         <apex:selectList id="select-users" size="5" value="{!selectedUsers}" multiselect="true" styleClass="sender-list ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto">
@@ -61,9 +61,9 @@
                     <td><div id="groups" class="section" style="display: none;">
                         <apex:outputPanel rendered="{! groupsList.size != 0}">
                                 <label class="bold-text">Select Groups</label>
-                        		<apex:selectList styleClass="sender-list ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
-                            		<apex:selectOptions value="{!groupsList}"/>
-                        		</apex:selectList>
+                                <apex:selectList styleClass="sender-list ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" id="select-groups" size="5" value="{!selectedGroups}" multiselect="true">
+                                    <apex:selectOptions value="{!groupsList}"/>
+                                </apex:selectList>
                         </apex:outputPanel>
                         <apex:outputPanel rendered="{!groupsList.size == 0}">No Groups exist.</apex:outputPanel>
                         </div>
@@ -83,8 +83,8 @@
                     </td>
                 </tr>
                 <tr><td>
-                    	<apex:outputPanel >
-                            <input type="button" disabled="disabled" class="control-button" value="Send Form" onclick="sendSurveyForm()" />
+                        <apex:outputPanel >
+                            <input type="button" disabled="disabled" class="control-button" value="Send Form" onclick="sendSurveyFormValidation()" />
                         </apex:outputPanel>
                     </td>
                 </tr>
@@ -93,7 +93,7 @@
         <apex:actionFunction action="{!sendForm}" name="sendSurveyForm"  />
     </apex:form>
     <script type="text/javascript">
-    	$(document).ready(function(){
+        $(document).ready(function(){
             $('div.section').hide();
             $('input.control-button').hide();
             $('select.sender-list').change(function(){

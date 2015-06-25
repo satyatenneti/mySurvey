@@ -2,15 +2,16 @@
 <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
 <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
 <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
+<apex:stylesheet value="{!URLFOR($Resource.Styles, 'scripts/custom/globalCSS.css')}"/>
 <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
 <style>
 ul.no-li-style { list-style-type: none; }
 ul.no-li-style li { display: block; } 
 .font-question-title { font-size: 1.5em;}
 .font-question-choice { font-size: 1.15em;}
-*[data-preview='on'] {  background-color: #eee; }
 .table {margin: 5px; width: 100%; padding: 10px;}
 .question-container { height: 3em; min-height: 3em; }
+.help-text { font-size: 0.8em; }
 </style>
 <apex:form id="survey">
 <div class="form-container">
@@ -61,8 +62,8 @@ ul.no-li-style li { display: block; }
                                     </apex:outputPanel>
                                     </ul>
                     <div>
-                        <p class="font-question-title">{!question.Title__c}</p>
-                        <p class="font-question-choice">{!question.Help_text__c}</p>
+                        <p class="font-question-title">{!question.Title__c}<br /> 
+                        <span class="help-text">{!question.Help_text__c}</span></p>
                     </div>
                         </td>
                     </tr>

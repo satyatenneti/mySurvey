@@ -5,16 +5,18 @@ public with sharing class DisplayFormController {
  	public Map<String,Trifecta_Survey_Question__c> surveyQuestions{get; set;}
  	public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoices{get; set;}
  	public List<Trifecta_Survey_Question_Response__c> surveyResponses {get; set;}
- 	public static final String THANKING_YOU_PAGE_URL = '/apex/ThankingYou?id=';
+ 	public static final String CONFIRMATION_PAGE_URL = '/apex/Confirmation?id=';
  	public Map<String,List<SelectOption>> questionChoices {get; set;}
  	public Map<String,String> surveyQuestionChoiceMap{get;set;} 
  	public Map<String,List<String>> checkboxChoiceMap {get; set;}
+    public Boolean isSubmittedAlready {get; set;}
 
  	public DisplayFormController() {
   		surveyId = ApexPages.currentPage().getParameters().get('Survey');
   		submissionId = ApexPages.currentPage().getParameters().get('Id');
   		if ([select Completed__c from Trifecta_Survey_Submission__c where Id=:submissionId].Completed__c ) {
-  			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));
+            isSubmittedAlready = true;
+  			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'This survey form has been submitted already.'));
   		} else {
   			TrifectaSurveyController.SurveyWrapper surveyData = TrifectaSurveyControllerHelper.createTrifectaSurveyWrapper(surveyId);
   			survey = surveyData.survey;
@@ -53,9 +55,9 @@ public with sharing class DisplayFormController {
 	public PageReference submitSurvey(){
         //Save the survey before the user can be redirected to Send Survey Page
         saveResponses();
-        PageReference thankingYouPage = new PageReference(DisplayFormController.THANKING_YOU_PAGE_URL+submissionId);
-        thankingYouPage.setRedirect(true);
-        return thankingYouPage;
+        PageReference confirmationPage = new PageReference(DisplayFormController.CONFIRMATION_PAGE_URL+submissionId);
+        confirmationPage.setRedirect(true);
+        return confirmationPage;
   	}	
 
 

@@ -14,14 +14,12 @@
         table.options { margin-left: 10px; }
         table.options tr { height: 1.875em; min-height: 1.875em; }
         .question-section { margin-top: 10px;}
-    </style>
-    
+    </style>  
     <apex:form id="displaySurvey">
-        <div>
-            <apex:pageMessages />
-        </div>
         <div class="form-container">
-            <div class="font-survey-title">{!survey.Name}</div>
+            <apex:pageMessages />
+            <apex:outputPanel rendered="{! NOT(isSubmittedAlready)}">
+                <div class="font-survey-title">{!survey.Name}</div>
             <div class="help-text">{!survey.Help_Text__c}</div>
             <hr />
             <div >
@@ -59,6 +57,7 @@
                 <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
             </div>
             <input type="button" value="Submit Survey" class="control-button" onclick="submitSurvey()" />
+            </apex:outputPanel> 
         </div>
     </apex:form>
 </apex:page>

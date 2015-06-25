@@ -78,7 +78,7 @@
                                 <br />
                                 <apex:inputTextarea id="external-emails" value="{!externalContacts}" rows="5"  cols="100" /> 
                             </apex:outputPanel>
-                            <span style="display: none;">Invalid Email Ids</span>
+                            <span id="email-error" style="display: none;">Invalid Email Ids</span>
                         </div>
                     </td>
                 </tr>
@@ -126,6 +126,7 @@
             if($('#others').is(':visible')) {  
                 var success = ValidateEmails();   
                 if(!success) {
+                    $('#email-error').show();
                      return;
                 }
             }   

@@ -40,7 +40,6 @@ public with sharing class SendSurveyController {
         return groupsList;
     }
     public void sendForm() {
-        System.assert(false, 'emails -- '+externalContacts);
         List<String> submittedList = new List<String>();
         //When no users are selected this will get an empty square branckets. Remove them before validation.
         selectedUsers = (selectedUsers != null ) ? selectedUsers.remove('[]') : null;

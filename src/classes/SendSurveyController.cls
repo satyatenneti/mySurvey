@@ -40,13 +40,21 @@ public with sharing class SendSurveyController {
         return groupsList;
     }
     public void sendForm() {
+        Integer emailFlag = 0;
         List<String> submittedList = new List<String>();
         //When no users are selected this will get an empty square branckets. Remove them before validation.
         selectedUsers = (selectedUsers != null ) ? selectedUsers.remove('[]') : null;
         selectedContacts = (selectedContacts != null ) ? selectedContacts.remove('[]') : null;
         selectedGroups = (selectedGroups != null ) ? selectedGroups.remove('[]') : null;
+        Integer count = [select count() from Trifecta_Email_Sent__c where Email_Sent_Date__c =:System.today()];
+        Integer maximumEmails = (Integer)[select EmailsMaximumLimit__c from EmailsSentPerDay__c][0].EmailsMaximumLimit__c;
         if (! String.isEmpty(externalContacts)){
             submittedList = externalContacts.split(';');
+            if (count == maximumEmails ) {
+                emailFlag = 1;
+            } else if ((count + submittedList.size()) > maximumEmails) {
+                emailFlag = 2;
+            }
         } else if (!String.isEmpty(selectedUsers)) {
             submittedList = selectedUsers.substring(1,selectedUsers.length()-1).split(',');
         } else if (! String.isEmpty(selectedContacts)) {
@@ -61,15 +69,25 @@ public with sharing class SendSurveyController {
         } 
 
         if(!submittedList.isEmpty()){
-			List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
-            //create the submission records for every user/contact/group member selected
-            for(String eachId : submittedList) {
-                submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Completed__c = false ));
+            if (emailFlag == 1) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Number of Emails sent per day Exceeds Maximum Limit'));
+            } else if (emailFlag == 2) {
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You have only '+ (maximumEmails - count) +' more Email(s) left to sent'));
+            } else {
+			    List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
+                List<Trifecta_Email_Sent__c> sentMails = new List<Trifecta_Email_Sent__c>();
+                //create the submission records for every user/contact/group member selected
+                for(String eachId : submittedList) {
+                    submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Completed__c = false ));
+                    if (eachId.contains('@')) {
+                        sentMails.add(new Trifecta_Email_Sent__c(Email_Sent_Date__c = System.today(), Email_Sent_Address__c = eachId.trim()));
+                    }
+                }
+                insert submissionList;
+                insert sentMails;
+                emailService.sendEmailNotifications(submissionList, surveyId);
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));     
             }
-            insert submissionList;
-
-            emailService.sendEmailNotifications(submissionList, surveyId);
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));     
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
         }

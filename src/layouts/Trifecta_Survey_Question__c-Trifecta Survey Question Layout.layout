@@ -93,6 +93,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Value__c</fields>
+        <fields>Weightage__c</fields>
         <relatedList>Trifecta_Survey_Question_Choice__c.Survey_Question__c</relatedList>
     </relatedLists>
     <relatedLists>

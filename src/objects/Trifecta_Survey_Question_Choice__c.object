@@ -93,6 +93,20 @@
         <type>Text</type>
         <unique>false</unique>
     </fields>
+    <fields>
+        <fullName>Weightage__c</fullName>
+        <description>Used to track the weightage of the choice when populating the chart.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Add weightage if you would like to display them in chart.</inlineHelpText>
+        <label>Weightage</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
     <label>Trifecta Survey Question Choice</label>
     <nameField>
         <displayFormat>SQC-{0000000}</displayFormat>

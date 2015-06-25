@@ -124,8 +124,12 @@ ul.no-li-style li { display: block; }
                                                     <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
                                                     <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
                                                     <div>
-                                                    <div class="{!question.Load_Id__c}_addChoiceBtn" style="display: {! IF(question.Type__c != 'Text', 'block', 'none') };">
+                                                    <div class="{!question.Load_Id__c}_addChoiceBtn" style="display: {! IF(question.Type__c != 'Text', 'inline-block', 'none') };">
                                                        <apex:inputText styleClass="ui-autocomplete-input ui-corner-all input-choice" value="{!choice.Value__c}" />
+                                                        <div class="{!question.Load_Id__c}_weightage" style="display: {! IF(question.Type__c == 'Multi Choice', 'inline-block', 'none') };">
+                                            <!-- Have to change the style class for weightage -->
+                                                            <apex:inputText styleClass="ui-autocomplete-input ui-corner-all input-choice" value="{!choice.Weightage__c}"/>
+                                                        </div>
                                                         <apex:outputPanel rendered="{! (choiceList.size !=  1) }">
                                                             <span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
                                                         </apex:outputPanel>
@@ -189,15 +193,24 @@ console.log(thisElt);
 function changeQuestionTypeJS(loadId, type) {
 var select = event.target;
 var qType = $(select).find('option:selected').val();
-if(qType == 'Text') {
+
+if (qType == 'Text') {
     $('.'+loadId+'_choices').hide();
     $('.'+loadId+'_addChoiceBtn').hide();
     $('.'+loadId+'_text').show();
+    $('.'+loadId+'_weightage').hide();
+} else if (qType == 'Multi Choice') {
+    $('.'+loadId+'_choices').show();
+    $('.'+loadId+'_addChoiceBtn').show();
+    $('.'+loadId+'_weightage').show();
+    $('.'+loadId+'_text').hide();
 } else {
     $('.'+loadId+'_choices').show();
     $('.'+loadId+'_addChoiceBtn').show();
+    $('.'+loadId+'_weightage').hide();
     $('.'+loadId+'_text').hide();
 }
+
     changeQuestionType(loadId, type);
 }
 </script>

@@ -13,13 +13,20 @@ public with sharing class EmailServiceBase implements EmailService {
                 EmailTemplate userTemplate = [select Id from EmailTemplate where name ='Survey Template User'];
                 mail.setTemplateId(userTemplate.Id);
                 mail.setSaveAsActivity(false);
+                mail.setTargetObjectId(submission.Submitted_To__c);
             }
             else if (isValidId(submission.Submitted_To__c, 'Contact')) {
                 EmailTemplate contactTemplate = [select Id from EmailTemplate where name ='Survey Template Contact'];
                 mail.setTemplateId(contactTemplate.Id);
                 mail.setSaveAsActivity(true);
+                mail.setTargetObjectId(submission.Submitted_To__c);
             }
-            mail.setTargetObjectId(submission.Submitted_To__c);
+            else {
+                EmailTemplate addressTemplate = [select Id from EmailTemplate where name ='Survey Template EmailAddress'];
+                mail.setTemplateId(addressTemplate.Id);
+                mail.setSaveAsActivity(true);
+                mail.setToAddresses(new List<String> {submission.Submitted_To__c});
+            }
             mail.setWhatId(submission.Id);
             mails.add(mail);
         }

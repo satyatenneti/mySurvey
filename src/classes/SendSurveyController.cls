@@ -5,7 +5,7 @@ public with sharing class SendSurveyController {
     public String selectedUsers {get; set;}
     public String selectedContacts {get; set;}
     public String selectedGroups {get; set;}
-    public String selectedType {get; set;}
+    public String externalContacts {get; set;}
     public Id surveyId;
     public EmailServiceBase emailService;
     public SendSurveyController() {
@@ -45,21 +45,20 @@ public with sharing class SendSurveyController {
         selectedUsers = (selectedUsers != null ) ? selectedUsers.remove('[]') : null;
         selectedContacts = (selectedContacts != null ) ? selectedContacts.remove('[]') : null;
         selectedGroups = (selectedGroups != null ) ? selectedGroups.remove('[]') : null;
-
-        if (!String.isEmpty(selectedUsers)) {
+        if (! String.isEmpty(externalContacts)){
+            submittedList = externalContacts.split(';');
+        } else if (!String.isEmpty(selectedUsers)) {
             submittedList = selectedUsers.substring(1,selectedUsers.length()-1).split(',');
-        }
-        else if (! String.isEmpty(selectedContacts)) {
+        } else if (! String.isEmpty(selectedContacts)) {
             submittedList = selectedContacts.substring(1,selectedContacts.length()-1).split(',');
-        }
-        else if (! String.isEmpty(selectedGroups)) {
+        } else if (! String.isEmpty(selectedGroups)) {
             List<Id> submittedGroups =new List<Id>();
             submittedGroups = selectedGroups.substring(1,selectedGroups.length()-1).split(',');
             List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
             for (GroupMember eachMember : memberList) {
                 submittedList.add(String.valueOf(eachMember.UserOrGroupId));
             }
-        }
+        } 
 
         if(!submittedList.isEmpty()){
 			List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();

@@ -10,10 +10,10 @@ public with sharing class SendEmailComponentController {
             if (submission.Submitted_To__c != null) {
     	        if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
     		        return [select Name from User where Id =:submission.Submitted_To__c].Name;
-    	        }
-                else {
+    	        } else if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('Contact').getDescribe().getKeyPrefix()) {
     		       return [select Name from Contact where Id =:submission.Submitted_To__c].Name;
     	        }
+                return submission.Submitted_To__c.subString(0,submission.Submitted_To__c.indexOf('@'));
             }
             return null;
         }

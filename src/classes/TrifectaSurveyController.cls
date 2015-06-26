@@ -52,9 +52,9 @@ public with sharing class TrifectaSurveyController {
       this.questionloadId = newQuestion.Load_Id__c;
       newQuestion.isEdit__c = false;
       //Make this to edit mode.
-      toggleEdit();
       surveyQuestions.add(newQuestion);
       surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
+      toggleEdit();  
     }
     
     /**

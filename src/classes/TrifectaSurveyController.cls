@@ -105,6 +105,7 @@ public with sharing class TrifectaSurveyController {
       //Link Survey with Survey Questions via External Id
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
             eachQuestion.Survey__r = new Trifecta_Survey__c(Load_Id__c = survey.Load_Id__c);
+            eachQuestion.isEdit__c = false;
         }
       //Link Survey Question Choices with Survey Question via External Id
       for(String eachQuestion : surveyQuestionChoiceMap.keySet()) {

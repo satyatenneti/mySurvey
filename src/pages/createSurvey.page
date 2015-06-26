@@ -128,24 +128,32 @@
                                     <tr>
                                         <th colspan=""></th>
                                         <td><div id="choices" class="choice">
+                                            <table>
                                             <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
                                                 <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
-                                                <div>
-                                                    <apex:inputText styleClass="ui-autocomplete-input ui-corner-all input-choice" value="{!choice.Value__c}" />
-                                                    <apex:inputText styleClass="input-small ui-corner-all input-choice" value="{!choice.Weightage__c}" />
-                                                    <apex:outputPanel rendered="{! (choiceList.size !=  1) }">
-                                                        <span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
-                                                    </apex:outputPanel>
-                                                    
-                                                </div>
-                                                
+                                               <tr>
+                                                    <td>
+                                                        <apex:inputText styleClass="ui-autocomplete-input 
+                                                            ui-corner-all input-choice" value="{!choice.Value__c}" />
+                                                    </td>
+                                                    <td style="width: 1.5em">
+                                                        <apex:inputText styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for the question" />
+                                                        
+                                                    </td>
+                                                    <td style="padding: 20px 0 0 20px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
+                                                        </apex:outputPanel></td>
+                                                </tr>
                                             </apex:repeat>
-                                            <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
-                                                <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
+                                                <tr>
+                                                    <td>
+                                                    <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
+                                                        <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
                                                                html-placeholder="Click to add new choice" html-readonly="true"  
                                                                onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>
-                                            </apex:outputPanel>
-                                               
+                                                    </apex:outputPanel>
+                                                    </td>
+                                                </tr>
+                                            </table>
                                             </div>
                                         </td>
                                     </tr>

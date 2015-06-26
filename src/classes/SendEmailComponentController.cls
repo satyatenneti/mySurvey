@@ -6,17 +6,14 @@ public with sharing class SendEmailComponentController {
         get {
             Trifecta_Survey_Submission__c submission = [select Submitted_To__c from Trifecta_Survey_Submission__c where id =:submissionId];
             if (submission.Submitted_To__c != null) {
-    	        if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+                if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
                     SurveyURL =  'https://login.salesforce.com/apex/displayForm?Id='+submissionId+'&Survey='+getSurveyId(submissionId);
-    		        return [select Name from User where Id =:submission.Submitted_To__c].Name;
-    	        } else if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('Contact').getDescribe().getKeyPrefix()) {
+                    return [select Name from User where Id =:submission.Submitted_To__c].Name;
+                } else if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('Contact').getDescribe().getKeyPrefix()) {
                     String siteURL = [select Site_Address__c from Survey_Global_Settings__c][0].Site_Address__c;
                     SurveyURL = siteURL+'displayForm?Id='+submissionId+'&Survey='+getSurveyId(submissionId);
                     return [select Name from Contact where Id =:submission.Submitted_To__c].Name;
-    	        }
-                String siteURL = [select Site_Address__c from Survey_Global_Settings__c][0].Site_Address__c;
-                SurveyURL = siteURL+'displayForm?Id='+submissionId+'&Survey='+getSurveyId(submissionId);
-                return submission.Submitted_To__c.subString(0,submission.Submitted_To__c.indexOf('@'));
+                }
             }
             return null;
         }
@@ -26,6 +23,6 @@ public with sharing class SendEmailComponentController {
         return [Select Name from Trifecta_Survey__c where Id =:getSurveyId(submissionId)].Name;
     }
     private Id getSurveyId(Id submissionId) {
-    	return [Select Survey__c from Trifecta_Survey_Submission__c Where Id =:submissionId][0].Survey__c;
+        return [Select Survey__c from Trifecta_Survey_Submission__c Where Id =:submissionId][0].Survey__c;
     }
 }

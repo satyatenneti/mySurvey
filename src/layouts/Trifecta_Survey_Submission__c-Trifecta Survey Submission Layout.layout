@@ -75,6 +75,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>ActionPlan__c</fields>
         <relatedList>Trifecta_Survey_Question_Response__c.Survey_Submission__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

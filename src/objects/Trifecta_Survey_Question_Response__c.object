@@ -54,6 +54,18 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>ActionPlan__c</fullName>
+        <description>Action Points that you have planned to implement.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Action Points that you have planned to implement.</inlineHelpText>
+        <label>ActionPlan</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>Answer__c</fullName>
         <description>Choice selected by the User/Contact</description>
         <externalId>false</externalId>

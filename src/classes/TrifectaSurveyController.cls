@@ -49,6 +49,10 @@ public with sharing class TrifectaSurveyController {
     */
     public void addNewSurveyQuestion() {
       Trifecta_Survey_Question__c newQuestion = getNewQuestion();
+      this.questionloadId = newQuestion.Load_Id__c;
+      newQuestion.isEdit__c = false;
+      //Make this to edit mode.
+      toggleEdit();
       surveyQuestions.add(newQuestion);
       surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
     }
@@ -111,10 +115,16 @@ public with sharing class TrifectaSurveyController {
       
       //Save all the records
       try {
-            insert survey;
-            insert surveyQuestions;
+            upsert survey;
+            upsert surveyQuestions;
             //system.assert(false,JSON.serialize(SObjectUtils.flatten(surveyQuestionChoiceMap.values())));
-            insert SObjectUtils.flatten(surveyQuestionChoiceMap.values());
+            List<Trifecta_Survey_Question_Choice__c> choices = prepareChoicesToUpsert(surveyQuestionChoiceMap.values());
+
+            surveyService.retainQuestionsAndChoicesDeleteAllOthers(survey.Id, 
+                                            SObjectUtils.pluckIds(surveyQuestions, 'Id'),
+                                            SObjectUtils.pluckIds(choices, 'Id'));
+
+            upsert choices;
         }
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());
@@ -142,9 +152,11 @@ public with sharing class TrifectaSurveyController {
         return options;
     }
     public void copyQuestion(){
-        Trifecta_Survey_Question__c newQuestion = surveyQuestions.get(getQuestionIndex(questionloadId)).clone(false, true);
+        Trifecta_Survey_Question__c currentQuestion = surveyQuestions.get(getQuestionIndex(questionloadId));
+        Trifecta_Survey_Question__c newQuestion = currentQuestion.clone(false, true);
         newQuestion.Load_Id__c = GuidUtil.NewGuid();
         newQuestion.isEdit__c = true;
+        currentQuestion.isEdit__c = false;
         surveyQuestions.add(newQuestion);
 
         List<Trifecta_Survey_Question_Choice__c> copiedChoices = new List<Trifecta_Survey_Question_Choice__c>(surveyQuestionChoiceMap.get(questionloadId));
@@ -201,6 +213,15 @@ public with sharing class TrifectaSurveyController {
                                       Title__c=TrifectaSurveyController.DEFAULT_QUESTION_TITLE,
                                       isRequired__c = false,
                                       isEdit__c=true);
+    }
+    private static List<Trifecta_Survey_Question_Choice__c> prepareChoicesToUpsert(List<List<Trifecta_Survey_Question_Choice__c>> choicesList){
+        List<Trifecta_Survey_Question_Choice__c> choicesToReturn = new List<Trifecta_Survey_Question_Choice__c>();
+        for(List<Trifecta_Survey_Question_Choice__c> eachListOfChoices : choicesList){
+            if(eachListOfChoices.size() > 0){
+                choicesToReturn.addAll(eachListOfChoices);
+            }
+        }
+        return choicesToReturn;
     }
     public class SurveyWrapper{
         public Trifecta_Survey__c survey;

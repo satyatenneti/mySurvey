@@ -25,4 +25,16 @@ public with sharing class SurveyService {
         }
         return choicesPerQuestion;
     }
+
+    public void retainQuestionsAndChoicesDeleteAllOthers(Id surveyId,List<Id> qIds,List<Id> chIds) {
+        List<Trifecta_Survey_Question__c> questionsToDelete = [Select Id,Name from Trifecta_Survey_Question__c Where ID NOT IN : qIds AND Survey__c =:surveyId];
+        List<Trifecta_Survey_Question_Choice__c> choicesToDelete = [Select Id,Name from Trifecta_Survey_Question_Choice__c Where ID NOT IN : chIds AND Survey_Question__r.Survey__c =:surveyId];
+      
+        if(questionsToDelete.size() > 0) {
+           delete questionsToDelete;
+        }
+        if(choicesToDelete.size() > 0) {
+           Database.delete(choicesToDelete,false);
+        }
+    }
 }

@@ -60,10 +60,10 @@
                               <tr>
                                     <td class="question-container">
                                             <ul class="control-buttons">
-                                                <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
-                                                <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
+                                                <li class="ui-state-default ui-corner-all" title="Click to move the question to edit/preview mode"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
+                                                <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
                                                 <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
-                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
+                                                    <li class="ui-state-default ui-corner-all" title="Delete"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
                                                 </apex:outputPanel>
                                                 </ul>
                                 <div>
@@ -105,9 +105,9 @@
                                         <tr>
                                             <td colspan="4">
                                                 <ul class="control-buttons">
-                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-pencil"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
-                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-copy"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
-                                                    <li class="ui-state-default ui-corner-all" title=".ui-icon-trash"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
+                                                    <li class="ui-state-default ui-corner-all" title="Click to move the question to edit/preview mode"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
+                                                    <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
+                                                    <li class="ui-state-default ui-corner-all"  title="Delete"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
                                                 </ul>
                                             </td>
                                         </tr>

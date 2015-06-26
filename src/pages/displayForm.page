@@ -19,8 +19,17 @@
         <div class="form-container">
             <apex:pageMessages />
             <apex:outputPanel rendered="{! NOT(isSubmittedAlready)}">
-                <div class="font-survey-title">{!survey.Name}</div>
-            <div class="help-text">{!survey.Help_Text__c}</div>
+                <table class="table">
+                    <tr>
+                        <td>
+                            <div class="font-survey-title">{!survey.Name}</div>
+                            <div class="help-text">{!survey.Help_Text__c}</div>
+                        </td>
+                        <td style="float:right">
+                            <img src="http://www.trifecta.com/wp-content/uploads/2015/06/Trifecta-logo-Original-2015-website-224x118.png" height="70" width="120" />
+                        </td>
+                    </tr>
+                </table>
             <hr />
             <div >
                 <table class="table">

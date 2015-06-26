@@ -12,13 +12,14 @@
     .table {margin: 5px; width: 100%; padding: 10px;}
     .question-container { height: 3em; min-height: 3em; }
     .help-text { font-size: 0.8em; }
+    input[type='text'] { padding: 0.625em;  margin: 1.563em 0.313em 0px 0.313em; width: 97%; }
     input, label { font-weight: normal; font: normal 1em Arial; color: #575757;  }
     .pointer { cursor: pointer; }
     input.control-button { padding: 0.625em; border-radius: 0.313em; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 5.625em; cursor: pointer;}
     input.control-button:hover { background-color:#357ae8; }
-    .font-survey-title { font-size: 2em;}
-    .font-question-title { font-size: 1.5em;}
-    .section { padding: 0.938em; margin: 0.313em 0; background-color: #fff; box-shadow: 0em 0em 0.500em #888888;}
+    .font-survey-title { font-size: 1.5em;}
+    .font-question-title { font-size: 1em;}
+    .section { padding: 0.938em; margin: 0.625em 0; background-color: #fff; box-shadow: 0em 0em 0.500em #888888;}
     </style>    
     <apex:form id="survey">
         <div class="form-container">

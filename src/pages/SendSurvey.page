@@ -74,7 +74,11 @@
                 <tr>
                     <td>
                         <div id="others" class="section" style="display: none;">
-                            <apex:outputPanel>
+                            <span>You have
+                                <apex:outputLabel rendered="{! balanceEmails != 0}"> {!balanceEmails} </apex:outputLabel>
+                                <apex:outputLabel rendered="{!balanceEmails == 0}"> no </apex:outputLabel>
+                              mails left for the day</span><br/>
+                            <apex:outputPanel rendered="{! balanceEmails != 0}">
                                 <label class="bold-text">External Emails</label><br/ >
                                 <label class="small-text">Please select list of comma seperated email ids.</label>
                                 <br />

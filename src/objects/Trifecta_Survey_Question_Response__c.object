@@ -107,6 +107,18 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
+    <fields>
+        <fullName>weitage__c</fullName>
+        <externalId>false</externalId>
+        <label>weitage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
     <label>Trifecta Survey Question Response</label>
     <nameField>
         <displayFormat>SQR-{000000}</displayFormat>

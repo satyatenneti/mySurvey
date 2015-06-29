@@ -55,6 +55,20 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>Avg_Weightage__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( noOfWeightages__c &gt; 0, sumOfWeightage__c / noOfWeightages__c, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Avg.Weightage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Completed__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Flag to identify whether the feedback is submitted by the user or not.</description>
@@ -91,6 +105,37 @@
         <type>MasterDetail</type>
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
+    <fields>
+        <fullName>noOfWeightages__c</fullName>
+        <externalId>false</externalId>
+        <label>noOfWeightages</label>
+        <summaryFilterItems>
+            <field>Trifecta_Survey_Question_Response__c.weitage__c</field>
+            <operation>greaterThan</operation>
+            <value>0</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Trifecta_Survey_Question_Response__c.Survey_Submission__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>sumOfWeightage__c</fullName>
+        <externalId>false</externalId>
+        <label>sumOfWeightage</label>
+        <summarizedField>Trifecta_Survey_Question_Response__c.weitage__c</summarizedField>
+        <summaryFilterItems>
+            <field>Trifecta_Survey_Question_Response__c.weitage__c</field>
+            <operation>greaterThan</operation>
+            <value>0</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Trifecta_Survey_Question_Response__c.Survey_Submission__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
     <label>Trifecta Survey Submission</label>
     <listViews>
         <fullName>All</fullName>
@@ -98,6 +143,7 @@
         <columns>Survey__c</columns>
         <columns>CREATEDBY_USER</columns>
         <columns>Completed__c</columns>
+        <columns>Avg_Weightage__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
@@ -140,6 +186,7 @@
         <customTabListAdditionalFields>Survey__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATEDBY_USER</customTabListAdditionalFields>
         <customTabListAdditionalFields>Completed__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Avg_Weightage__c</customTabListAdditionalFields>
     </searchLayouts>
     <sharingModel>ControlledByParent</sharingModel>
 </CustomObject>

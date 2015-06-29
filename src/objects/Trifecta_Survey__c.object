@@ -70,6 +70,20 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Avg_Weightage__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( NoOfSubmissions__c &gt; 0, SumOfAvgWeightage__c / NoOfSubmissions__c, 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Avg.Weightage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Description__c</fullName>
         <description>Description of the survey</description>
         <externalId>false</externalId>
@@ -106,12 +120,39 @@
         <type>Text</type>
         <unique>true</unique>
     </fields>
+    <fields>
+        <fullName>NoOfSubmissions__c</fullName>
+        <externalId>false</externalId>
+        <label>NoOfSubmissions</label>
+        <summaryForeignKey>Trifecta_Survey_Submission__c.Survey__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>SumOfAvgWeightage__c</fullName>
+        <externalId>false</externalId>
+        <label>SumOfAvgWeightage</label>
+        <summarizedField>Trifecta_Survey_Submission__c.Avg_Weightage__c</summarizedField>
+        <summaryFilterItems>
+            <field>Trifecta_Survey_Submission__c.Completed__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Trifecta_Survey_Submission__c.Survey__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
     <label>Trifecta Survey</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
         <columns>Description__c</columns>
         <columns>CREATED_DATE</columns>
+        <columns>Avg_Weightage__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
     </listViews>
@@ -124,6 +165,7 @@
     <searchLayouts>
         <customTabListAdditionalFields>Description__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Avg_Weightage__c</customTabListAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>
 </CustomObject>

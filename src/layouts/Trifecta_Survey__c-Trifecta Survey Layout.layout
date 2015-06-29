@@ -32,6 +32,10 @@
                 <behavior>Required</behavior>
                 <field>Load_Id__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Avg_Weightage__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -94,6 +98,7 @@
         <fields>Submitted_To__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>Completed__c</fields>
+        <fields>Avg_Weightage__c</fields>
         <relatedList>Trifecta_Survey_Submission__c.Survey__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

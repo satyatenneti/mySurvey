@@ -1,7 +1,10 @@
 public with sharing class SendSurveyController {
     public List<SelectOption> usersList {get;set;}
+   // public List<String> selectedUsersList {get;set;}
     public List<SelectOption> contactsList {get;set;}
     public List<SelectOption> groupsList {get;set;}
+
+    public List<TestUser> userDetailsList{get;set;}
     public String selectedUsers {get; set;}
     public String selectedContacts {get; set;}
     public String selectedGroups {get; set;}
@@ -17,6 +20,7 @@ public with sharing class SendSurveyController {
         usersList = getActiveUsers();
         contactsList = getContacts();
         groupsList = getGroups();
+        userDetailsList = getActiveUserList();
     }
     private List<SelectOption> getActiveUsers() {
         List<SelectOption> usersList = new List<SelectOption>();
@@ -24,6 +28,13 @@ public with sharing class SendSurveyController {
             usersList.add(new SelectOption(eachActiveUser.Id, eachActiveUser.Name));
         }
         return usersList;
+    }
+    private List<TestUser> getActiveUserList() {
+        List<TestUser> userDetailsList = new List<TestUser>();
+        for (User eachActiveUser :[SELECT Id,Name,FirstName,LastName,Smallphotourl FROM User WHERE IsActive = true]) {
+            userDetailsList.add(new TestUser(eachActiveUser));
+        }
+        return userDetailsList;
     }
     private List<SelectOption> getContacts() {
         contactsList = new List<SelectOption>();
@@ -40,6 +51,11 @@ public with sharing class SendSurveyController {
         return groupsList;
     }
     public void sendForm() {
+
+        for(TestUser selectedUsers : userDetailsList) {
+            if(selectedUsers.selected)
+            System.debug('name-'+selectedUsers.user.FirstName);
+        }
         List<String> submittedList = new List<String>();
         
         //When no users are selected this will get an empty square branckets. Remove them before validation.
@@ -108,5 +124,15 @@ public with sharing class SendSurveyController {
     }
     public Trifecta_Survey__c getSurvey() {
         return [select Name from Trifecta_Survey__c where Id =:surveyId];
+    }
+
+    public class TestUser {
+
+        public TestUser(User u) {
+            user = u;
+            selected = false;
+        }
+        public User user {get;set;}
+        public Boolean selected{get;set;}
     }
 }

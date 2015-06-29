@@ -68,16 +68,7 @@ public with sharing class TrifectaSurveyController {
     * Deletes the Question identified by questionLoadId
     */
     public void deleteSurveyQuestion() {
-        Integer rowIndex =0;
-        for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
-            if(eachQuestion.Load_Id__c != questionloadId) {
-                rowIndex++;
-            }
-            else {
-                break; 
-            }
-        }
-        surveyQuestions.remove(rowIndex); 
+        surveyQuestions.remove(getQuestionIndex(questionloadId));
         surveyQuestionChoiceMap.remove(questionloadId);
     }
     
@@ -156,17 +147,19 @@ public with sharing class TrifectaSurveyController {
         Trifecta_Survey_Question__c currentQuestion = surveyQuestions.get(getQuestionIndex(questionloadId));
         Trifecta_Survey_Question__c newQuestion = currentQuestion.clone(false, true);
         newQuestion.Load_Id__c = GuidUtil.NewGuid();
-        newQuestion.isEdit__c = true;
-        currentQuestion.isEdit__c = false;
         surveyQuestions.add(newQuestion);
 
+        
         List<Trifecta_Survey_Question_Choice__c> copiedChoices = new List<Trifecta_Survey_Question_Choice__c>(surveyQuestionChoiceMap.get(questionloadId));
         for(Trifecta_Survey_Question_Choice__c ch: copiedChoices){
             ch.Load_Id__c = GuidUtil.NewGuid();
         }
 
         surveyQuestionChoiceMap.put(newQuestion.Load_Id__c, copiedChoices);
-
+        newQuestion.isEdit__c = false;
+        
+        this.questionloadId = newQuestion.Load_Id__c;
+        toggleEdit();  
     }
     public void toggleEdit() {
         for(Integer i =0; i < surveyQuestions.size(); i++) {

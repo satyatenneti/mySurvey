@@ -5,6 +5,7 @@
     <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
     <style>
         * { margin: 0; padding: 0;}
+        textarea { resize: none;}
         body .bodyDiv #bodyTable { padding-right: 0; padding-left: 0; background-color: #eee; }
         .form-container {width: 60%; padding: 20px; margin: 20px auto; background-color: #fff; box-shadow: 0px 0px 8px #888888; border-radius: 5px;}
         .section { padding: 15px; margin: 5px 0px; background-color: #fff; box-shadow: 0px 0px 8px #888888;}
@@ -20,6 +21,7 @@
         .bold-text{  font-weight: bold; }
         .margin-10px { margin: 10px; }
         .small-text { font-size: 0.95em;}
+        .error  { color: red;}
     </style>
     
     <apex:form id="sendSurvey">
@@ -83,14 +85,14 @@
                                 <label class="small-text">Please select list of comma seperated email ids.</label>
                                 <br />
                                 <apex:inputTextarea id="external-emails" value="{!externalContacts}" rows="5"  cols="100" /> 
-                            </apex:outputPanel>
-                            <span id="email-error" style="display: none;">Invalid Email Ids</span>
+                            </apex:outputPanel><br/>
+                            <span id="email-error" class="error" style="display: none;">Invalid Email Ids</span>
                         </div>
                     </td>
                 </tr>
                 <tr><td>
                         <apex:outputPanel >
-                            <input type="button" disabled="disabled" class="control-button" value="Send Form" onclick="sendSurveyFormValidation()" />
+                            <input type="button" style="display: none;" class="control-button" value="Send Form" onclick="sendSurveyFormValidation()" />
                         </apex:outputPanel>
                     </td>
                 </tr>
@@ -125,12 +127,11 @@
         $(document).ready(function(){
             $('div.section').hide();
             $('input.control-button').hide();
-            $('select.sender-list').change(function(){
+            $('select.sender-list').click(function(){
                 if($(this).find('option:selected').length > 0 ) {
-                    $('input.control-button').removeAttr('disabled');
-                    $('input.control-button').show();
+                   $('input.control-button').show();
                 } else {
-                    $('input.control-button').prop('disabled', 'disabled');
+                    $('input.control-button').hide();
                 }
                 
             });
@@ -152,10 +153,12 @@
         });
 
         function sendSurveyFormValidation() {
+
             if($('#others').is(':visible')) {  
                 var success = ValidateEmails();   
                 if(!success) {
                     $('#email-error').show();
+                    $('input.control-button').hide();
                      return;
                 }
             }   

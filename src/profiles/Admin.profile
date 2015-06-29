@@ -318,6 +318,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Trifecta_Survey__c.Quick_Send_Link__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Trifecta_Survey__c.SumOfAvgWeightage__c</field>
         <readable>true</readable>
     </fieldPermissions>

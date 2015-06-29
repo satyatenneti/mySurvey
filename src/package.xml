@@ -38,6 +38,11 @@
 		<name>CustomTab</name>
 	</types>
 	<types>
+        <members>SurveyApp</members>
+        <members>SurveyApp/Quick_Send_Image.png</members>
+        <name>Document</name>
+    </types>
+    <types>
 		<members>unfiled$public/Survey_Template_Contact</members>
 		<members>unfiled$public/Survey_Template_EmailAddress</members>
 		<members>unfiled$public/Survey_Template_User</members>

@@ -10,6 +10,7 @@ public with sharing class TrifectaSurveyController {
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     public SurveyService surveyService;
+    public Integer newIndex { get; set; }
     
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
@@ -19,9 +20,7 @@ public with sharing class TrifectaSurveyController {
 
         if(surveyId != null) {
             //Load the current Survey details
-            survey  = surveyService.getSurveyById(surveyId);
-            surveyQuestions = survey.Trifecta_Survey_Questions__r;
-            surveyQuestionChoiceMap = surveyService.getChoicesPerQuestion(SObjectUtils.pluckIds(surveyQuestions, 'Id'));
+            loadExistingSurvey(surveyId);
 
         } else {
             // New survey
@@ -43,6 +42,11 @@ public with sharing class TrifectaSurveyController {
         questionloadId = '';
         choiceLoadId = '';
         qType = '';
+    }
+    private void loadExistingSurvey(String surveyId) {
+        survey  = surveyService.getSurveyById(surveyId);
+        surveyQuestions = survey.Trifecta_Survey_Questions__r;
+        surveyQuestionChoiceMap = surveyService.getChoicesPerQuestion(SObjectUtils.pluckIds(surveyQuestions, 'Id'));
     }
     /**
     * Adds new Question
@@ -117,6 +121,7 @@ public with sharing class TrifectaSurveyController {
                                             SObjectUtils.pluckIds(choices, 'Id'));
 
             upsert choices;
+            loadExistingSurvey(survey.Id);
         }
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());

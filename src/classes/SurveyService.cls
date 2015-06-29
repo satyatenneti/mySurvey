@@ -5,8 +5,9 @@ public with sharing class SurveyService {
 
 	public Trifecta_Survey__c getSurveyById(String id) {
 		List<String> surveyFields = SoqlUtils.star('Trifecta_Survey__c');
-        surveyFields.add('('+SoqlUtils.getSelect(SoqlUtils.star('Trifecta_Survey_Question__c'), 'Trifecta_Survey_Questions__r').toString()+')');
-        SoqlUtils.Soqlquery query = SoqlUtils.getSelect(surveyFields,'Trifecta_Survey__c').withCondition(SoqlUtils.getEq('Id',id));
+        surveyFields.add('('+SoqlUtils.getSelect(SoqlUtils.star('Trifecta_Survey_Question__c'), 'Trifecta_Survey_Questions__r').withOrder(SoqlUtils.getOrder('Sort_Index__c')).toString()+')');
+        SoqlUtils.Soqlquery query = SoqlUtils.getSelect(surveyFields,'Trifecta_Survey__c')
+        										.withCondition(SoqlUtils.getEq('Id',id));
 
         return Database.query(query.toString());
     }

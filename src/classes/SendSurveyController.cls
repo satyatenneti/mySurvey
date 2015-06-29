@@ -7,9 +7,15 @@ public with sharing class SendSurveyController {
     public String selectedGroups {get; set;}
     public String externalContacts {get; set;}
     public Id surveyId;
+    public Integer balanceEmails {get; set;}
     public EmailServiceBase emailService;
+    public Integer count;
+    public Integer maximumEmails;
+        
     public SendSurveyController() {
         surveyId = ApexPages.currentPage().getParameters().get('id');
+        count = [select count() from Trifecta_Email_Sent__c where Email_Sent_Date__c =:System.today()];
+        maximumEmails = (Integer)[select EmailsMaximumLimit__c from EmailsSentPerDay__c][0].EmailsMaximumLimit__c;
         init();
     }
     private void init() {
@@ -17,6 +23,7 @@ public with sharing class SendSurveyController {
         usersList = getActiveUsers();
         contactsList = getContacts();
         groupsList = getGroups();
+        balanceEmails = getBalance();
     }
     private List<SelectOption> getActiveUsers() {
         List<SelectOption> usersList = new List<SelectOption>();
@@ -38,6 +45,9 @@ public with sharing class SendSurveyController {
             groupsList.add(new SelectOption(eachGroup.Id, eachGroup.Name));
         }
         return groupsList;
+    }
+    private Integer getBalance() {
+        return maximumEmails - count ;
     }
     public void sendForm() {
         List<String> submittedList = new List<String>();
@@ -81,9 +91,6 @@ public with sharing class SendSurveyController {
         }
     }
     private void sendExternalEmails(List<String> submittedList) {
-        Integer emailFlag = 0;
-        Integer count = [select count() from Trifecta_Email_Sent__c where Email_Sent_Date__c =:System.today()];
-        Integer maximumEmails = (Integer)[select EmailsMaximumLimit__c from EmailsSentPerDay__c][0].EmailsMaximumLimit__c;
         if(!submittedList.isEmpty()){
             if (count == maximumEmails ) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Number of Emails sent per day Exceeds Maximum Limit'));

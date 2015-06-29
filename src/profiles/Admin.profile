@@ -272,6 +272,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Trifecta_Survey_Submission__c.Completed_Image__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Trifecta_Survey_Submission__c.Completed__c</field>
         <readable>true</readable>

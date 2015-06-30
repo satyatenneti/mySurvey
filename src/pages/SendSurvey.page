@@ -154,14 +154,11 @@
                 var sectionToDisplay = $('#send-form-to-select option:selected').val();
                 $('[id*="sendTo"]').val(sectionToDisplay);
 
-                if(sectionToDisplay != 'users' && sectionToDisplay != 'contacts') {
-                    $('input.control-button').hide();
-                }else {
-                    $('input.control-button').show();
-                }
+                $('input.control-button').hide();
                 $('div.section').hide();                    
                 $('select option:selected').each(function(){$(this).removeAttr('selected')});
                 $('#'+sectionToDisplay).show();
+                $('input:checkbox').removeAttr('checked');
             });
         });
 
@@ -194,6 +191,17 @@
             $('#contacttable').dataTable();
             $('#usertable').dataTable();
         } );
+
+        var checkboxes = $('input:checkbox'),
+            submitButt = $('input.control-button');
+
+
+        checkboxes.click(function() {
+            if(checkboxes.is(":checked"))
+                submitButt.show();
+            else
+                submitButt.hide();
+        });
 
     </script>
 </apex:page>

@@ -1,5 +1,5 @@
 <apex:page showHeader="true" sidebar="false" standardStylesheets="false" controller="SendSurveyController">
-    <c:ScriptIncludes />
+    <!-- <c:ScriptIncludes /> -->
     <apex:includescript value="//code.jquery.com/jquery-1.11.1.min.js" / >
     <apex:includescript value="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" />
     <apex:stylesheet value="//cdn.datatables.net/1.10.4/css/jquery.dataTables.css" />
@@ -13,7 +13,7 @@
         input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
         input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
         input.control-button:hover { background-color:#357ae8; }
-        .test {
+        .select-box {
             padding: 10px;  margin: 25px 5px 0px 5px; width: 100%; 
         }
         
@@ -31,7 +31,7 @@
             <hr />
             <table class="table">
                 <tr><th colspan="2" style="float: right;">
-                    <select id="send-form-to-select" class="test">
+                    <select id="send-form-to-select" class="select-box">
                             <option value="">Send form to</option> 
                             <option value="users">Users</option> 
                             <option value="contacts">Contacts</option> 

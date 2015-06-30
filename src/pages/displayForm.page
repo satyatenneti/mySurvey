@@ -1,20 +1,8 @@
-<apex:page showHeader="true" sidebar="false" standardStylesheets="false" controller="DisplayFormController">
-    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
-    <style>
-        
-        * { margin: 0; padding: 0;}
-        body .bodyDiv #bodyTable { padding-right: 0; padding-left: 0; background-color: #eee; }
-        .form-container {width: 60%; padding: 20px; margin: 20px auto; background-color: #fff; box-shadow: 0px 0px 8px #888888; border-radius: 5px;}
-        .font-question-title { font-size: 1.5em;}
-        .help-text { font-size: 1.15em; margin-bottom: 0.5em; color: #717171; }
-        .font-survey-title { font-size: 2em;}
-        *[data-preview='on'] {  background-color: #eee; }
-        .table {margin: 5px; width: 100%; padding: 10px;}
-        .question-container { height: 3em; min-height: 3em; }
-        table.options { margin-left: 10px; }
-        table.options tr { height: 1.875em; min-height: 1.875em; }
-        .question-section { margin-top: 10px;}
-    </style>  
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="DisplayFormController">
+    <c:ScriptIncludes />
+    <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/displayFormCSS.css')}"/>
+      
     <apex:form id="displaySurvey">
         <div class="form-container">
             <apex:pageMessages />
@@ -39,7 +27,8 @@
                         <tr>
                             <td class="question-container">
                                 <div class="question-section">
-                                    <p class="font-question-title">{!question.Title__c}</p>
+                                    <p class="font-question-title">
+                                    {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">*</apex:outputPanel></p>
                                     <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
                             </td>
@@ -65,6 +54,7 @@
                 </table>
                 <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
             </div>
+            <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
             <input type="button" value="Submit Survey" class="control-button" onclick="submitSurvey()" />
             </apex:outputPanel> 
         </div>

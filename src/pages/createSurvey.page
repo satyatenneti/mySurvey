@@ -2,20 +2,7 @@
     <c:ScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/createSurveyCSS.css')}"/>
-    <style>
-   
-    .font-question-choice { font-size: 1.15em;}
-    .table {margin: 5px; width: 100%; padding: 10px;}
-    .question-container { height: 3em; min-height: 3em; }
-    .help-text { font-size: 1em; }
-    input[type='text'] { padding: 0.625em;  margin: 1.563em 0.313em 0px 0.313em; width: 97%; }
-    .font-survey-title { font-size: 1em; font-weight: bold;}
-    .font-question-title { font-size: 1.25em; font-weight: bold; }
-    .section { padding: 0.938em; margin: 0.625em 0; background-color: #fff; box-shadow: 0em 0em 0.500em #888888;}
-    input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
-    input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
-    input.control-button:hover { background-color:#357ae8; }
-    </style>    
+    
     <apex:form id="survey">
         <div class="form-container">
             <div class="section">
@@ -189,4 +176,4 @@
     });
     </script>
     
-</apex:page>    
+</apex:page>

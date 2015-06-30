@@ -112,7 +112,7 @@ public with sharing class SendSurveyController {
                 userlist = new Map<Id, User>([SELECT Id, FirstName, LastName from User where id in :submittedList]);
             }
             else {
-                contactList = new Map<Id, Contact>([SELECT Id, FirstName, LastName from Contact where id in :submittedList]);
+                contactList = new Map<Id, Contact>([SELECT Id, Name from Contact where id in :submittedList]);
             }
             
             for(String eachId : submittedList) {

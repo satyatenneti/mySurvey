@@ -43,7 +43,7 @@ public with sharing class EmailServiceBase implements EmailService {
             mail.setSaveAsActivity(false);
             String body = 'Hi ' + submission.Submitted_To__c.substring(0,submission.Submitted_To__c.indexOf('@')) + ',<br /><br /> ';
             body += 'Please submit your feedback <a href ="'+SurveyURL+'" >here</a>. <br /> <br />';
-            body += 'Thanking You <br />'+UserInfo.getFirstName() + '  ' +UserInfo.getLastName();
+            body += 'Thank You <br />'+UserInfo.getFirstName() + '  ' +UserInfo.getLastName();
             mail.setHtmlBody(body);
             mail.setToAddresses(new String[]{submission.Submitted_To__c});
             mails.add(mail);

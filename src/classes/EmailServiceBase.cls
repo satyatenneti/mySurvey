@@ -4,7 +4,7 @@ public with sharing class EmailServiceBase implements EmailService {
         List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
         
         Messaging.SingleEmailMessage[] mails = new List<Messaging.SingleEmailMessage>();
-             
+        String surveyName =[SELECT Name from Trifecta_Survey__c WHERE Id = :surveyId].name;
         for(Trifecta_Survey_Submission__c submission : submissions) {
 
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
@@ -16,6 +16,7 @@ public with sharing class EmailServiceBase implements EmailService {
             else if (isValidId(submission.Submitted_To__c, 'Contact')) {
                 EmailTemplate contactTemplate = [select Id from EmailTemplate where name ='Survey Template Contact'];
                 mail.setTemplateId(contactTemplate.Id);
+                mail.setSubject('Feedback form for : '+surveyName);
                 mail.setSaveAsActivity(true);
             }
             mail.setTargetObjectId(submission.Submitted_To__c);
@@ -26,7 +27,7 @@ public with sharing class EmailServiceBase implements EmailService {
     }
     public void sendExternalEmailNotifications (List<Trifecta_Survey_Submission__c> submissions, Id surveyId) {
       List<Messaging.SingleEmailMessage> emailsToSend = new List<Messaging.SingleEmailMessage>();
-      
+      String surveyName =[SELECT Name from Trifecta_Survey__c WHERE Id = :surveyId].name;
       Messaging.SingleEmailMessage[] mails = new List<Messaging.SingleEmailMessage>();
         
       for(Trifecta_Survey_Submission__c submission : submissions) {
@@ -35,8 +36,8 @@ public with sharing class EmailServiceBase implements EmailService {
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new List<String> {'pavanmudiganti@gmail.com'});
             mail.setReplyTo('pavanmudiganti@gmail.com');
-            mail.setSenderDisplayName('Trifecta Technologies');
-            mail.setSubject('Trifecta Survey');
+            mail.setSenderDisplayName('Trifecta Technologies' + surveyName);
+            mail.setSubject('Feedback form for :');
             mail.setUseSignature(false);
             mail.setBccSender(false);
             mail.setSaveAsActivity(false);

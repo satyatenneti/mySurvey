@@ -2,13 +2,28 @@
     <c:ScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/createSurveyCSS.css')}"/>
-    
+    <style>
+        .other-details { float: left; height: 7em; min-height: 7em;  }
+        .other-right { margin-left: 20%;}
+    </style>
     <apex:form id="survey">
         <div class="form-container">
-            <div class="section">
+            <div class="section" >
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all font-survey-title" value="{!survey.Name}" html-placeholder="Untitle Form"/></p>
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all help-text" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
+                
             </div>
+            <div class="section" style="height: 7em; min-height: 7em;">
+                <div class="other-details">
+                    <label>Threshold Rating</label>
+                    <apex:inputText value="{!survey.Threshold_Weightage__c}" ></apex:inputText>
+                </div>
+                <div class="other-details other-right">
+                    <label >Avg. Rating</label>
+                    <apex:inputText html-readonly='true' value="{!survey.Avg_Weightage__c}" ></apex:inputText>
+                </div>
+            </div>
+
             <div class="section questions">
                 <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="questions">
                     <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>

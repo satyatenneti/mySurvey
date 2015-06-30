@@ -1,31 +1,26 @@
 <apex:page standardController="Trifecta_Survey__c" sidebar="false"  extensions="TrifectaSurveyController">
-    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.css')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/external/jquery/jquery.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.JQuery, 'scripts/jquery-ui.min.js')}"/>
+    <c:ScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/createSurveyCSS.css')}"/>
     <style>
-    ul.no-li-style { list-style-type: none; }
-    ul.no-li-style li { display: block; } 
-    .font-question-title { font-size: 1.5em;}
+   
     .font-question-choice { font-size: 1.15em;}
     .table {margin: 5px; width: 100%; padding: 10px;}
     .question-container { height: 3em; min-height: 3em; }
-    .help-text { font-size: 0.8em; }
+    .help-text { font-size: 1em; }
     input[type='text'] { padding: 0.625em;  margin: 1.563em 0.313em 0px 0.313em; width: 97%; }
-    input, label { font-weight: normal; font: normal 1em Arial; color: #575757;  }
-    .pointer { cursor: pointer; }
-    input.control-button { padding: 0.625em; border-radius: 0.313em; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 5.625em; cursor: pointer;}
-    input.control-button:hover { background-color:#357ae8; }
-    .font-survey-title { font-size: 1.5em;}
-    .font-question-title { font-size: 1em;}
+    .font-survey-title { font-size: 1em; font-weight: bold;}
+    .font-question-title { font-size: 1.25em; font-weight: bold; }
     .section { padding: 0.938em; margin: 0.625em 0; background-color: #fff; box-shadow: 0em 0em 0.500em #888888;}
+    input, label { font-weight: normal; font: normal 16px Arial; color: #575757;  }
+    input.control-button { padding: 10px; border-radius: 5px; background-color: #4d90fe; color: #fff; font-weight: bold; min-width: 90px; cursor: pointer;}
+    input.control-button:hover { background-color:#357ae8; }
     </style>    
     <apex:form id="survey">
         <div class="form-container">
             <div class="section">
                 <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all font-survey-title" value="{!survey.Name}" html-placeholder="Untitle Form"/></p>
-                <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all font-question-title" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
+                <p><apex:inputText styleClass="ui-autocomplete-input ui-corner-all help-text" value="{!survey.Help_Text__c}" html-placeholder="Form Description"/></p>
             </div>
             <div class="section questions">
                 <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="questions">
@@ -69,7 +64,7 @@
                                                 </ul>
                                 <div>
                                     <p class="font-question-title">{!question.Title__c}</p>
-                                    <p class="font-question-choice">{!question.Help_text__c}</p>
+                                    <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
                                     </td>
                                 </tr>
@@ -137,7 +132,7 @@
                                                             ui-corner-all input-choice" value="{!choice.Value__c}" />
                                                     </td>
                                                     <td style="width: 1.5em">
-                                                        <apex:inputText styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for the question" />
+                                                        <apex:inputText rendered="{!question.Type__c == 'Multi Choice'}" styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for the question" />
                                                         
                                                     </td>
                                                     <td style="padding: 20px 0 0 20px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>

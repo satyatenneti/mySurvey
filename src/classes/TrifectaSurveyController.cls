@@ -93,7 +93,7 @@ public with sharing class TrifectaSurveyController {
     * Saves the Current Survey
     */
     public void saveSurvey(){
-      //Link Survey with Survey Questions via External Id
+        //Link Survey with Survey Questions via External Id
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
             eachQuestion.Survey__r = new Trifecta_Survey__c(Load_Id__c = survey.Load_Id__c);
             eachQuestion.isEdit__c = false;
@@ -121,6 +121,7 @@ public with sharing class TrifectaSurveyController {
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());
         }
+        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Survey created/updated successfully.'));
     }
     /**
     * Saves the Survey and redirects the user to Send Survey page 

@@ -6,6 +6,10 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
+        <apexClass>AlertEmailComponentController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateSurveyController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -283,7 +287,22 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trifecta_Survey_Submission__c.Email_Sent_Address__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trifecta_Survey_Submission__c.Manager_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trifecta_Survey_Submission__c.Submitted_To__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trifecta_Survey_Submission__c.Submitted_To_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -329,6 +348,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Trifecta_Survey__c.SumOfAvgWeightage__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trifecta_Survey__c.Threshold_Weightage__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <layoutAssignments>

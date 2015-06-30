@@ -9,11 +9,16 @@ public with sharing class SendSurveyController {
     public String selectedGroups {get; set;}
     public String externalContacts {get; set;}
     public Id surveyId;
+    public Integer balanceEmails {get; set;}
     public EmailServiceBase emailService;
+    public Integer count;
+    public Integer maximumEmails;
 
 
     public SendSurveyController() {
         surveyId = ApexPages.currentPage().getParameters().get('id');
+        count = [select count() from Trifecta_Email_Sent__c where Email_Sent_Date__c =:System.today()];
+        maximumEmails = (Integer)[select EmailsMaximumLimit__c from EmailsSentPerDay__c][0].EmailsMaximumLimit__c;
         init();
     }
 
@@ -22,6 +27,7 @@ public with sharing class SendSurveyController {
         userDetailsList = getUserDetails();
         contactDetailsList = getContactDetails();
         groupsList = getGroups();
+        balanceEmails = getBalance();
     }
    
     private List<UserDetail> getUserDetails() {
@@ -48,7 +54,9 @@ public with sharing class SendSurveyController {
         }
         return groupsList;
     }
-
+    private Integer getBalance() {
+        return maximumEmails - count ;
+    }
     private List<String> getSelectedUserIds() {
         List<String> selectedUsersList = new List<String>();
         for(UserDetail userDetail : userDetailsList) {

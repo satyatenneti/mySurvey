@@ -106,8 +106,24 @@ public with sharing class SendSurveyController {
         if(!submittedList.isEmpty()){
             List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
             //create the submission records for every user/contact/group member selected
+            Map<Id, User> userList = new Map<Id, User>();
+            Map<Id, Contact> contactList = new Map<Id, Contact>();
+            if (submittedList[0].substring(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+                userlist = new Map<Id, User>([SELECT Id, FirstName, LastName from User where id in :submittedList]);
+            }
+            else {
+                contactList = new Map<Id, Contact>([SELECT Id, FirstName, LastName from Contact where id in :submittedList]);
+            }
+            
             for(String eachId : submittedList) {
-                submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Completed__c = false ));
+                String name;
+                if (userList.size() > 0) {
+                    name = userlist.get(eachId).FirstName + userlist.get(eachId).LastName;
+                }
+                else {
+                    name = contactList.get(eachId).Name;
+                }
+                submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Submitted_To_Name__c = name, Completed__c = false ));
             }
             insert submissionList;
             emailService.sendInternalEmailNotifications(submissionList, surveyId);
@@ -130,7 +146,8 @@ public with sharing class SendSurveyController {
                 List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
                 List<Trifecta_Email_Sent__c> sentMails = new List<Trifecta_Email_Sent__c>();
                 for(String eachId : submittedList) {
-                    submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Completed__c = false ));
+                    String name = eachId.substring(0,eachId.indexOf('@'));
+                    submissionList.add(new Trifecta_Survey_Submission__c(Survey__c = surveyId, Submitted_To__c = eachId.trim(), Submitted_To_Name__c = name, Completed__c = false ));
                     sentMails.add(new Trifecta_Email_Sent__c(Email_Sent_Date__c = System.today(), Email_Sent_Address__c = eachId.trim()));
                 }
                 insert submissionList;

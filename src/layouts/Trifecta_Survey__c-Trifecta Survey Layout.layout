@@ -36,6 +36,10 @@
                 <behavior>Readonly</behavior>
                 <field>Avg_Weightage__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Threshold_Weightage__c</field>
+            </layoutItems>
         </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
@@ -95,7 +99,7 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
-        <fields>Submitted_To__c</fields>
+        <fields>Submitted_To_Name__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>Completed__c</fields>
         <fields>Avg_Weightage__c</fields>
@@ -106,4 +110,10 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h28000000cY0q</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>

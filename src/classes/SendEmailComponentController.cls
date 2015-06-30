@@ -19,6 +19,9 @@ public with sharing class SendEmailComponentController {
         }
         set;
     }
+    public String getDetailUrl(){
+        return 'http://login.salesforce.com/'+submissionId;
+    }
     public String getSurveyName() {
         return [Select Name from Trifecta_Survey__c where Id =:getSurveyId(submissionId)].Name;
     }

@@ -1,7 +1,9 @@
 public with sharing class SendSurveyController {
-    public List<SelectOption> usersList {get;set;}
-    public List<SelectOption> contactsList {get;set;}
+    public List<UserDetail> userDetailsList{get;set;}
+    public List<ContactDetail> contactDetailsList {get;set;}
     public List<SelectOption> groupsList {get;set;}
+
+    public String sendTo {get;set;}
     public String selectedUsers {get; set;}
     public String selectedContacts {get; set;}
     public String selectedGroups {get; set;}
@@ -11,34 +13,40 @@ public with sharing class SendSurveyController {
     public EmailServiceBase emailService;
     public Integer count;
     public Integer maximumEmails;
-        
+
+
     public SendSurveyController() {
         surveyId = ApexPages.currentPage().getParameters().get('id');
         count = [select count() from Trifecta_Email_Sent__c where Email_Sent_Date__c =:System.today()];
         maximumEmails = (Integer)[select EmailsMaximumLimit__c from EmailsSentPerDay__c][0].EmailsMaximumLimit__c;
         init();
     }
+
     private void init() {
         emailService = new EmailServiceBase();
-        usersList = getActiveUsers();
-        contactsList = getContacts();
+        userDetailsList = getUserDetails();
+        contactDetailsList = getContactDetails();
         groupsList = getGroups();
         balanceEmails = getBalance();
     }
-    private List<SelectOption> getActiveUsers() {
-        List<SelectOption> usersList = new List<SelectOption>();
-        for (User eachActiveUser :[SELECT Id,Name FROM User WHERE IsActive = true]) {
-            usersList.add(new SelectOption(eachActiveUser.Id, eachActiveUser.Name));
+   
+    private List<UserDetail> getUserDetails() {
+        List<UserDetail> userDetailsList = new List<UserDetail>();
+        for (User user :[SELECT Id,Name,FirstName,LastName,Smallphotourl FROM User WHERE IsActive = true]) {
+            userDetailsList.add(new UserDetail(user));
         }
-        return usersList;
+        return userDetailsList;
     }
-    private List<SelectOption> getContacts() {
-        contactsList = new List<SelectOption>();
-        for (Contact eachContact :[SELECT Id,Name FROM Contact]) {
-            contactsList.add(new SelectOption(eachContact.Id, eachContact.Name));
+
+    private List<ContactDetail> getContactDetails() {
+        
+        List<ContactDetail> contactDetailsList = new List<ContactDetail>();
+        for (Contact contact :[SELECT Id,Name,FirstName,LastName FROM Contact]) {
+            contactDetailsList.add(new ContactDetail(contact));
         }
-        return contactsList;
+        return contactDetailsList;
     }
+
     private List<SelectOption> getGroups() {
         groupsList = new List<SelectOption>();
         for (Group eachGroup :[SELECT Id,Name FROM Group WHERE Type = 'Regular']) {
@@ -49,23 +57,40 @@ public with sharing class SendSurveyController {
     private Integer getBalance() {
         return maximumEmails - count ;
     }
+    private List<String> getSelectedUserIds() {
+        List<String> selectedUsersList = new List<String>();
+        for(UserDetail userDetail : userDetailsList) {
+            if(userDetail.selected)
+                selectedUsersList.add(userDetail.user.Id);            
+        }
+        return selectedUsersList;
+    }
+
+    private List<String> getSelectedContactIds() {
+        List<String> selectedContactList = new List<String>();
+        for(ContactDetail contactDetail : contactDetailsList) {
+            if(contactDetail.selected)
+                selectedContactList.add(contactDetail.contact.Id);            
+        }
+        return selectedContactList;
+    }
+
     public void sendForm() {
-        List<String> submittedList = new List<String>();
         
         //When no users are selected this will get an empty square branckets. Remove them before validation.
-        selectedUsers = (selectedUsers != null ) ? selectedUsers.remove('[]') : null;
-        selectedContacts = (selectedContacts != null ) ? selectedContacts.remove('[]') : null;
         selectedGroups = (selectedGroups != null ) ? selectedGroups.remove('[]') : null;
         
-        if (! String.isEmpty(externalContacts)){
+        List<String> submittedList = new List<String>();        
+
+        if (sendTo.equals('others')) {
             submittedList = externalContacts.split(',');
             sendExternalEmails (submittedList);
         } else {
-            if (!String.isEmpty(selectedUsers)) {
-                submittedList = selectedUsers.substring(1,selectedUsers.length()-1).split(',');
-            } else if (! String.isEmpty(selectedContacts)) {
-                submittedList = selectedContacts.substring(1,selectedContacts.length()-1).split(',');
-            } else if (! String.isEmpty(selectedGroups)) {
+            if (sendTo.equals('users')) {
+                submittedList = getSelectedUserIds();
+            } else if (sendTo.equals('contacts')) {
+                submittedList = getSelectedContactIds();
+            } else if (sendTo.equals('groups')) {
                 List<Id> submittedGroups =new List<Id>();
                 submittedGroups = selectedGroups.substring(1,selectedGroups.length()-1).split(',');
                 List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
@@ -76,6 +101,7 @@ public with sharing class SendSurveyController {
             sendInternalEmails(submittedList);
         }
     }
+
     private void sendInternalEmails(List<String> submittedList) {
         if(!submittedList.isEmpty()){
             List<Trifecta_Survey_Submission__c> submissionList = new List<Trifecta_Survey_Submission__c>();
@@ -90,7 +116,11 @@ public with sharing class SendSurveyController {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
         }
     }
+
     private void sendExternalEmails(List<String> submittedList) {
+        Integer emailFlag = 0;
+        Integer count = [select count() from Trifecta_Email_Sent__c where Email_Sent_Date__c =:System.today()];
+        Integer maximumEmails = (Integer)[select EmailsMaximumLimit__c from EmailsSentPerDay__c][0].EmailsMaximumLimit__c;
         if(!submittedList.isEmpty()){
             if (count == maximumEmails ) {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Number of Emails sent per day Exceeds Maximum Limit'));
@@ -113,7 +143,26 @@ public with sharing class SendSurveyController {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
         }
     }
+
     public Trifecta_Survey__c getSurvey() {
         return [select Name from Trifecta_Survey__c where Id =:surveyId];
+    }
+
+    public class UserDetail {
+
+        public UserDetail(User user) {
+            this.user = user;
+        }
+        public User user {get;set;}
+        public Boolean selected{get;set;}
+    }
+
+    public class ContactDetail {
+
+        public ContactDetail(Contact contact) {
+            this.contact = contact;
+        }
+        public Contact contact {get;set;}
+        public Boolean selected{get;set;}
     }
 }

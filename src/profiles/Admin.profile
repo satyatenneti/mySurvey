@@ -293,12 +293,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Trifecta_Survey_Submission__c.Submitted_To_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Trifecta_Survey_Submission__c.Submitted_To__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trifecta_Survey_Submission__c.Submitted_To_Name__c</field>
+        <field>Trifecta_Survey_Submission__c.Weightage_Indicator__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

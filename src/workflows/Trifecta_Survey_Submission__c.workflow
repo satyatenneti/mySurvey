@@ -30,6 +30,44 @@
         <operation>Formula</operation>
         <protected>false</protected>
     </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Weightage_greater_than_Threshold</fullName>
+        <field>Weightage_Indicator__c</field>
+        <literalValue>Greater Than Threshold</literalValue>
+        <name>Weightage greater than Threshold</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Weightage_less_than_Threshold</fullName>
+        <field>Weightage_Indicator__c</field>
+        <literalValue>Less Than Threshold</literalValue>
+        <name>Weightage less than Threshold</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <rules>
+        <fullName>Weightage greater than Threshold</fullName>
+        <actions>
+            <name>Weightage_greater_than_Threshold</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>Avg_Weightage__c  &gt;  Survey__r.Threshold_Weightage__c</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Weightage less than Threshold</fullName>
+        <actions>
+            <name>Weightage_less_than_Threshold</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <formula>Avg_Weightage__c  &lt;  Survey__r.Threshold_Weightage__c</formula>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
     <rules>
         <fullName>sendalert</fullName>
         <actions>

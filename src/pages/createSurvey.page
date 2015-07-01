@@ -51,10 +51,7 @@
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
-                <apex:actionFunction name="updateSortIndex" action="{!updateSortIndex}">
-                    <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
-                    <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
-                </apex:actionFunction>
+                <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender=""/>
                 <apex:outputPanel id="questions" html-data-sortable="true">
                     <div id="sortable">
                      <apex:repeat value="{!surveyQuestions}" var="question">
@@ -188,16 +185,14 @@
                                     },
 
                                     stop: function(event, ui) {
-                                        alert('stop'); 
                                          var newIndex = ui.item.index();
-                                         alert('new index '+newIndex);
                                          var oldIndex = $(this).attr('data-previndex');
-                                         alert('old index '+oldIndex);
                                          $(this).removeAttr('data-previndex');
 
                                          if(oldIndex != newIndex) {
-                                            alert('cal update index');
-                                            updateSortIndex(newIndex, oldIndex);
+                                            $('[id*="newIndex"]').val(newIndex);
+                                            $('[id*="oldIndex"]').val(oldIndex);
+                                            updateQuestionOrder(newIndex, oldIndex);
                                         }
 
                                     }
@@ -217,6 +212,8 @@
                     <input type="button" value="Save" class="control-button" onclick="saveSurvey()" /></p>
             </div>
         </div>
+        <apex:inputHidden id="newIndex" value="{!newIndex}" />
+        <apex:inputHidden id="oldIndex" value="{!oldIndex}" />
         
     </apex:form>
     
@@ -224,10 +221,22 @@
     <script>
         $(function() {
             $( "#sortable" ).sortable({
-    			stop: function(event, ui){
-                    alert('entered11');
-                 var qLoadId = $(ui.item).attr('data-load-id');
-                $(ui.item).find('input.'+qLoadId+'_sort_index').val(ui.item.index());
+    			start: function(event, ui) {
+                    $(this).attr('data-previndex', ui.item.index());
+                },
+
+                stop: function(event, ui) {
+                     var newIndex = ui.item.index();
+                     var oldIndex = $(this).attr('data-previndex');
+                     $(this).removeAttr('data-previndex');
+
+                     if(oldIndex != newIndex) {
+                        $('[id*="newIndex"]').val(newIndex);
+                        $('[id*="oldIndex"]').val(oldIndex);
+                        updateQuestionOrder(newIndex, oldIndex);
+                    }
+
+                }
             }
             });
             $( "#sortable" ).disableSelection();

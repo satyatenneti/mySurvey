@@ -224,14 +224,14 @@ public with sharing class TrifectaSurveyController {
         return choicesToReturn;
     }
 
-    public void updateSortIndex() {
-
-        System.debug('old index'+oldIndex);
-        System.debug('new index'+newIndex);
-        Trifecta_Survey_Question__c question = surveyQuestions.get(oldIndex);
-        question.Sort_Index__c = oldIndex;
-        question = surveyQuestions.get(newIndex);
-        question.Sort_Index__c = newIndex;
+    public void updateQuestionOrder() {
+        
+        Trifecta_Survey_Question__c question = surveyQuestions.remove(oldIndex);
+        
+        if(surveyQuestions.size()==newIndex)
+            surveyQuestions.add(question);
+        else
+            surveyQuestions.add(newIndex, question);
     }
 
     public class SurveyWrapper{

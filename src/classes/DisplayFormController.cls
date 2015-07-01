@@ -81,4 +81,13 @@ public with sharing class DisplayFormController {
   		surveySubmitted.Completed__c = true;
   		update surveySubmitted;
  	}
+  
+  public Boolean getUser() {
+    Trifecta_Survey_Submission__c submit = [SELECT Id, Submitted_To__c FROM Trifecta_Survey_Submission__c WHERE Id =:submissionId];
+    if (submit.Submitted_To__c.substring(0,3) == Schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

@@ -16,9 +16,11 @@
                             <div class="font-survey-title">{!survey.Name}</div>
                             <div class="help-text">{!survey.Help_Text__c}</div>
                         </td>
+                        <apex:outputPanel rendered="{!User}">
                         <td style="float:right">
                             <img src="http://www.trifecta.com/wp-content/uploads/2015/06/Trifecta-logo-Original-2015-website-224x118.png" height="70" width="120" />
                         </td>
+                        </apex:outputPanel>
                     </tr>
                 </table>
             <hr />

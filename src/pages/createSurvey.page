@@ -51,6 +51,10 @@
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
+                <apex:actionFunction name="updateSortIndex" action="{!updateSortIndex}">
+                    <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
+                    <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
+                </apex:actionFunction>
                 <apex:outputPanel id="questions" html-data-sortable="true">
                     <div id="sortable">
                      <apex:repeat value="{!surveyQuestions}" var="question">
@@ -178,10 +182,25 @@
                          <script>
                             $(function() {
                                 $( "#sortable" ).sortable({
-                                    stop: function(event, ui){
-                                     var qLoadId = $(ui.item).attr('data-load-id');
-                                    $(ui.item).find('input.'+qLoadId+'_sort_index').val(ui.item.index());
-                                }
+
+                                    start: function(event, ui) {
+                                        $(this).attr('data-previndex', ui.item.index());
+                                    },
+
+                                    stop: function(event, ui) {
+                                        alert('stop'); 
+                                         var newIndex = ui.item.index();
+                                         alert('new index '+newIndex);
+                                         var oldIndex = $(this).attr('data-previndex');
+                                         alert('old index '+oldIndex);
+                                         $(this).removeAttr('data-previndex');
+
+                                         if(oldIndex != newIndex) {
+                                            alert('cal update index');
+                                            updateSortIndex(newIndex, oldIndex);
+                                        }
+
+                                    }
                                 });
                                 $( "#sortable" ).disableSelection();
                             });
@@ -203,15 +222,16 @@
     
     
     <script>
-    $(function() {
-        $( "#sortable" ).sortable({
-			stop: function(event, ui){
-             var qLoadId = $(ui.item).attr('data-load-id');
-            $(ui.item).find('input.'+qLoadId+'_sort_index').val(ui.item.index());
-        }
+        $(function() {
+            $( "#sortable" ).sortable({
+    			stop: function(event, ui){
+                    alert('entered11');
+                 var qLoadId = $(ui.item).attr('data-load-id');
+                $(ui.item).find('input.'+qLoadId+'_sort_index').val(ui.item.index());
+            }
+            });
+            $( "#sortable" ).disableSelection();
         });
-        $( "#sortable" ).disableSelection();
-    });
     </script>
     
 </apex:page>

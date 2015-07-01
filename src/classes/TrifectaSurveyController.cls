@@ -10,7 +10,8 @@ public with sharing class TrifectaSurveyController {
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     public SurveyService surveyService;
-    public Integer newIndex { get; set; }
+    public Integer newIndex {get; set;}
+    public Integer oldIndex {get; set;}
     
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
@@ -222,6 +223,17 @@ public with sharing class TrifectaSurveyController {
         }
         return choicesToReturn;
     }
+
+    public void updateSortIndex() {
+
+        System.debug('old index'+oldIndex);
+        System.debug('new index'+newIndex);
+        Trifecta_Survey_Question__c question = surveyQuestions.get(oldIndex);
+        question.Sort_Index__c = oldIndex;
+        question = surveyQuestions.get(newIndex);
+        question.Sort_Index__c = newIndex;
+    }
+
     public class SurveyWrapper{
         public Trifecta_Survey__c survey;
         public Map<String,Trifecta_Survey_Question__c> surveyQuestions;

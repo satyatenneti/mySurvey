@@ -120,11 +120,12 @@ public with sharing class TrifectaSurveyController {
             //system.assert(false,JSON.serialize(SObjectUtils.flatten(surveyQuestionChoiceMap.values())));
             List<Trifecta_Survey_Question_Choice__c> choices = prepareChoicesToUpsert(surveyQuestionChoiceMap.values());
 
+            upsert choices;
             surveyService.retainQuestionsAndChoicesDeleteAllOthers(survey.Id, 
                                             SObjectUtils.pluckIds(surveyQuestions, 'Id'),
                                             SObjectUtils.pluckIds(choices, 'Id'));
 
-            upsert choices;
+            
             loadExistingSurvey(survey.Id);
         }
         catch (Exception dmlException) { 
@@ -155,17 +156,13 @@ public with sharing class TrifectaSurveyController {
     }
     public void copyQuestion(){
         Trifecta_Survey_Question__c currentQuestion = surveyQuestions.get(getQuestionIndex(questionloadId));
-        Trifecta_Survey_Question__c newQuestion = currentQuestion.clone(false, true);
-        newQuestion.Load_Id__c = GuidUtil.NewGuid();
+        Trifecta_Survey_Question__c newQuestion = surveyService.cloneQuestion(currentQuestion);
         surveyQuestions.add(newQuestion);
 
-        List<Trifecta_Survey_Question_Choice__c> copiedChoices = new List<Trifecta_Survey_Question_Choice__c>(surveyQuestionChoiceMap.get(questionloadId));
         List<Trifecta_Survey_Question_Choice__c> clonedChoices = new List<Trifecta_Survey_Question_Choice__c>();
 
-        for (Trifecta_Survey_Question_Choice__c ch: copiedChoices) {
-            Trifecta_Survey_Question_Choice__c n = ch.clone(false, true);
-            n.Load_Id__c = GuidUtil.NewGuid();
-            clonedChoices.add(n);
+        for (Trifecta_Survey_Question_Choice__c ch: surveyQuestionChoiceMap.get(questionloadId)) {
+            clonedChoices.add(surveyService.cloneChoice(ch));
         }
         
         surveyQuestionChoiceMap.put(newQuestion.Load_Id__c, clonedChoices);

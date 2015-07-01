@@ -38,4 +38,20 @@ public with sharing class SurveyService {
            Database.delete(choicesToDelete,false);
         }
     }
+
+    public Trifecta_Survey_Question_Choice__c cloneChoice(Trifecta_Survey_Question_Choice__c original) {
+        return new Trifecta_Survey_Question_Choice__c(Load_Id__c = GuidUtil.NewGuid(),
+                                                        Value__c = original.Value__c,
+                                                        Weightage__c = original.Weightage__c);
+    }
+
+    public Trifecta_Survey_Question__c cloneQuestion(Trifecta_Survey_Question__c original) {
+        return new Trifecta_Survey_Question__c(Load_Id__c = GuidUtil.NewGuid(),
+                                                    Help_text__c = original.Help_text__c,
+                                                    Sort_Index__c = original.Sort_Index__c,
+                                                    Title__c = original.Title__c,
+                                                    Type__c = original.Type__c,
+                                                    isEdit__c = original.isEdit__c,
+                                                    isRequired__c = original.isRequired__c);
+    }
 }

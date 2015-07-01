@@ -33,9 +33,7 @@
                         <td><div class="error-message validation-error" style="display: none;">Oops!! required questions cannot be left blank</div></td>
                     </tr>
                     
-                    <apex:repeat value="{!surveyQuestions}" var="key">
-                        <apex:variable var="question" value="{!surveyQuestions[key]}"/>
-                        
+                    <apex:repeat value="{!surveyQuestions}" var="question">
                         <tr>
                             <td class="question-container">
                                 <div class="question-section">
@@ -47,18 +45,18 @@
                         </tr>
                         
                         <tr><td>
-                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Multi Choice'}">
-                                <apex:selectRadio value="{!surveyQuestionChoiceMap[key]}"  styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
-                                    <apex:selectOptions value="{!questionChoices[key]}"/>
+                            <apex:outputPanel rendered="{!question.type__c == 'Multi Choice'}">
+                                <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
+                                    <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
                                 </apex:selectRadio>
                             </apex:outputPanel>
-                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Checkbox'}">
-                                <apex:selectCheckboxes value="{!checkboxChoiceMap[key]}" styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
-                                    <apex:selectOptions value="{!questionChoices[key]}"/>
+                            <apex:outputPanel rendered="{!question.type__c == 'Checkbox'}">
+                                <apex:selectCheckboxes value="{!checkboxChoiceMap[question.Load_Id__c]}" styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
+                                    <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
                                 </apex:selectCheckboxes>
                             </apex:outputPanel>
-                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Text'}" styleClass="{! IF(question.isRequired__c, 'required','')}">
-                                <apex:inputText value="{!surveyQuestionChoiceMap[key]}"/>
+                            <apex:outputPanel rendered="{!question.type__c == 'Text'}" styleClass="{! IF(question.isRequired__c, 'required','')}">
+                                <apex:inputText value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
                             </apex:outputPanel>
                             </td>
                         </tr>

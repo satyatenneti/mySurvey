@@ -22,7 +22,11 @@ public with sharing class SurveyService {
 
         Map<String, List<Trifecta_Survey_Question_Choice__c>> choicesPerQuestion = new Map<String, List<Trifecta_Survey_Question_Choice__c>>();
         for(Trifecta_Survey_Question__c q: Database.query(soqlQuery.toString())) {
-        	choicesPerQuestion.put(q.Load_Id__c, q.Trifecta_Survey_Question_Choices__r);
+        	if (q.Type__c == 'Text' ) {
+                choicesPerQuestion.put(q.Load_Id__c, new List<Trifecta_Survey_Question_Choice__c>());
+            } else {
+               choicesPerQuestion.put(q.Load_Id__c, q.Trifecta_Survey_Question_Choices__r);
+            }
         }
         return choicesPerQuestion;
     }

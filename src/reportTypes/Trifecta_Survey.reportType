@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportType xmlns="http://soap.sforce.com/2006/04/metadata">
+    <baseObject>Trifecta_Survey__c</baseObject>
+    <category>other</category>
+    <deployed>false</deployed>
+    <description>Report on Survey</description>
+    <join>
+        <outerJoin>false</outerJoin>
+        <relationship>Trifecta_Survey_Submissions__r</relationship>
+    </join>
+    <label>Trifecta Survey</label>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Average Weightage</displayNameOverride>
+            <field>Avg_Weightage__c</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Description__c</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Owner</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sum of Average Weightage</displayNameOverride>
+            <field>SumOfAvgWeightage__c</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>true</checkedByDefault>
+            <displayNameOverride>Survey Title</displayNameOverride>
+            <field>Name</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <masterLabel>Trifecta Surveys</masterLabel>
+    </sections>
+    <sections>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Average Weightage</displayNameOverride>
+            <field>Avg_Weightage__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>LastActivityDate</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>No of Weightages</displayNameOverride>
+            <field>noOfWeightages__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Survey Submitted By</displayNameOverride>
+            <field>Submitted_To__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Sum of Weightage</displayNameOverride>
+            <field>sumOfWeightage__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Weightage_Indicator__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Id</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Name</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Completed__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Submitted_To_Name__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Threshold_Weightage__c</field>
+            <table>Trifecta_Survey__c</table>
+        </columns>
+        <masterLabel>Trifecta Survey Submissions</masterLabel>
+    </sections>
+</ReportType>

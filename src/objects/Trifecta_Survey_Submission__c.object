@@ -150,6 +150,27 @@
         <writeRequiresMasterRead>false</writeRequiresMasterRead>
     </fields>
     <fields>
+        <fullName>Weightage_Indicator__c</fullName>
+        <externalId>false</externalId>
+        <label>Weightage Indicator</label>
+        <picklist>
+            <picklistValues>
+                <fullName>Less Than Threshold</fullName>
+                <color>#FF0000</color>
+                <default>false</default>
+            </picklistValues>
+            <picklistValues>
+                <fullName>Greater Than Threshold</fullName>
+                <color>#009900</color>
+                <default>false</default>
+            </picklistValues>
+            <sorted>false</sorted>
+        </picklist>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+    </fields>
+    <fields>
         <fullName>noOfWeightages__c</fullName>
         <externalId>false</externalId>
         <label>noOfWeightages</label>

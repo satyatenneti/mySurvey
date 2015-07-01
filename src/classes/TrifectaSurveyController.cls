@@ -154,13 +154,12 @@ public with sharing class TrifectaSurveyController {
         List<Trifecta_Survey_Question_Choice__c> clonedChoices = new List<Trifecta_Survey_Question_Choice__c>();
 
         for (Trifecta_Survey_Question_Choice__c ch: copiedChoices) {
-            clonedChoices.add(ch.clone(false, true));
+            Trifecta_Survey_Question_Choice__c n = ch.clone(false, true);
+            n.Load_Id__c = GuidUtil.NewGuid();
+            clonedChoices.add(n);
         }
-        for(Trifecta_Survey_Question_Choice__c ch: clonedChoices){
-            ch.Load_Id__c = GuidUtil.NewGuid();
-        }
-
-        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c, copiedChoices);
+        
+        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c, clonedChoices);
         newQuestion.isEdit__c = false;
         
         this.questionloadId = newQuestion.Load_Id__c;

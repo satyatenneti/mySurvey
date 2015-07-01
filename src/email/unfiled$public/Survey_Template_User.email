@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Trifecta Survey" recipientType="User" relatedToType="Trifecta_Survey_Submission__c">
+<messaging:emailTemplate subject="Feedback form for : {!relatedTo.Survey__r.Name}" recipientType="User" relatedToType="Trifecta_Survey_Submission__c">
 <messaging:htmlEmailBody >
        <c:SendEmailComponent sender="{!relatedTo.Submitted_To__c}" submission="{!relatedTo.Id}"/>
 </messaging:htmlEmailBody>

@@ -5,6 +5,7 @@
     <style>
         .other-details { float: left; height: 7em; min-height: 7em;  }
         .other-right { margin-left: 20%;}
+        .ui-sortable-handle:hover { background-color: #E8E8E8; }
     </style>
     <apex:form id="survey">
         <div class="form-container">

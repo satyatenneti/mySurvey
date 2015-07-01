@@ -2,10 +2,13 @@
     <c:ScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/displayFormCSS.css')}"/>
-      
+    <style>
+        .validation-error { background-color: #FF9999;}
+        .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
+    </style>
     <apex:form id="displaySurvey">
         <div class="form-container">
-            <apex:pageMessages />
+
             <apex:outputPanel rendered="{! NOT(isSubmittedAlready)}">
                 <table class="table">
                     <tr>
@@ -21,6 +24,13 @@
             <hr />
             <div >
                 <table class="table">
+                    <tr>
+                        <td><div><apex:pageMessages /></div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="error-message validation-error" style="display: none;">Oops!! required questions cannot be left blank</div></td>
+                    </tr>
+                    
                     <apex:repeat value="{!surveyQuestions}" var="key">
                         <apex:variable var="question" value="{!surveyQuestions[key]}"/>
                         
@@ -36,16 +46,16 @@
                         
                         <tr><td>
                             <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Multi Choice'}">
-                                <apex:selectRadio value="{!surveyQuestionChoiceMap[key]}" styleClass="options" layout="pageDirection">
+                                <apex:selectRadio value="{!surveyQuestionChoiceMap[key]}"  styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
                                     <apex:selectOptions value="{!questionChoices[key]}"/>
                                 </apex:selectRadio>
                             </apex:outputPanel>
                             <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Checkbox'}">
-                                <apex:selectCheckboxes value="{!checkboxChoiceMap[key]}" styleClass="options" layout="pageDirection">
+                                <apex:selectCheckboxes value="{!checkboxChoiceMap[key]}" styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
                                     <apex:selectOptions value="{!questionChoices[key]}"/>
                                 </apex:selectCheckboxes>
                             </apex:outputPanel>
-                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Text'}">
+                            <apex:outputPanel rendered="{!surveyQuestions[key].type__c == 'Text'}" styleClass="{! IF(question.isRequired__c, 'required','')}">
                                 <apex:inputText value="{!surveyQuestionChoiceMap[key]}"/>
                             </apex:outputPanel>
                             </td>
@@ -55,8 +65,37 @@
                 <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
             </div>
             <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
-            <input type="button" value="Submit Survey" class="control-button" onclick="submitSurvey()" />
+            <input type="button" value="Submit Survey" class="control-button" onclick="submitSurveyJS()" />
             </apex:outputPanel> 
         </div>
     </apex:form>
+    <script type="text/javascript">
+        function submitSurveyJS() {
+            var isValid = false;
+            //verify all required questions
+            $('.required').each(function(){
+                isValid = true;
+                var checkedRadio = $(this).find('input[type=radio]:checked').val();
+                var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
+                var textValue = $(this).find('input[type=text]').val();
+
+                if(checkedRadio == undefined 
+                    && checkedCheckbox === undefined 
+                    && (textValue === undefined || textValue.length == 0)){
+
+                    $(this).addClass('validation-error');
+                    $('.error-message').show();
+                    isValid = false;
+                } else {
+                    $(this).removeClass('validation-error');
+                    $('.error-message').hide();
+                    isValid = true;
+                }
+            });
+
+            if(isValid) {
+                 submitSurvey();
+            }
+        }
+    </script>
 </apex:page>

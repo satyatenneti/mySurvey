@@ -10,6 +10,8 @@ public with sharing class TrifectaSurveyController {
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     public SurveyService surveyService;
+    public Integer newIndex {get; set;}
+    public Integer oldIndex {get; set;}
     
     public TrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
@@ -19,9 +21,7 @@ public with sharing class TrifectaSurveyController {
 
         if(surveyId != null) {
             //Load the current Survey details
-            survey  = surveyService.getSurveyById(surveyId);
-            surveyQuestions = survey.Trifecta_Survey_Questions__r;
-            surveyQuestionChoiceMap = surveyService.getChoicesPerQuestion(SObjectUtils.pluckIds(surveyQuestions, 'Id'));
+            loadExistingSurvey(surveyId);
 
         } else {
             // New survey
@@ -43,6 +43,11 @@ public with sharing class TrifectaSurveyController {
         questionloadId = '';
         choiceLoadId = '';
         qType = '';
+    }
+    private void loadExistingSurvey(String surveyId) {
+        survey  = surveyService.getSurveyById(surveyId);
+        surveyQuestions = survey.Trifecta_Survey_Questions__r;
+        surveyQuestionChoiceMap = surveyService.getChoicesPerQuestion(SObjectUtils.pluckIds(surveyQuestions, 'Id'));
     }
     /**
     * Adds new Question
@@ -93,10 +98,13 @@ public with sharing class TrifectaSurveyController {
     * Saves the Current Survey
     */
     public void saveSurvey(){
-        //Link Survey with Survey Questions via External Id
+      //Link Survey with Survey Questions via External Id
+        Integer sortIndex = 0;
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
             eachQuestion.Survey__r = new Trifecta_Survey__c(Load_Id__c = survey.Load_Id__c);
             eachQuestion.isEdit__c = false;
+            eachQuestion.Sort_Index__c = sortIndex;
+            sortIndex++;
         }
       //Link Survey Question Choices with Survey Question via External Id
       for(String eachQuestion : surveyQuestionChoiceMap.keySet()) {
@@ -117,6 +125,7 @@ public with sharing class TrifectaSurveyController {
                                             SObjectUtils.pluckIds(choices, 'Id'));
 
             upsert choices;
+            loadExistingSurvey(survey.Id);
         }
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());
@@ -221,6 +230,17 @@ public with sharing class TrifectaSurveyController {
         }
         return choicesToReturn;
     }
+
+    public void updateQuestionOrder() {
+        
+        Trifecta_Survey_Question__c question = surveyQuestions.remove(oldIndex);
+        
+        if(surveyQuestions.size()==newIndex)
+            surveyQuestions.add(question);
+        else
+            surveyQuestions.add(newIndex, question);
+    }
+
     public class SurveyWrapper{
         public Trifecta_Survey__c survey;
         public Map<String,Trifecta_Survey_Question__c> surveyQuestions;

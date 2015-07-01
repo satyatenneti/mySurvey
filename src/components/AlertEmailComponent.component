@@ -8,7 +8,7 @@
                     <img src="http://www.trifecta.com/wp-content/uploads/2015/06/Trifecta-logo-Original-2015-website-224x118.png" height="70" width="100" />
                 </td>
                 <td style="font-size:32pt;font-weight:bold;text-align:center;">
-                    Low Wieghtage Alert
+                    Low Feedback Alert
                 </td>
             </tr>
         </table>
@@ -17,12 +17,12 @@
         <table border="0" style="width:100%;">
             <tr>
                 <td colspan="2" align="left">
-                    Hi,<br /><br />
-                    User has Submitted his/her response with lesser than expected.
-                    you can see the detail &nbsp;&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>.
-                    <br /><br /><br />
-                    Thanking You.<br/>
-                    {!$User.FirstName} {!$User.LastName}
+                    Dear ,<br /><br />
+                    Feedback recieved from {!submittedToName} for {!SurveyName} which needs your attention.
+                    <br />Following are the details: 
+                    <br />Overall Rating: <bold>{!avgWeightage}</bold>, 
+                    <br />Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.
+                    <br />Survey App                    
                 </td>
             </tr>
         </table>

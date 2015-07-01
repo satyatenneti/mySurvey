@@ -19,10 +19,10 @@
         <table border="0" style="width:100%;">
             <tr>
             	<td colspan="2" align="left">
-            		Hi {!submittedToName},<br /><br />
+            		Dear {!submittedToName},<br /><br />
             		Please submit your feedback&nbsp;&nbsp;<apex:outputLink value="{!SurveyURL}" >here</apex:outputLink>.
             		<br /><br /><br />
-            		Thanking You.<br/>
+            		Thank You.<br/>
             		{!$User.FirstName} {!$User.LastName}
             	</td>
             </tr>

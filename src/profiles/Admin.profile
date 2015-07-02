@@ -222,9 +222,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Trifecta_Survey_Question_Response__c.ActionPlan__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -464,7 +464,7 @@
     </pageAccesses>
     <tabVisibilities>
         <tab>Trifecta_Survey_Submission__c</tab>
-        <visibility>DefaultOn</visibility>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Trifecta_Survey__c</tab>

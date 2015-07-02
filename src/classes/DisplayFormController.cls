@@ -51,10 +51,17 @@ public with sharing class DisplayFormController {
   }
 	public PageReference submitSurvey(){
         //Save the survey before the user can be redirected to Send Survey Page
-        saveResponses();
+        Trifecta_Survey_Submission__c surveySubmitted = [select id, Completed__c from Trifecta_Survey_Submission__c where Id =:submissionId];
+        if(!surveySubmitted.Completed__c) {
+          saveResponses();
         PageReference confirmationPage = new PageReference(DisplayFormController.CONFIRMATION_PAGE_URL+submissionId);
         confirmationPage.setRedirect(true);
         return confirmationPage;
+        } else {
+          isSubmittedAlready = true;
+          ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'This survey form has been submitted already.'));
+          return null;
+        }        
   	}	
 
 

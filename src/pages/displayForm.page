@@ -71,7 +71,7 @@
     </apex:form>
     <script type="text/javascript">
         function submitSurveyJS() {
-            var isValid = false;
+            var isValid = true;
             //verify all required questions
             $('.required').each(function(){
                 isValid = true;

@@ -42,6 +42,9 @@
     <columns>
         <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$sumOfWeightage__c</field>
     </columns>
+    <columns>
+        <field>Trifecta_Survey__c$Threshold_Weightage__c</field>
+    </columns>
     <description>Report shows weightage of each submitter on Different Surveys</description>
     <filter>
         <criteriaItems>

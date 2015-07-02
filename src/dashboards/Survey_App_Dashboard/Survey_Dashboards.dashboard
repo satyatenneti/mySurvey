@@ -3,27 +3,6 @@
     <backgroundEndColor>#FFCCCC</backgroundEndColor>
     <backgroundFadeDirection>Diagonal</backgroundFadeDirection>
     <backgroundStartColor>#FFFFFF</backgroundStartColor>
-    <dashboardFilters>
-        <dashboardFilterOptions>
-            <operator>contains</operator>
-            <values>ajay</values>
-        </dashboardFilterOptions>
-        <name>Submitter Name</name>
-    </dashboardFilters>
-    <dashboardFilters>
-        <dashboardFilterOptions>
-            <operator>contains</operator>
-            <values></values>
-        </dashboardFilterOptions>
-        <name>Survey Title</name>
-    </dashboardFilters>
-    <dashboardFilters>
-        <dashboardFilterOptions>
-            <operator>lessThan</operator>
-            <values></values>
-        </dashboardFilterOptions>
-        <name>Average Weightage</name>
-    </dashboardFilters>
     <dashboardType>SpecifiedUser</dashboardType>
     <leftSection>
         <columnSize>Wide</columnSize>
@@ -35,15 +14,6 @@
                 <column>FORMULA1</column>
             </chartSummary>
             <componentType>Column</componentType>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Name</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Avg_Weightage__c</column>
-            </dashboardFilterColumns>
             <displayUnits>Auto</displayUnits>
             <drillEnabled>true</drillEnabled>
             <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -66,15 +36,6 @@
                 <column>RowCount</column>
             </chartSummary>
             <componentType>ColumnGrouped</componentType>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Name</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Avg_Weightage__c</column>
-            </dashboardFilterColumns>
             <displayUnits>Auto</displayUnits>
             <drillEnabled>true</drillEnabled>
             <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -101,15 +62,6 @@
                 <column>FORMULA1</column>
             </chartSummary>
             <componentType>ColumnGrouped</componentType>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Name</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Avg_Weightage__c</column>
-            </dashboardFilterColumns>
             <displayUnits>Auto</displayUnits>
             <drillEnabled>true</drillEnabled>
             <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -133,15 +85,6 @@
                 <column>RowCount</column>
             </chartSummary>
             <componentType>ColumnGrouped</componentType>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Name</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Avg_Weightage__c</column>
-            </dashboardFilterColumns>
             <displayUnits>Auto</displayUnits>
             <drillEnabled>true</drillEnabled>
             <drillToDetailEnabled>false</drillToDetailEnabled>
@@ -168,15 +111,6 @@
                 <column>RowCount</column>
             </chartSummary>
             <componentType>ColumnGrouped</componentType>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Name</column>
-            </dashboardFilterColumns>
-            <dashboardFilterColumns>
-                <column>Trifecta_Survey__c$Avg_Weightage__c</column>
-            </dashboardFilterColumns>
             <displayUnits>Auto</displayUnits>
             <drillEnabled>true</drillEnabled>
             <drillToDetailEnabled>false</drillToDetailEnabled>

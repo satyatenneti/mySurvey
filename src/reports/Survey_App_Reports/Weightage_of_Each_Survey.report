@@ -4,6 +4,7 @@
         <calculatedFormula>Trifecta_Survey__c.Avg_Weightage__c:AVG</calculatedFormula>
         <datatype>number</datatype>
         <developerName>FORMULA1</developerName>
+        <downGroupingContext>Trifecta_Survey__c$Name</downGroupingContext>
         <isActive>true</isActive>
         <isCrossBlock>false</isCrossBlock>
         <masterLabel>Average Weightage</masterLabel>
@@ -62,6 +63,16 @@
             <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</column>
             <operator>equals</operator>
             <value>1</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$noOfWeightages__c</column>
+            <operator>greaterThan</operator>
+            <value>0</value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$sumOfWeightage__c</column>
+            <operator>greaterThan</operator>
+            <value>0</value>
         </criteriaItems>
     </filter>
     <format>Summary</format>

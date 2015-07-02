@@ -18,7 +18,7 @@
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
-        <showValues>true</showValues>
+        <showValues>false</showValues>
         <size>Large</size>
         <summaryAxisRange>Auto</summaryAxisRange>
         <textColor>#000000</textColor>
@@ -37,12 +37,12 @@
     </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</field>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</field>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
     <name>Survey completion of each submitter</name>

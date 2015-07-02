@@ -55,7 +55,7 @@
                             <tbody>
                                 <apex:repeat value="{!userDetailsList}" var="userDetail">
                                     <tr>
-                                        <td><apex:inputCheckbox value="{!userDetail.selected}"  /></td> 
+                                        <td><input type="checkbox" data-id="{!userDetail.user.Id}" value="{!userDetail.selected}"  /></td> 
                                         <td>{!userDetail.user.FirstName}</td>
                                         <td>{!userDetail.user.LastName}</td>
                                         <td><apex:image url="{!userDetail.user.smallphotourl}" /></td>
@@ -82,7 +82,7 @@
                                 <tbody>
                                     <apex:repeat value="{!contactDetailsList}" var="contactDetail">
                                         <tr>
-                                            <td><apex:inputCheckbox value="{!contactDetail.selected}"  /></td> 
+                                            <td><input type="checkbox" data-id="{!contactDetail.contact.Id}" value="{!contactDetail.selected}"  /></td> 
                                             <td>{!contactDetail.contact.FirstName}</td>
                                             <td>{!contactDetail.contact.LastName}</td>
                                         </tr>
@@ -128,9 +128,13 @@
             </table>
         </div>
         <apex:inputHidden value="{!sendTo}" id="sendTo"/>
+        <apex:inputHidden value="{!selectedIds}" id="selectedIds"/>
         <apex:actionFunction action="{!sendForm}" name="sendSurveyForm" />
     </apex:form>
     <script type="text/javascript">
+
+        var ids = [];
+        
         $(document).ready(function(){
             $('div.section').hide();
             $('input.control-button').hide();
@@ -159,13 +163,27 @@
                 $('select option:selected').each(function(){$(this).removeAttr('selected')});
                 $('#'+sectionToDisplay).show();
                 $('input:checkbox').removeAttr('checked');
+                ids = [];
+            });
+
+            $('input:checkbox').change(function() {
+
+                if($(this).is(":checked")) {
+                    ids.push($(this).attr("data-id"));
+                }else {
+                    var index = $.inArray($(this).attr("data-id"), ids);
+                        if (index >= 0) {
+                        ids.splice(index, 1);
+                    }
+                }
             });
         });
 
-        function doValidateAndSendForm() {
+        
 
+        function doValidateAndSendForm() {
             if($('#others').is(':visible')) { 
-                var success = ValidateEmails();   
+                var success = validateEmails();   
                 if(!success) {
                     $('#email-error').show();
                     $('input.control-button').hide();
@@ -173,13 +191,16 @@
                 }
             }   
 
+            if($('#contacts').is(':visible') || $('#users').is(':visible')) { 
+                $('[id*="selectedIds"]').val(ids);
+            }
+
             sendSurveyForm();
         }
 
-        function ValidateEmails() {  
+        function validateEmails() {  
           var emailList= $('[id*="external-emails"]').val().split(',');
-            for (i=0;i<emailList.length;i++)
-            {
+            for (i=0;i<emailList.length;i++) {
                var regex = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
                if(!regex.test(emailList[i].trim()))
                return false;

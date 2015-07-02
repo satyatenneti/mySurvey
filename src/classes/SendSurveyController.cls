@@ -4,8 +4,7 @@ public with sharing class SendSurveyController {
     public List<SelectOption> groupsList {get;set;}
 
     public String sendTo {get;set;}
-    public String selectedUsers {get; set;}
-    public String selectedContacts {get; set;}
+    public String selectedIds{get;set;}
     public String selectedGroups {get; set;}
     public String externalContacts {get; set;}
     public Id surveyId;
@@ -21,7 +20,7 @@ public with sharing class SendSurveyController {
         emailService = new EmailServiceBase();
         userDetailsList = getUserDetails();
         contactDetailsList = getContactDetails();
-        groupsList = getGroups();
+        groupsList = getGroups();        
     }
    
     private List<UserDetail> getUserDetails() {
@@ -49,24 +48,6 @@ public with sharing class SendSurveyController {
         return groupsList;
     }
 
-    private List<String> getSelectedUserIds() {
-        List<String> selectedUsersList = new List<String>();
-        for(UserDetail userDetail : userDetailsList) {
-            if(userDetail.selected)
-                selectedUsersList.add(userDetail.user.Id);            
-        }
-        return selectedUsersList;
-    }
-
-    private List<String> getSelectedContactIds() {
-        List<String> selectedContactList = new List<String>();
-        for(ContactDetail contactDetail : contactDetailsList) {
-            if(contactDetail.selected)
-                selectedContactList.add(contactDetail.contact.Id);            
-        }
-        return selectedContactList;
-    }
-
     public void sendForm() {
         
         //When no users are selected this will get an empty square branckets. Remove them before validation.
@@ -78,10 +59,8 @@ public with sharing class SendSurveyController {
             submittedList = externalContacts.split(',');
             sendExternalEmails (submittedList);
         } else {
-            if (sendTo.equals('users')) {
-                submittedList = getSelectedUserIds();
-            } else if (sendTo.equals('contacts')) {
-                submittedList = getSelectedContactIds();
+            if (sendTo.equals('users') || sendTo.equals('contacts')) {
+                submittedList = selectedIds.split(',');
             } else if (sendTo.equals('groups')) {
                 List<Id> submittedGroups =new List<Id>();
                 submittedGroups = selectedGroups.substring(1,selectedGroups.length()-1).split(',');

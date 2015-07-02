@@ -19,6 +19,7 @@ public with sharing class DisplayFormController {
         isSubmittedAlready = true;
   			ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'This survey form has been submitted already.'));
   		} else {
+        surveyService = new SurveyService();
         survey  = surveyService.getSurveyById(surveyId);
         surveyQuestions = survey.Trifecta_Survey_Questions__r;
         surveyQuestionChoices = surveyService.getChoicesPerQuestion(SObjectUtils.pluckIds(surveyQuestions, 'Id'));	

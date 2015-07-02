@@ -77,11 +77,12 @@
                 isValid = true;
                 var checkedRadio = $(this).find('input[type=radio]:checked').val();
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
-                var textValue = $(this).find('input[type=text]').val().trim();
+                var textValue = $(this).find('input[type=text]').val();
 
                 if(checkedRadio == undefined 
                     && checkedCheckbox === undefined 
-                    && (textValue === undefined || textValue.length == 0)){
+                    && (textValue === undefined 
+                        || (textValue != undefined && textValue.trim().length == 0)){
 
                     $(this).addClass('validation-error');
                     $('.error-message').show();

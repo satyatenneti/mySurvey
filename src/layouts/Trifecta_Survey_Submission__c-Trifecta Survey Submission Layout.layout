@@ -91,6 +91,7 @@
         <relatedList>RelatedHistoryList</relatedList>
     </relatedLists>
     <relatedLists>
+		<customButtons>Delete_All_Responses</customButtons>
         <fields>NAME</fields>
         <fields>Answer__c</fields>
         <fields>weitage__c</fields>

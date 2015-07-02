@@ -129,4 +129,33 @@
     <pluralLabel>Trifecta Survey Question Responses</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
+	<webLinks>
+        <fullName>Delete_All_Responses</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Delete All Responses</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>false</requireRowSelection>
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/apex.js&quot;)}
+
+// Getting all the Trifecta Submission Records from the database
+var result = sforce.connection.query(&quot;Select Id From Trifecta_Survey_Question_Response__c where Survey_Submission__c = &apos;{!Trifecta_Survey_Submission__c.Id}&apos; &quot;);
+var records = result.getArray(&quot;records&quot;);
+
+// Iterating through the collection and collecting Ids of records to be deleted
+var recordIds = [];
+var index;
+for (index = 0; index &lt; records.length; index++) {
+    recordIds[index] = records[index].Id
+}
+// Upon User confirming , we go ahead and delete the Submission records
+if (confirm(&apos;Are you sure you want to delete all the records ?&apos;)) {
+   sforce.connection.deleteIds(recordIds); 
+}
+
+window.location.reload();</url>
+    </webLinks>
 </CustomObject>

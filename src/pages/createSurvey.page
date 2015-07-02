@@ -6,6 +6,7 @@
         .other-details { float: left; height: 7em; min-height: 7em;  }
         .other-right { margin-left: 20%;}
         .ui-sortable-handle:hover { background-color: #F1F1F1; }
+        .grayed-out { cursor: pointer;}
     </style>
     <apex:form id="survey">
         <div class="form-container">
@@ -64,7 +65,7 @@
                                                         </apex:outputPanel>
                                                     </ul>
                                                     <div>
-                                                        <p class="font-question-title">{!question.Title__c}</p>
+                                                        <p class="font-question-title">{!question.Title__c}<apex:outputPanel styleClass="error" rendered="{!question.isRequired__c}">&nbsp;*&nbsp;</apex:outputPanel></p>
                                                         <p class="help-text">{!question.Help_text__c}</p>
                                                     </div>
                                                 </td>
@@ -98,17 +99,18 @@
                                 <apex:outputPanel rendered="{! (question.isEdit__c)}">
                                     <div class="question section">
                                         <table class="table">
-                                            <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
                                                 <tr>
                                                     <td colspan="4">
                                                         <ul class="control-buttons">
                                                             <li class="ui-state-default ui-corner-all" title="Click to move the question to edit/preview mode"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
                                                             <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
+                                                            <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
                                                             <li class="ui-state-default ui-corner-all"  title="Delete"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
+                                                            </apex:outputPanel>
                                                         </ul>
                                                     </td>
                                                 </tr>
-                                            </apex:outputPanel>
+                                            
                                             <tr>
                                                 <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" value="{!question.Title__c}" /></td>
                                             </tr>
@@ -136,7 +138,7 @@
                                                                     <apex:inputText rendered="{!question.Type__c == 'Multi Choice'}" styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for the question" />
                                                                     
                                                                 </td>
-                                                                <td style="padding: 20px 0 0 20px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
+                                                                <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
                                                                     </apex:outputPanel></td>
                                                             </tr>
                                                         </apex:repeat>
@@ -169,6 +171,7 @@
                             </div>
                         </apex:repeat>
                         </div>
+                        <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
                          <script>
                             $(function() {
                                 $( "#sortable" ).sortable({
@@ -197,7 +200,7 @@
                 <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" onclick="addNewQuestion()"/>
             </div>
             <div class="section">
-                <label>Confirmation Page</label>
+                <label>Confirmation Message</label>
                 <p><apex:inputText value="{!survey.Auto_Response_Message__c}" html-placeholder="Thank you for your time and feedback."/></p>
             </div>
             <div class="section">

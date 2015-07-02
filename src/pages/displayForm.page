@@ -38,7 +38,7 @@
                             <td class="question-container">
                                 <div class="question-section">
                                     <p class="font-question-title">
-                                    {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">*</apex:outputPanel></p>
+                                    {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">&nbsp;*&nbsp;</apex:outputPanel></p>
                                     <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
                             </td>

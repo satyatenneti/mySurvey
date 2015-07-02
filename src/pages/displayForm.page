@@ -77,7 +77,7 @@
                 isValid = true;
                 var checkedRadio = $(this).find('input[type=radio]:checked').val();
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
-                var textValue = $(this).find('input[type=text]').val();
+                var textValue = $(this).find('input[type=text]').val().trim();
 
                 if(checkedRadio == undefined 
                     && checkedCheckbox === undefined 

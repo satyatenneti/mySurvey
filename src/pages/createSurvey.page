@@ -7,6 +7,7 @@
         .other-right { margin-left: 20%;}
         .ui-sortable-handle:hover { background-color: #F1F1F1; }
         .grayed-out { cursor: pointer;}
+        .weightage-input { width: 3.125em; display: block;}
     </style>
     <apex:form id="survey">
         <div class="form-container">
@@ -18,7 +19,7 @@
             </div>
             <div class="section">
                 <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
-                <apex:inputText value="{!survey.Threshold_Weightage__c}" ></apex:inputText>
+                <apex:inputText styleClass="weightage-input" value="{!survey.Threshold_Weightage__c}" ></apex:inputText>
             </div>
 
             <div class="section questions">

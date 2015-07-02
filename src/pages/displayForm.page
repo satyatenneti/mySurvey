@@ -8,7 +8,7 @@
     </style>
     <apex:form id="displaySurvey">
         <div class="form-container">
-
+        <apex:pageMessages rendered="{!isSubmittedAlready}" />
             <apex:outputPanel rendered="{! NOT(isSubmittedAlready)}">
                 <table class="table">
                     <tr>

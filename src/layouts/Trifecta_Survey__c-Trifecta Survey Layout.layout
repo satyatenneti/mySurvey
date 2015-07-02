@@ -101,7 +101,7 @@
         <fields>NAME</fields>
         <fields>Submitted_To_Name__c</fields>
         <fields>CREATED_DATE</fields>
-        <fields>Completed__c</fields>
+        <fields>Completed_Image__c</fields>
         <fields>Avg_Weightage__c</fields>
         <relatedList>Trifecta_Survey_Submission__c.Survey__c</relatedList>
     </relatedLists>

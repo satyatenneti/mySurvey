@@ -110,8 +110,11 @@ public with sharing class TrifectaSurveyController {
         }
       //Link Survey Question Choices with Survey Question via External Id
       for(String eachQuestion : surveyQuestionChoiceMap.keySet()) {
+            Integer sortIndex1 = 0;
             for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoiceMap.get(eachQuestion)){
                 eachChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = eachQuestion);
+                eachChoice.Sort_Index__c = sortIndex1;
+                sortIndex1++;
             }
         }
       

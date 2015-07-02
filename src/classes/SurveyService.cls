@@ -17,7 +17,7 @@ public with sharing class SurveyService {
     	List<String> surveyQuestionFields = SoqlUtils.star('Trifecta_Survey_Question__c');
 
     	List<String> surveyQuestionChoiceFields = SoqlUtils.star('Trifecta_Survey_Question_Choice__c');
-    	surveyQuestionFields.add('('+SoqlUtils.getSelect(surveyQuestionChoiceFields, 'Trifecta_Survey_Question_Choices__r').toString()+')');
+    	surveyQuestionFields.add('('+SoqlUtils.getSelect(surveyQuestionChoiceFields, 'Trifecta_Survey_Question_Choices__r').withOrder(SoqlUtils.getOrder('Sort_Index__c')).toString()+')');
         SoqlUtils.Soqlquery soqlQuery = SoqlUtils.getSelect(surveyQuestionFields,'Trifecta_Survey_Question__c').withCondition(SoqlUtils.getIn('Id',questionIds));
 
         Map<String, List<Trifecta_Survey_Question_Choice__c>> choicesPerQuestion = new Map<String, List<Trifecta_Survey_Question_Choice__c>>();

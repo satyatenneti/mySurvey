@@ -135,7 +135,7 @@
                                                                                                 ui-corner-all input-choice" value="{!choice.Value__c}" />
                                                                 </td>
                                                                 <td style="width: 1.5em">
-                                                                    <apex:inputText rendered="{!question.Type__c == 'Multi Choice'}" styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for the question" />
+                                                                    <apex:inputText rendered="{!question.Type__c == 'Multi Choice'}" styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for this choice" />
                                                                     
                                                                 </td>
                                                                 <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>

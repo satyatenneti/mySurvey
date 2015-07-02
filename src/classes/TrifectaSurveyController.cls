@@ -9,6 +9,7 @@ public with sharing class TrifectaSurveyController {
     public static final String DEFAULT_QUESTION_TYPE = 'Multi Choice';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
+    public static final String DEFAULT_SURVEY_NAME = 'Untitled Survey';
     public SurveyService surveyService;
     public Integer newIndex {get; set;}
     public Integer oldIndex {get; set;}
@@ -26,6 +27,7 @@ public with sharing class TrifectaSurveyController {
         } else {
             // New survey
             survey = (Trifecta_Survey__c) controllerInstance.getRecord();
+            survey.Name = TrifectaSurveyController.DEFAULT_SURVEY_NAME;
 
             survey.Load_Id__c = GuidUtil.NewGuid();
 

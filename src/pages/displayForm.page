@@ -82,7 +82,7 @@
                 if(checkedRadio == undefined 
                     && checkedCheckbox === undefined 
                     && (textValue === undefined 
-                        || (textValue != undefined && textValue.trim().length == 0)){
+                        || (textValue != undefined && textValue.trim().length == 0))){
 
                     $(this).addClass('validation-error');
                     $('.error-message').show();

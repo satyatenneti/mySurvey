@@ -32,8 +32,7 @@
             <hr />
             <table class="table">
                 <tr><th colspan="2" style="float: right;">
-                    <select id="send-form-to-select" class="select-box">
-                            <option value="">Send form to</option> 
+                    Send Form to<select id="send-form-to-select" class="select-box">
                             <option value="users">Users</option> 
                             <option value="contacts">Contacts</option> 
                             <option value="groups">Groups</option> 
@@ -137,6 +136,7 @@
         var ids = [];
         
         $(document).ready(function(){
+
             $('div.section').hide();
             $('input.control-button').hide();
             $('select.sender-list').click(function(){
@@ -155,13 +155,15 @@
                     $('input.control-button').hide();
                 }
             });            
+            $('[id*="sendTo"]').val('users');
+            $('#users').show();
             $('#send-form-to-select').change(function(){
                 var sectionToDisplay = $('#send-form-to-select option:selected').val();
                 $('[id*="sendTo"]').val(sectionToDisplay);
 
                 $('input.control-button').hide();
-                $('div.section').hide();                    
-                $('select option:selected').each(function(){$(this).removeAttr('selected')});
+                $('div.section').hide();     
+
                 $('#'+sectionToDisplay).show();
                 $('input:checkbox').removeAttr('checked');
                 ids = [];

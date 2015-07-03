@@ -17,12 +17,12 @@
         <table border="0" style="width:100%;">
             <tr>
                 <td colspan="2" align="left">
-                    Dear ,<br /><br />
+                    Dear User,<br /><br />
                     Feedback recieved from {!submittedToName} for {!SurveyName} which needs your attention.
-                    <br />Following are the details: 
-                    <br />Overall Rating: <bold>{!avgWeightage}</bold>, 
-                    <br />Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.
-                    <br />Survey App                    
+                    <br /><br />Following are the details: 
+                    <br />Overall Rating: <bold>{!avgWeightage}</bold> 
+                    <br /><br/>Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.
+                    <br /><br /> <br />Survey App                    
                 </td>
             </tr>
         </table>

@@ -61,6 +61,7 @@
     </layoutSections>
     <relatedLists>
         <customButtons>Delete_All_Responses</customButtons>
+        <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
         <fields>Answer__c</fields>
         <fields>weitage__c</fields>

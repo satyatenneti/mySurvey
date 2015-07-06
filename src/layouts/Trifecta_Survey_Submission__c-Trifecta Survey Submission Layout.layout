@@ -64,6 +64,7 @@
     <relatedLists>
         <customButtons>Delete_All_Responses</customButtons>
         <excludeButtons>New</excludeButtons>
+        <fields>NAME</fields>
         <fields>Trifecta_Survey_Question__c.Title__c</fields>
         <fields>Answer__c</fields>
         <fields>weitage__c</fields>

@@ -119,12 +119,12 @@
     </fields>
     <fields>
         <fullName>Type__c</fullName>
-        <description>Type of the question ex: Text, Multi Select or Checkbox</description>
+        <description>Type of the question ex: Text, Radio Button or Checkbox</description>
         <externalId>false</externalId>
         <label>Type</label>
         <picklist>
             <picklistValues>
-                <fullName>Multi Choice</fullName>
+                <fullName>Radio Button</fullName>
                 <default>false</default>
             </picklistValues>
             <picklistValues>

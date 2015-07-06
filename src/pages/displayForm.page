@@ -45,7 +45,7 @@
                         </tr>
                         
                         <tr><td>
-                            <apex:outputPanel rendered="{!question.type__c == 'Multi Choice'}">
+                            <apex:outputPanel rendered="{!question.type__c == 'Radio Button'}">
                                 <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
                                     <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
                                 </apex:selectRadio>

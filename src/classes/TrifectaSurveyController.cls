@@ -6,7 +6,7 @@ public with sharing class TrifectaSurveyController {
     public String choiceLoadId{get;set;}
     public String qType{get;set;}
     public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoiceMap{get;set;}
-    public static final String DEFAULT_QUESTION_TYPE = 'Multi Choice';
+    public static final String QUESTION_TYPE_RADIO = 'Radio Button';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     public static final String DEFAULT_SURVEY_NAME = 'Untitled Survey';
@@ -154,7 +154,7 @@ public with sharing class TrifectaSurveyController {
     
     public List<SelectOption> getQuestionTypes() {
         List<SelectOption> options = new List<SelectOption>();
-        options.add(new SelectOption('Multi Choice', 'Multi Choice'));
+        options.add(new SelectOption('Radio Button', 'Radio Button'));
         options.add(new SelectOption('Text', 'Text'));
         options.add(new SelectOption('Checkbox', 'Checkbox'));
         return options;
@@ -217,7 +217,7 @@ public with sharing class TrifectaSurveyController {
 
     private Trifecta_Survey_Question__c getNewQuestion() {
       return new Trifecta_Survey_Question__c(
-                                      Type__c=TrifectaSurveyController.DEFAULT_QUESTION_TYPE, 
+                                      Type__c=TrifectaSurveyController.QUESTION_TYPE_RADIO, 
                                       Load_Id__c=GuidUtil.NewGuid(),
                                       Title__c=TrifectaSurveyController.DEFAULT_QUESTION_TITLE,
                                       isRequired__c = false,

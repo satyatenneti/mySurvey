@@ -1,13 +1,30 @@
 <apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="DisplayFormController">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{!survey.Name}</title>
+</head>
     <c:ScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/displayFormCSS.css')}"/>
     <style>
         .validation-error { background-color: #FF9999;}
         .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
+        .trifecta-logo{ float: right;}
+        .clear {clear: both;}
+        @media screen and (max-width: 720px) {
+            .form-container { width: 85%; margin-top: 2px; height: 95%; }
+            .sg-logo { float: left;}
+            .trifecta-logo{ width: 75px; height: 50px; margin-top: -10px;}
+        }
     </style>
     <apex:form id="displaySurvey">
         <div class="form-container">
+        <div>
+            <img class="sg-logo" src="/servlet/servlet.ImageServer?id=01528000000Luh9&oid=00D28000000XFjq" width="170" height="30" />
+            <img style="display: {! IF(User == true, 'block', 'none')}"  class="trifecta-logo" src="http://www.trifecta.com/wp-content/uploads/2015/06/Trifecta-logo-Original-2015-website-224x118.png" height="70" width="120" />
+        </div>
+        <div class="clear"><hr style="margin: 10px -20px; color: #eee;" /></div>
+
         <apex:pageMessages rendered="{!isSubmittedAlready}" />
             <apex:outputPanel rendered="{! NOT(isSubmittedAlready)}">
                 <table class="table">
@@ -16,14 +33,10 @@
                             <div class="font-survey-title">{!survey.Name}</div>
                             <div class="help-text">{!survey.Help_Text__c}</div>
                         </td>
-                        <apex:outputPanel rendered="{!User}">
-                        <td style="float:right">
-                            <img src="http://www.trifecta.com/wp-content/uploads/2015/06/Trifecta-logo-Original-2015-website-224x118.png" height="70" width="120" />
-                        </td>
-                        </apex:outputPanel>
+                        
                     </tr>
                 </table>
-            <hr />
+            
             <div >
                 <table class="table">
                     <tr>

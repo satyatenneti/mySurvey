@@ -60,8 +60,6 @@ private Integer getBalance() {
     public void sendForm() {
         
         //When no users are selected this will get an empty square branckets. Remove them before validation.
-        selectedGroups = (selectedGroups != null ) ? selectedGroups.remove('[]') : null;
-        
         List<String> submittedList = new List<String>();        
 
         if (sendTo.equals('others')) {
@@ -70,16 +68,46 @@ private Integer getBalance() {
         } else {
             if (sendTo.equals('users') || sendTo.equals('contacts')) {
                 submittedList = selectedIds.split(',');
+                sendInternalEmails(submittedList);
             } else if (sendTo.equals('groups')) {
-                List<Id> submittedGroups =new List<Id>();
-                submittedGroups = selectedGroups.substring(1,selectedGroups.length()-1).split(',');
-                List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId in :submittedGroups];
+                List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId = :selectedGroups];
+                Set<String> otherGroups = new Set<String>();
                 for (GroupMember eachMember : memberList) {
-                    submittedList.add(String.valueOf(eachMember.UserOrGroupId));
+                    if (String.valueOf(eachMember.UserOrGroupId).substring(0,3) ==schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix() ) {
+                        submittedList.add(String.valueOf(eachMember.UserOrGroupId));
+                    } else {
+                        otherGroups.add(String.valueOf(eachMember.UserOrGroupId));
+                    }
+                }
+                if (otherGroups.size() > 0) {
+                    submittedList.addAll(getGroupsForIds(otherGroups));
+                }
+                if (submittedList.isEmpty()) {
+                   ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'Selected group doesn`t contain any Users')); 
+                } else {
+                    sendInternalEmails(submittedList);
                 }
             }
-            sendInternalEmails(submittedList);
         }
+    }
+
+    private Set<String> getGroupsForIds (Set<String> userOrGroupIds) {
+
+        Set<String> output = new Set<String>();
+
+        Set<String> nestedGroupIds = new Set<String>();
+        list<GroupMember> records = [ select Id, GroupId, UserOrGroupId from GroupMember where GroupId in :userOrGroupIds];
+        for (GroupMember record:records) {
+            if (String.valueOf(record.UserOrGroupId).substring(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+                nestedGroupIds.add(record.UserOrGroupId);   
+            } else {
+                nestedGroupIds.add(record.UserOrGroupId);
+            }
+        }
+        if (nestedGroupIds.size() > 0) {
+            output.addAll(getGroupsForIds(nestedGroupIds));
+        }
+        return output;
     }
 
     private void sendInternalEmails(List<String> submittedList) {
@@ -94,7 +122,6 @@ private Integer getBalance() {
             else {
                 contactList = new Map<Id, Contact>([SELECT Id, Name from Contact where id in :submittedList]);
             }
-            
             for(String eachId : submittedList) {
                 String name;
                 if (userList.size() > 0) {
@@ -137,7 +164,7 @@ private Integer getBalance() {
                 ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));     
             }
         } else {
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent.'));
         }
     }
 

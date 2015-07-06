@@ -38,6 +38,7 @@
         <name>CustomTab</name>
     </types>
     <types>
+        <members>Survey_App_Dashboard</members>
         <members>Survey_App_Dashboard/Survey_Dashboards</members>
         <name>Dashboard</name>
     </types>
@@ -70,6 +71,7 @@
         <name>Profile</name>
     </types>
     <types>
+        <members>Survey_App_Reports</members>
         <members>Survey_App_Reports/Survey_completion</members>
         <members>Survey_App_Reports/Survey_completion_of_each_submitter</members>
         <members>Survey_App_Reports/Weightage_Indicator</members>
@@ -78,7 +80,7 @@
         <name>Report</name>
     </types>
     <types>
-        <members>Trifecta_Survey</members>
+        <members>*</members>
         <name>ReportType</name>
     </types>
     <types>
@@ -89,5 +91,5 @@
         <members>Trifecta_Survey_Submission__c</members>
         <name>Workflow</name>
     </types>
-    <version>32.0</version>
+    <version>31.0</version>
 </Package>

@@ -46,7 +46,7 @@
                         <table id="usertable" class="display">
                             <thead>
                                 <tr>
-                                    <th></th>
+                                    <th><input type="checkbox" id="userSelectAllChbx" /></th>
                                     <th>First Name</th>
                                     <th>Last Name</th>
                                     <th>Image</th>
@@ -74,7 +74,7 @@
                             <table id="contacttable" class="display">
                                 <thead>
                                     <tr>
-                                        <th></th>
+                                        <th><input type="checkbox" id="contactSelectAllChbx" /></th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
                                     </tr>
@@ -169,14 +169,42 @@
                 ids = [];
             });
 
+            function selectAllRows(tableObj) {
+                $('input', tableObj.fnGetNodes()).each(function () {
+                    $(this).prop('checked',true);
+
+                    var index = $.inArray($(this).attr("data-id"), ids);
+                    if(index == -1)
+                        ids.push($(this).attr("data-id"));
+                });
+            }
+
+            function unSelectAllRows(tableObj) {
+                $('input', tableObj.fnGetNodes()).removeAttr('checked');
+                ids = [];
+            }
+
             $('input:checkbox').change(function() {
 
                 if($(this).is(":checked")) {
-                    ids.push($(this).attr("data-id"));
+                    if($(this).is($('#userSelectAllChbx'))) {
+                        selectAllRows($('#usertable').dataTable());
+                    } else if($(this).is($('#contactSelectAllChbx'))) {
+                        selectAllRows($('#contacttable').dataTable());
+                    } else {
+                        ids.push($(this).attr("data-id"));   
+                    }
                 }else {
-                    var index = $.inArray($(this).attr("data-id"), ids);
+
+                    if($(this).is($('#userSelectAllChbx'))) {
+                        unSelectAllRows($('#usertable').dataTable());
+                    } else if($(this).is($('#contactSelectAllChbx'))) {
+                        unSelectAllRows($('#contacttable').dataTable());
+                    } else {
+                        var index = $.inArray($(this).attr("data-id"), ids);
                         if (index >= 0) {
-                        ids.splice(index, 1);
+                            ids.splice(index, 1);
+                        }
                     }
                 }
             });

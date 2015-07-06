@@ -1,4 +1,5 @@
 public with sharing class SendEmailComponentController {
+    public static final String MYSURVEYURL = 'https://login.salesforce.com/apex/displayForm?Id=';
     public String submissionId { get; set; }
     public String senderId { get; set; }
     public String SurveyURL {get; set;}
@@ -9,7 +10,7 @@ public with sharing class SendEmailComponentController {
             avgWeightage = submission.Avg_Weightage__c;
             if (submission.Submitted_To__c != null) {
                 if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
-                    SurveyURL =  'https://login.salesforce.com/apex/displayForm?Id='+submissionId+'&Survey='+getSurveyId(submissionId);
+                    SurveyURL = MYSURVEYURL+submissionId+'&Survey='+getSurveyId(submissionId);
                 } else if (submission.Submitted_To__c.subString(0,3) == schema.getGlobalDescribe().get('Contact').getDescribe().getKeyPrefix()) {
                     String siteURL = [select Site_Address__c from Survey_Global_Settings__c][0].Site_Address__c;
                     SurveyURL = siteURL+'displayForm?Id='+submissionId+'&Survey='+getSurveyId(submissionId);

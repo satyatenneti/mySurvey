@@ -84,6 +84,9 @@ public with sharing class DisplayFormController {
   		Trifecta_Survey_Submission__c surveySubmitted = [select id, Completed__c from Trifecta_Survey_Submission__c where Id =:submissionId];
   		surveySubmitted.Completed__c = true;
   		update surveySubmitted;
+      Task eachTask = [SELECT Id, WhatId, Status FROM Task WHERE WhatId = :submissionId];
+      eachTask.Status = 'Completed';
+      update eachTask;
  	}
   
   public Boolean getUser() {

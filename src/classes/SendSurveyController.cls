@@ -107,7 +107,7 @@ private Integer getBalance() {
             }
             insert submissionList;
             emailService.sendInternalEmailNotifications(submissionList, surveyId);
-            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));     
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been sent successfully.'));     
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent (or) group.'));
         }

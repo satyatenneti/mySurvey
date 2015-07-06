@@ -7,7 +7,7 @@
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/displayFormCSS.css')}"/>
     <style>
-        .validation-error { background-color: #FF9999;}
+        .validation-error {   background-color: #FF4D4D; border: solid 3px #FF9999; color: white;}
         .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
         .trifecta-logo{ float: right;}
         .clear {clear: both;}

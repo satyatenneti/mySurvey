@@ -35,29 +35,26 @@
                     
                     <apex:repeat value="{!surveyQuestions}" var="question">
                         <tr>
-                            <td class="question-container">
+                            <td class="question-container {! IF(question.isRequired__c, 'required','')}">
                                 <div class="question-section">
                                     <p class="font-question-title">
                                     {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">&nbsp;*&nbsp;</apex:outputPanel></p>
                                     <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
-                            </td>
-                        </tr>
-                        
-                        <tr><td>
-                            <apex:outputPanel rendered="{!question.type__c == 'Radio Button'}">
-                                <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
-                                    <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
-                                </apex:selectRadio>
-                            </apex:outputPanel>
-                            <apex:outputPanel rendered="{!question.type__c == 'Checkbox'}">
-                                <apex:selectCheckboxes value="{!checkboxChoiceMap[question.Load_Id__c]}" styleClass="options {! IF(question.isRequired__c, 'required','')}" layout="pageDirection">
-                                    <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
-                                </apex:selectCheckboxes>
-                            </apex:outputPanel>
-                            <apex:outputPanel rendered="{!question.type__c == 'Text'}" styleClass="{! IF(question.isRequired__c, 'required','')}">
-                                <apex:inputText value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
-                            </apex:outputPanel>
+                            
+                                <apex:outputPanel rendered="{!question.type__c == 'Radio Button'}">
+                                    <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options" layout="pageDirection">
+                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
+                                    </apex:selectRadio>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!question.type__c == 'Checkbox'}">
+                                    <apex:selectCheckboxes value="{!checkboxChoiceMap[question.Load_Id__c]}" styleClass="options" layout="pageDirection">
+                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
+                                    </apex:selectCheckboxes>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!question.type__c == 'Text'}">
+                                    <apex:inputText value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
+                                </apex:outputPanel>
                             </td>
                         </tr>
                     </apex:repeat>
@@ -73,24 +70,23 @@
         function submitSurveyJS() {
             var isValid = true;
             //verify all required questions
-            $('.required').each(function(){
-                isValid = true;
+            $('.required').each(function() {
                 var checkedRadio = $(this).find('input[type=radio]:checked').val();
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
                 var textValue = $(this).find('input[type=text]').val();
+                var question = $(this).find('.font-question-title');
 
                 if(checkedRadio == undefined 
                     && checkedCheckbox === undefined 
                     && (textValue === undefined 
                         || (textValue != undefined && textValue.trim().length == 0))){
 
-                    $(this).addClass('validation-error');
+                    $(question).addClass('validation-error');
                     $('.error-message').show();
                     isValid = false;
                 } else {
-                    $(this).removeClass('validation-error');
+                    $(question).removeClass('validation-error');
                     $('.error-message').hide();
-                    isValid = true;
                 }
             });
 

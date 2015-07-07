@@ -132,11 +132,12 @@ public with sharing class TrifectaSurveyController {
 
             
             loadExistingSurvey(survey.Id);
+
+            ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Survey created/updated successfully.'));
         }
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());
         }
-        ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Survey created/updated successfully.'));
     }
     /**
     * Saves the Survey and redirects the user to Send Survey page 

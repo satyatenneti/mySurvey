@@ -18,7 +18,7 @@
             </div>
             <div class="section">
                 <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
-                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" value="{!survey.Threshold_Weightage__c}" ></apex:inputText>
+                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" value="{!survey.Threshold_Weightage__c}" maxlength="18" ></apex:inputText>
             </div>
 
             <div class="section questions">

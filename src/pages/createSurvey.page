@@ -1,7 +1,7 @@
 <apex:page standardController="Trifecta_Survey__c" sidebar="false"  extensions="TrifectaSurveyController">
     <c:ScriptIncludes />
-    <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
-    <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/createSurveyCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
     <style>
         .other-details { float: left; height: 7em; min-height: 7em;  }
         .other-right { margin-left: 20%;}

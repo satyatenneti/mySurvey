@@ -1,5 +1,5 @@
 <apex:page controller="ConfirmationPageController" showHeader="false" sidebar="false">
-    <apex:stylesheet value="{!URLFOR($Resource.JQuery, 'scripts/custom/createSurveyCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'scripts/custom/createSurveyCSS.css')}"/>
     <style>
         body { padding-right: 0; padding-left: 0; background-color: #eee; }
         .section { padding: 15px; margin-top: 5px; background-color: #fff; box-shadow: 0px 0px 8px #888888;}

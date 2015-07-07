@@ -4,8 +4,8 @@
   <title>{!survey.Name}</title>
 </head>
     <c:ScriptIncludes />
-    <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/globalCSS.css')}"/>
-    <apex:stylesheet value="{!URLFOR($Resource.Styles, 'styles/custom/displayFormCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/displayFormCSS.css')}"/>
     <style>
         .validation-error {   background-color: #FF4D4D; border: solid 3px #FF9999; color: white;}
         .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
@@ -20,8 +20,8 @@
     <apex:form id="displaySurvey">
         <div class="form-container">
         <div>
-            <img class="sg-logo" src="{!URLFOR($Resource.Images, 'Images/TabImage.gif')}" width="170" height="30" />
-            <img style="display: {! IF(User == true, 'block', 'none')}"  class="trifecta-logo" src="{!URLFOR($Resource.Trifecta_Logo)}" height="70" width="120" />
+            <img class="sg-logo" src="{!URLFOR($Resource.SurveyGuru, 'images/TabImage.gif')}" width="170" height="30" />
+            <img style="display: {! IF(User == true, 'block', 'none')}"  class="trifecta-logo" src="{!URLFOR($Resource.SurveyGuru, 'images/Trifecta_Logo.png')}" height="70" width="120" />
         </div>
         <div class="clear"><hr style="margin: 10px -20px; color: #eee;" /></div>
 
@@ -55,17 +55,17 @@
                                     <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
                             
-                                <apex:outputPanel rendered="{!question.type__c == 'Radio Button'}">
+                                <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
                                     <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options" layout="pageDirection">
                                         <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
                                     </apex:selectRadio>
                                 </apex:outputPanel>
-                                <apex:outputPanel rendered="{!question.type__c == 'Checkbox'}">
+                                <apex:outputPanel rendered="{!question.Type__c == 'Checkbox'}">
                                     <apex:selectCheckboxes value="{!checkboxChoiceMap[question.Load_Id__c]}" styleClass="options" layout="pageDirection">
                                         <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
                                     </apex:selectCheckboxes>
                                 </apex:outputPanel>
-                                <apex:outputPanel rendered="{!question.type__c == 'Text'}">
+                                <apex:outputPanel rendered="{!question.Type__c == 'Text'}">
                                     <apex:inputText value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
                                 </apex:outputPanel>
                             </td>

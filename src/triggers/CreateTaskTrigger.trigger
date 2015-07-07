@@ -1,4 +1,5 @@
 trigger CreateTaskTrigger on Trifecta_Survey_Submission__c (after insert) {
+	public static final String SURVEYURL = 'https://login.salesforce.com/apex/displayForm?Id=';
 	List<Task> taskList = new List<Task>();
 	Set<Id> surveyIds = new Set<Id>();
 	List<Trifecta_Survey__c> currentSurvey = new List<Trifecta_Survey__c>();
@@ -15,6 +16,8 @@ trigger CreateTaskTrigger on Trifecta_Survey_Submission__c (after insert) {
 			task.Subject = 'Awaiting feedback for '+currentSurvey[0].Name;
 			task.Priority = 'Normal';
 			task.OwnerId = eachSubmission.Submitted_To__c;
+			task.WhatId = eachSubmission.Id;
+			task.Description = SURVEYURL+eachSubmission.Id+'&Survey='+eachSubmission.Survey__c;
 			taskList.add(task);
 		}
 	}

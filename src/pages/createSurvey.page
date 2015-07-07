@@ -7,6 +7,7 @@
         .other-right { margin-left: 20%;}
         .ui-sortable-handle:hover { background-color: #F1F1F1; }
         .grayed-out { cursor: pointer;}
+        .number {}
     </style>
     <apex:form id="survey">
         <div class="form-container">
@@ -18,7 +19,7 @@
             </div>
             <div class="section">
                 <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
-                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" value="{!survey.Threshold_Weightage__c}" maxlength="18" ></apex:inputText>
+                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="18" ></apex:inputText>
             </div>
 
             <div class="section questions">
@@ -233,6 +234,12 @@
                     }
 
                 }
+            });
+
+            $('[id*="survey"]').find("[number=true]").on('keyup', function(){
+                if (!/^[0-9]*$/.test($(this).val())) {
+                    $(this).val("");
+                }         
             });
         });
     </script>

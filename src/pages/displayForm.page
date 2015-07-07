@@ -65,8 +65,8 @@
                                         <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
                                     </apex:selectCheckboxes>
                                 </apex:outputPanel>
-                                <apex:outputPanel rendered="{!question.Type__c == 'Text'}">
-                                    <apex:inputText value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
+                                <apex:outputPanel rendered="{!question.type__c == 'Text'}">
+                                    <apex:inputText maxlength="255" value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
                                 </apex:outputPanel>
                             </td>
                         </tr>

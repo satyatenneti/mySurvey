@@ -233,7 +233,6 @@
                     }
 
                 }
-            }
             });
             $( "#sortable" ).disableSelection();
         });

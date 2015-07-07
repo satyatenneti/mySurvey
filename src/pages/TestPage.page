@@ -1,3 +1,0 @@
-<apex:page standardController="Trifecta_Survey__c" sidebar="false"  extensions="TrifectaSurveyController">
-    
-</apex:page>

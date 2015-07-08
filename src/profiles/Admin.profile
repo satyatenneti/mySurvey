@@ -447,11 +447,11 @@
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>TTISGcreateSurvey</apexPage>
+        <apexPage>TTISGCreateSurvey</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>TTISGdisplayForm</apexPage>
+        <apexPage>TTISGDisplayForm</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>

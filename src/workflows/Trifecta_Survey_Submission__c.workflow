@@ -8,7 +8,7 @@
             <type>owner</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>unfiled$public/Low_Weightage_alert</template>
+        <template>SurveyGuruEmails/TTISGLow_Weightage_alert</template>
     </alerts>
     <alerts>
         <fullName>Send_Email_to_an_SurveyCreator_s_Manager</fullName>
@@ -19,7 +19,7 @@
             <type>email</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>unfiled$public/Low_Weightage_alert</template>
+        <template>SurveyGuruEmails/TTISGLow_Weightage_alert</template>
     </alerts>
     <fieldUpdates>
         <fullName>AssignEmail</fullName>

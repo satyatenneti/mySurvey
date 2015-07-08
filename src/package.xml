@@ -41,7 +41,8 @@
         <name>Dashboard</name>
     </types>
     <types>
-        <members>SurveyGuruEmails/TTISGLow_Weightage_alert</members>
+        <members>SurveyGuruEmails</members>
+		<members>SurveyGuruEmails/TTISGLow_Weightage_alert</members>
         <members>SurveyGuruEmails/TTISGSurvey_Template_Contact</members>
         <members>SurveyGuruEmails/TTISGSurvey_Template_EmailAddress</members>
         <members>SurveyGuruEmails/TTISGSurvey_Template_User</members>

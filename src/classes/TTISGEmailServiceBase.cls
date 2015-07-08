@@ -8,12 +8,12 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
 
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             if (isValidId(submission.Submitted_To__c, 'User')) {
-                EmailTemplate userTemplate = [select Id from EmailTemplate where name ='Survey Template User'];
+                EmailTemplate userTemplate = [select Id from EmailTemplate where name ='TTISGSurvey Template User'];
                 mail.setTemplateId(userTemplate.Id);
                 mail.setSaveAsActivity(false);
             }
             else if (isValidId(submission.Submitted_To__c, 'Contact')) {
-                EmailTemplate contactTemplate = [select Id from EmailTemplate where name ='Survey Template Contact'];
+                EmailTemplate contactTemplate = [select Id from EmailTemplate where name ='TTISGSurvey Template Contact'];
                 mail.setTemplateId(contactTemplate.Id);
                 mail.setSaveAsActivity(true);
             }

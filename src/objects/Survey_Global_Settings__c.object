@@ -5,6 +5,16 @@
     <description>setting for public site URL</description>
     <enableFeeds>false</enableFeeds>
     <fields>
+        <fullName>Login_URL__c</fullName>
+        <externalId>false</externalId>
+        <label>Login URL</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Site_Address__c</fullName>
         <externalId>false</externalId>
         <label>Site Address</label>

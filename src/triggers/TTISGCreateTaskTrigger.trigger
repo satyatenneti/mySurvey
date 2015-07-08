@@ -1,7 +1,7 @@
 trigger TTISGCreateTaskTrigger on Trifecta_Survey_Submission__c (after insert) {
-    public static final String SURVEYURL = 'https://login.salesforce.com/apex/TTISGDisplayForm?Id=';
     List<Task> taskList = new List<Task>();
     Set<Id> surveyIds = new Set<Id>();
+    Public String urlLoad = Survey_Global_Settings__c.getOrgDefaults().Login_URL__c;
     List<Trifecta_Survey__c> currentSurvey = new List<Trifecta_Survey__c>();
     for (Trifecta_Survey_Submission__c eachSub : trigger.new) {
         surveyIds.add(eachSub.Survey__c);
@@ -17,7 +17,7 @@ trigger TTISGCreateTaskTrigger on Trifecta_Survey_Submission__c (after insert) {
             task.Priority = 'Normal';
             task.OwnerId = eachSubmission.Submitted_To__c;
             task.WhatId = eachSubmission.Id;
-            task.Description = SURVEYURL+eachSubmission.Id+'&Survey='+eachSubmission.Survey__c;
+            task.Description = urlLoad+'apex/TTISGDisplayForm?Id='+eachSubmission.Id+'&Survey='+eachSubmission.Survey__c;
             taskList.add(task);
         }
     }

@@ -7,7 +7,7 @@
         <table border="0" style="width:100%;">
             <tr>
                 <td style="font-size:10pt;font-weight:bold;text-align:left;">
-                    <img src="http://www.trifecta.com/wp-content/uploads/2015/06/Trifecta-logo-Original-2015-website-224x118.png" height="70" width="100" />
+                    <img src="https://trifecta--ttidevfull--c.cs14.content.force.com/servlet/servlet.ImageServer?id=015c0000000Mwb5&oid=00Dc0000003ugjQ" height="70" width="120" alt="Trifecta" />
                 </td>
                 <td style="font-size:32pt;font-weight:bold;text-align:center;">
                     {!SurveyName}
@@ -26,6 +26,13 @@
                     {!$User.FirstName} {!$User.LastName}
                 </td>
             </tr>
+            <tr>
+                <td colspan="2" align="left">
+                    <br /><br /><hr />
+                    <img src="https://trifecta--ttidevfull--c.cs14.content.force.com/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ" width="170" height="30" alt="Survey Guru" />
+                </td>
+            </tr>
         </table>
+        
     </div>
 </apex:component>

@@ -6,7 +6,8 @@ public with sharing class TTISGDisplayFormController {
   public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoices{get; set;}
   public TTISGSurveyService surveyService;
     public List<Trifecta_Survey_Question_Response__c> surveyResponses {get; set;}
-    public static final String CONFIRMATION_PAGE_URL = '/apex/TTISGConfirmation?id=';
+    public static final String USER_CONFIRMATION_PAGE_URL = '/apex/TTISGConfirmation?id=';
+    public static final String CONTACT_CONFIRMATION_PAGE_URL = '/TTISGConfirmation?id=';
     public Map<String,List<SelectOption>> questionChoices {get; set;}
     public Map<String,String> surveyQuestionChoiceMap{get;set;} 
     public Map<String,List<String>> checkboxChoiceMap {get; set;}
@@ -51,12 +52,17 @@ public with sharing class TTISGDisplayFormController {
   }
     public PageReference submitSurvey(){
         //Save the survey before the user can be redirected to Send Survey Page
-        Trifecta_Survey_Submission__c surveySubmitted = [select id, Completed__c from Trifecta_Survey_Submission__c where Id =:submissionId];
+        Trifecta_Survey_Submission__c surveySubmitted = [select id, Submitted_To__c, Completed__c from Trifecta_Survey_Submission__c where Id =:submissionId];
         if(!surveySubmitted.Completed__c) {
           saveResponses();
-        PageReference confirmationPage = new PageReference(TTISGDisplayFormController.CONFIRMATION_PAGE_URL+submissionId);
-        confirmationPage.setRedirect(true);
-        return confirmationPage;
+          PageReference confirmationPage;
+          if (surveySubmitted.Submitted_To__c.substring(0,3) == Schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix() ) {
+              confirmationPage = new PageReference(TTISGDisplayFormController.USER_CONFIRMATION_PAGE_URL+submissionId);
+          } else {
+              confirmationPage = new PageReference('http://http://ttidevfull-trifecta.cs14.force.com/SurveyGuru/TTISGConfirmation?Id='+submissionId);
+          }
+          confirmationPage.setRedirect(true);
+          return confirmationPage;
         } else {
           isSubmittedAlready = true;
           ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'This survey form has been submitted already.'));

@@ -69,16 +69,21 @@
         <name>Profile</name>
     </types>
     <types>
-        <members>TTISG_SurveyGuru_Reports</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Surveys_Completed_Per_Submitter</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Survey</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Per_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Average_Rating_Per_Submitter</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Average_Rating_Per_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Minimum_Rating_Per_Submitter</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Minimum_Rating_Per_Survey</members>
         <members>TTISG_SurveyGuru_Reports/TTISG_Rating_By_Submitter_Per_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Per_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Report</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion_Status</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Surveys_Completed_Per_Submitter</members>
         <name>Report</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Trifecta_Survey</members>
         <name>ReportType</name>
     </types>
     <types>
@@ -89,5 +94,5 @@
         <members>Trifecta_Survey_Submission__c</members>
         <name>Workflow</name>
     </types>
-    <version>31.0</version>
+    <version>32.0</version>
 </Package>

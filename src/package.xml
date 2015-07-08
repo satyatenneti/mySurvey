@@ -17,14 +17,12 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>My_Survey</members>
+        <members>SurveyGuru</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>Account</members>
         <members>EmailsSentPerDay__c</members>
         <members>Survey_Global_Settings__c</members>
-        <members>Test__c</members>
         <members>Trifecta_Email_Sent__c</members>
         <members>Trifecta_Survey_Question_Choice__c</members>
         <members>Trifecta_Survey_Question_Response__c</members>
@@ -38,8 +36,8 @@
         <name>CustomTab</name>
     </types>
     <types>
-        <members>Survey_App_Dashboard</members>
-        <members>Survey_App_Dashboard/Survey_Dashboards</members>
+        <members>TTISG_SurveyGuru_Dashboard</members>
+        <members>TTISG_SurveyGuru_Dashboard/TTISG_SurveyGuru_Dashboards</members>
         <name>Dashboard</name>
     </types>
     <types>
@@ -71,12 +69,12 @@
         <name>Profile</name>
     </types>
     <types>
-        <members>Survey_App_Reports</members>
-        <members>Survey_App_Reports/Survey_completion</members>
-        <members>Survey_App_Reports/Survey_completion_of_each_submitter</members>
-        <members>Survey_App_Reports/Weightage_Indicator</members>
-        <members>Survey_App_Reports/Weightage_of_Each_Survey</members>
-        <members>Survey_App_Reports/Weightage_of_Survey_Submitter</members>
+        <members>TTISG_SurveyGuru_Reports</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Surveys_Completed_Per_Submitter</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Per_Survey</members>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_By_Submitter_Per_Survey</members>
         <name>Report</name>
     </types>
     <types>

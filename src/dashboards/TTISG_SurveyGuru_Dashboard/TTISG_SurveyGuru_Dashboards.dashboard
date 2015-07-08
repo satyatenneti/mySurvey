@@ -21,7 +21,7 @@
             <expandOthers>false</expandOthers>
             <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
             <legendPosition>Bottom</legendPosition>
-            <report>Survey_App_Reports/Weightage_of_Each_Survey</report>
+            <report>TTISG_SurveyGuru_Reports/TTISG_Rating_Per_Survey</report>
             <showPercentage>false</showPercentage>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
@@ -44,7 +44,7 @@
             <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</groupingColumn>
             <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</groupingColumn>
             <legendPosition>Right</legendPosition>
-            <report>Survey_App_Reports/Survey_completion_of_each_submitter</report>
+            <report>TTISG_SurveyGuru_Reports/TTISG_Surveys_Completed_Per_Submitter</report>
             <showPercentage>false</showPercentage>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
@@ -70,7 +70,7 @@
             <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
             <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</groupingColumn>
             <legendPosition>Bottom</legendPosition>
-            <report>Survey_App_Reports/Weightage_of_Survey_Submitter</report>
+            <report>TTISG_SurveyGuru_Reports/TTISG_Rating_By_Submitter_Per_Survey</report>
             <showPercentage>false</showPercentage>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
@@ -93,7 +93,7 @@
             <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
             <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</groupingColumn>
             <legendPosition>Bottom</legendPosition>
-            <report>Survey_App_Reports/Weightage_Indicator</report>
+            <report>TTISG_SurveyGuru_Reports/TTISG_Rating_Survey</report>
             <showPercentage>false</showPercentage>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>
@@ -119,7 +119,7 @@
             <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
             <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</groupingColumn>
             <legendPosition>Right</legendPosition>
-            <report>Survey_App_Reports/Survey_completion</report>
+            <report>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion</report>
             <showPercentage>false</showPercentage>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>

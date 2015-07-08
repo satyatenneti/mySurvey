@@ -1,4 +1,4 @@
-trigger TSQResponseTrigger on Trifecta_Survey_Question_Response__c (before insert) {
+trigger TTISGSurveyQuestionResponseTrigger on Trifecta_Survey_Question_Response__c (before insert) {
     List<String> questionIds = new List<String>();
     for (Trifecta_Survey_Question_Response__c eachAnswer : Trigger.new) {
         questionIds.add(eachanswer.Survey_Question__c);

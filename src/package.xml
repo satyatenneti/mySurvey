@@ -17,14 +17,12 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>My_Survey</members>
+        <members>SurveyGuru</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>Account</members>
         <members>EmailsSentPerDay__c</members>
         <members>Survey_Global_Settings__c</members>
-        <members>Test__c</members>
         <members>Trifecta_Email_Sent__c</members>
         <members>Trifecta_Survey_Question_Choice__c</members>
         <members>Trifecta_Survey_Question_Response__c</members>

@@ -1,1 +1,1 @@
-ant undeployCode -propertyfile properties/$1.properties -DdeleteDir=$2
+ant -v -propertyfile properties/$1.properties -DrollbackOnError=false -DrunAllTests=false -DisValidate=false -DdeployRoot=$2 cleanDeploy

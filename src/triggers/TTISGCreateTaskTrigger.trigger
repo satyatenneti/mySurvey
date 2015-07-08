@@ -1,5 +1,5 @@
 trigger TTISGCreateTaskTrigger on Trifecta_Survey_Submission__c (after insert) {
-    public static final String SURVEYURL = 'https://login.salesforce.com/apex/displayForm?Id=';
+    public static final String SURVEYURL = 'https://login.salesforce.com/apex/TTISGDisplayForm?Id=';
     List<Task> taskList = new List<Task>();
     Set<Id> surveyIds = new Set<Id>();
     List<Trifecta_Survey__c> currentSurvey = new List<Trifecta_Survey__c>();

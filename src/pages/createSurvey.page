@@ -19,7 +19,7 @@
             </div>
             <div class="section">
                 <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
-                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="18" ></apex:inputText>
+                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
             </div>
 
             <div class="section questions">
@@ -137,7 +137,7 @@
                                                                                                 ui-corner-all input-choice" maxlength="255" value="{!choice.Value__c}" />
                                                                 </td>
                                                                 <td style="width: 1.5em">
-                                                                    <apex:inputText rendered="{!question.Type__c == 'Radio Button'}" styleClass="ui-corner-all input-choice" value="{!choice.Weightage__c}" title="Weightage for this choice" />
+                                                                    <apex:inputText rendered="{!question.Type__c == 'Radio Button'}" styleClass="ui-corner-all input-choice number" maxlength="2" value="{!choice.Weightage__c}" title="Weightage for this choice" />
                                                                     
                                                                 </td>
                                                                 <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
@@ -236,7 +236,7 @@
                 }
             });
 
-            $('[id*="survey"]').find("[number=true]").on('keyup', function(){
+            $('.number').bind('keyup change', function(){
                 if (!/^[0-9]*$/.test($(this).val())) {
                     $(this).val("");
                 }         

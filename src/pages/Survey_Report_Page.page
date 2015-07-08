@@ -1,9 +1,9 @@
 <apex:page standardController="Trifecta_Survey__c" showHeader="false" sideBar="false">
 <p>
-    <a href="/00O28000002NJ4T?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Survey Average Weightage</a> - What is the Average Weightage of the Survey?
+    <a href="/00O28000002NJ4T?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Survey Average Rating</a> - What is the Average Rating of the Survey?
 </p>
 <p>
-    <a href="/00O28000002NJ8g?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Each Submitter Average Weightage</a> - What is the Average Weightage of each User/Contact on Survey?
+    <a href="/00O28000002NJ8g?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Each Submitter Average Rating</a> - What is the Average Rating of each User/Contact on Survey?
 </p>
 <p>
     <a href="/00O28000002NE6Z?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Survey Status</a> - No. of Completed and Non Completed Submissions of Survey
@@ -12,9 +12,9 @@
     <a href="/00O28000002NEaq?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Each Submitter Survey Status</a> - No. of Completed and Non Completed Submissions by Each User/Contact of Survey
 </p>
 <p>
-    <a href="/00O28000002NJHf?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Survey Weightage Indicator Upon Threshold Value</a> - Minimum Weighatage Expectation of Survey
+    <a href="/00O28000002NJHf?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Survey Rating Indicator Upon Threshold Value</a> - Minimum Rating of Survey
 </p>
 <p>
-    <a href="/00O28000002NJIE?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Submitter Weightage Indicator Upon Threshold Value of Survey</a> - Minimum Weighatage Expectation of Survey by Each User/Contact
+    <a href="/00O28000002NJIE?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">Submitter Rating Indicator Upon Threshold Value of Survey</a> - Minimum Rating of Survey by Each User/Contact
 </p>
 </apex:page>

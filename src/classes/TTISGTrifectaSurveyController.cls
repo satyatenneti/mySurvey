@@ -7,7 +7,7 @@ public with sharing class TTISGTrifectaSurveyController {
     public String qType{get;set;}
     public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoiceMap{get;set;}
     public static final String QUESTION_TYPE_RADIO = 'Radio Button';
-    public static final String SEND_SURVEY_PAGE_URL = '/apex/SendSurvey?id=';
+    public static final String SEND_SURVEY_PAGE_URL = '/apex/TTISGSendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     public static final String DEFAULT_SURVEY_NAME = 'Untitled Survey';
     public TTISGSurveyService surveyService;

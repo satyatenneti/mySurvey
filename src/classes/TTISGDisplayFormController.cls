@@ -6,7 +6,7 @@ public with sharing class TTISGDisplayFormController {
   public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoices{get; set;}
   public TTISGSurveyService surveyService;
     public List<Trifecta_Survey_Question_Response__c> surveyResponses {get; set;}
-    public static final String CONFIRMATION_PAGE_URL = '/apex/Confirmation?id=';
+    public static final String CONFIRMATION_PAGE_URL = '/apex/TTISGConfirmation?id=';
     public Map<String,List<SelectOption>> questionChoices {get; set;}
     public Map<String,String> surveyQuestionChoiceMap{get;set;} 
     public Map<String,List<String>> checkboxChoiceMap {get; set;}

@@ -1,5 +1,5 @@
 public with sharing class TTISGSendEmailComponentController {
-    public static final String MYSURVEYURL = 'https://login.salesforce.com/apex/displayForm?Id=';
+    public static final String MYSURVEYURL = 'https://login.salesforce.com/apex/TTISGDisplayForm?Id=';
     public String submissionId { get; set; }
     public String senderId { get; set; }
     public String SurveyURL {get; set;}

@@ -30,7 +30,7 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
         
       for(Trifecta_Survey_Submission__c submission : submissions) {
             String siteURL = [select Site_Address__c from Survey_Global_Settings__c][0].Site_Address__c;
-            String SurveyURL = siteURL+'displayForm?Id='+submission.Id+'&Survey='+getSurveyId(submission.Id);
+            String SurveyURL = siteURL+'TTISGDisplayForm?Id='+submission.Id+'&Survey='+getSurveyId(submission.Id);
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setToAddresses(new List<String> {'pavanmudiganti@gmail.com'});
             mail.setReplyTo('pavanmudiganti@gmail.com');

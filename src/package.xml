@@ -41,10 +41,10 @@
         <name>Dashboard</name>
     </types>
     <types>
-        <members>unfiled$public/Low_Weightage_alert</members>
-        <members>unfiled$public/Survey_Template_Contact</members>
-        <members>unfiled$public/Survey_Template_EmailAddress</members>
-        <members>unfiled$public/Survey_Template_User</members>
+        <members>SurveyGuruEmails/TTISGLow_Weightage_alert</members>
+        <members>SurveyGuruEmails/TTISGSurvey_Template_Contact</members>
+        <members>SurveyGuruEmails/TTISGSurvey_Template_EmailAddress</members>
+        <members>SurveyGuruEmails/TTISGSurvey_Template_User</members>
         <name>EmailTemplate</name>
     </types>
     <types>

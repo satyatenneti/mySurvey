@@ -1,0 +1,111 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="TTISGDisplayFormController">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{!survey.Name}</title>
+</head>
+    <c:TTISGScriptIncludes />
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/displayFormCSS.css')}"/>
+    <style>
+        .validation-error {   background-color: #FF4D4D; border: solid 3px #FF9999; color: white;}
+        .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
+        .trifecta-logo{ float: right; margin-top: -15px; margin-bottom: 5px;}
+        .clear {clear: both;}
+        @media screen and (max-width: 720px) {
+            .form-container { width: 85%; margin-top: 2px; height: 95%; }
+            .sg-logo { float: left;}
+            .trifecta-logo{ width: 75px; height: 50px; margin-top: -10px;}
+        }
+    </style>
+    <apex:form id="displaySurvey">
+        <div class="form-container">
+        <div>
+            <img class="sg-logo" src="{!URLFOR($Resource.SurveyGuru, 'images/TabImage.gif')}" width="170" height="30" />
+            <img style="display: {! IF(User == true, 'block', 'none')}"  class="trifecta-logo" src="{!URLFOR($Resource.SurveyGuru, 'images/Trifecta_Logo.png')}" height="70" width="120" />
+        </div>
+        <div class="clear"><hr style="margin: 10px -20px; color: #eee;" /></div>
+
+        <apex:pageMessages rendered="{!isSubmittedAlready}" />
+            <apex:outputPanel rendered="{! NOT(isSubmittedAlready)}">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <div class="font-survey-title">{!survey.Name}</div>
+                            <div class="help-text">{!survey.Help_Text__c}</div>
+                        </td>
+                        
+                    </tr>
+                </table>
+            
+            <div >
+                <table class="table">
+                    <tr>
+                        <td><div><apex:pageMessages /></div></td>
+                    </tr>
+                    <tr>
+                        <td><div class="error-message validation-error" style="display: none;">Oops!! required questions cannot be left blank</div></td>
+                    </tr>
+                    
+                    <apex:repeat value="{!surveyQuestions}" var="question">
+                        <tr>
+                            <td class="question-container {! IF(question.isRequired__c, 'required','')}">
+                                <div class="question-section">
+                                    <p class="font-question-title">
+                                    {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">&nbsp;*&nbsp;</apex:outputPanel></p>
+                                    <p class="help-text">{!question.Help_text__c}</p>
+                                </div>
+                            
+                                <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
+                                    <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options" layout="pageDirection">
+                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
+                                    </apex:selectRadio>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!question.Type__c == 'Checkbox'}">
+                                    <apex:selectCheckboxes value="{!checkboxChoiceMap[question.Load_Id__c]}" styleClass="options" layout="pageDirection">
+                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
+                                    </apex:selectCheckboxes>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!question.Type__c == 'Text'}">
+                                    <apex:inputText maxlength="255" value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+                <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
+            </div>
+            <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
+            <input type="button" value="Submit Survey" class="control-button" onclick="submitSurveyJS()" />
+            </apex:outputPanel> 
+        </div>
+    </apex:form>
+    <script type="text/javascript">
+        function submitSurveyJS() {
+            var isValid = true;
+            //verify all required questions
+            $('.required').each(function() {
+                var checkedRadio = $(this).find('input[type=radio]:checked').val();
+                var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
+                var textValue = $(this).find('input[type=text]').val();
+                var question = $(this).find('.font-question-title');
+
+                if(checkedRadio == undefined 
+                    && checkedCheckbox === undefined 
+                    && (textValue === undefined 
+                        || (textValue != undefined && textValue.trim().length == 0))){
+
+                    $(question).addClass('validation-error');
+                    $('.error-message').show();
+                    isValid = false;
+                } else {
+                    $(question).removeClass('validation-error');
+                    $('.error-message').hide();
+                }
+            });
+
+            if(isValid) {
+                 submitSurvey();
+            }
+        }
+    </script>
+</apex:page>

@@ -6,43 +6,39 @@
         <visible>true</visible>
     </applicationVisibilities>
     <classAccesses>
-        <apexClass>CreateSurveyController</apexClass>
+        <apexClass>TTISGDisplayFormController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>DisplayFormController</apexClass>
+        <apexClass>TTISGEmailService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>EmailService</apexClass>
+        <apexClass>TTISGEmailServiceBase</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>EmailServiceBase</apexClass>
+        <apexClass>TTISGGuidUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>GuidUtil</apexClass>
+        <apexClass>TTISGSObjectUtils</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SObjectUtils</apexClass>
+        <apexClass>TTISGSendEmailComponentController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SendEmailComponentController</apexClass>
+        <apexClass>TTISGSendSurveyController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SendSurveyController</apexClass>
+        <apexClass>TTISGSoqlUtils</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>SoqlUtils</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>TrifectaSurveyController</apexClass>
+        <apexClass>TTISGTrifectaSurveyController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>
@@ -447,19 +443,15 @@
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <pageAccesses>
-        <apexPage>SendSurvey</apexPage>
+        <apexPage>TTISGSendSurvey</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>TestPage</apexPage>
+        <apexPage>TTISGcreateSurvey</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <pageAccesses>
-        <apexPage>createSurvey</apexPage>
-        <enabled>true</enabled>
-    </pageAccesses>
-    <pageAccesses>
-        <apexPage>displayForm</apexPage>
+        <apexPage>TTISGdisplayForm</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>

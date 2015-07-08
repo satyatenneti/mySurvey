@@ -1,5 +1,0 @@
-<messaging:emailTemplate subject="Low Feedback Alert" recipientType="User" relatedToType="Trifecta_Survey_Submission__c">
-    <messaging:HTMLEmailBody >
-        <c:AlertEmailComponent sender="{!relatedTo.Submitted_To__c}" submission="{!relatedTo.Id}"/>
-    </messaging:HTMLEmailBody>
-</messaging:emailTemplate>

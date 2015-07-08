@@ -71,7 +71,7 @@
     <fields>
         <fullName>Completed_Image__c</fullName>
         <externalId>false</externalId>
-        <formula>IF(Completed__c, IMAGE(&apos;/servlet/servlet.ImageServer?id=015c0000000MwbK&oid=00Dc0000003ugjQ&apos;, &quot;True&quot;), &apos;&apos;)</formula>
+        <formula>IF(Completed__c, IMAGE(&apos;/servlet/servlet.ImageServer?id=015c0000000MwbK&amp;oid=00Dc0000003ugjQ&apos;, &quot;True&quot;), &apos;&apos;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Completed</label>
         <required>false</required>

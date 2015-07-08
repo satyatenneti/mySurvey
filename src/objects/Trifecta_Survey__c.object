@@ -134,7 +134,7 @@
         <fullName>Quick_Send_Link__c</fullName>
         <description>Quick link to send this form to users/contacts/groups or external emails</description>
         <externalId>false</externalId>
-        <formula>HYPERLINK(&apos;/apex/TTISGSendSurvey?id=&apos;&amp;Id, IMAGE(&apos;/servlet/servlet.ImageServer?id=015c0000000Mwag&oid=00Dc0000003ugjQ&apos;, &apos;Send&apos;, 20, 25 ) , &apos;_blank&apos;)</formula>
+        <formula>HYPERLINK(&apos;/apex/TTISGSendSurvey?id=&apos;&amp;Id, IMAGE(&apos;/servlet/servlet.ImageServer?id=015c0000000Mwag&amp;oid=00Dc0000003ugjQ&apos;, &apos;Send&apos;, 20, 25 ) , &apos;_blank&apos;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <inlineHelpText>Click to send this form.</inlineHelpText>
         <label>Quick Send</label>
@@ -181,6 +181,22 @@
         <columns>Avg_Weightage__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>External_Surveys</fullName>
+        <columns>NAME</columns>
+        <columns>Description__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>External Surveys</label>
+    </listViews>
+    <listViews>
+        <fullName>Internal_Surveys</fullName>
+        <columns>NAME</columns>
+        <columns>Description__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>Internal Surveys</label>
     </listViews>
     <nameField>
         <label>Title</label>

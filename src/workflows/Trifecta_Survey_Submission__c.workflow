@@ -31,6 +31,24 @@
         <protected>false</protected>
     </fieldUpdates>
     <fieldUpdates>
+        <fullName>Completion_Action</fullName>
+        <field>Completion_Indicator__c</field>
+        <literalValue>Completed</literalValue>
+        <name>Completion Action</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
+        <fullName>Not_Completed_Action</fullName>
+        <field>Completion_Indicator__c</field>
+        <literalValue>Not Completed</literalValue>
+        <name>Not Completed Action</name>
+        <notifyAssignee>false</notifyAssignee>
+        <operation>Literal</operation>
+        <protected>false</protected>
+    </fieldUpdates>
+    <fieldUpdates>
         <fullName>Weightage_greater_than_Threshold</fullName>
         <field>Weightage_Indicator__c</field>
         <literalValue>Greater Than Threshold</literalValue>

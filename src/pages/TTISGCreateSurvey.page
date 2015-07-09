@@ -15,6 +15,9 @@
             <div class="section" >
                 <p><apex:inputText styleClass="font-survey-title" value="{!survey.Name}" maxlength="80" html-placeholder="Untitle Form"/></p>
                 <p><apex:inputText styleClass="help-text" value="{!survey.Help_Text__c}" maxlength="255" html-placeholder="Form Description"/></p>
+                <apex:outputPanel rendered="{!survey.Id != null}">
+                    <input type="button" value="Clone" class="control-button" onclick="cloneSurvey('{!survey.Id}')" />
+                </apex:outputPanel>
                 
             </div>
             <div class="section">
@@ -23,6 +26,9 @@
             </div>
 
             <div class="section questions">
+                <apex:actionfunction action="{!cloneSurvey}" name="cloneSurvey" >
+                    <apex:param name="surveyId" value="" assignTo="{!surveyId}"/>
+                </apex:actionfunction>
                 <apex:actionfunction action="{!addNewSurveyQuestionChoice}" name="addNewSurveyQuestion" reRender="questions">
                     <apex:param name="questionToLoad" value="" assignTo="{!questionloadId}"/>
                 </apex:actionfunction>

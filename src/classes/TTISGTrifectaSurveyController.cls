@@ -13,12 +13,13 @@ public with sharing class TTISGTrifectaSurveyController {
     public TTISGSurveyService surveyService;
     public Integer newIndex {get; set;}
     public Integer oldIndex {get; set;}
+    public String surveyId {get; set;}
     
     public TTISGTrifectaSurveyController(ApexPages.StandardController controllerInstance) {
 
         surveyService = new TTISGSurveyService();
 
-        String surveyId = ApexPages.currentPage().getParameters().get('Id');
+        surveyId = ApexPages.currentPage().getParameters().get('Id');
 
         if(surveyId != null) {
             //Load the current Survey details
@@ -99,7 +100,7 @@ public with sharing class TTISGTrifectaSurveyController {
     /**
     * Saves the Current Survey
     */
-    public void saveSurvey(){
+    public PageReference saveSurvey(){
       //Link Survey with Survey Questions via External Id
         Integer sortIndex = 0;
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
@@ -134,10 +135,14 @@ public with sharing class TTISGTrifectaSurveyController {
             loadExistingSurvey(survey.Id);
 
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Survey created/updated successfully.'));
+            PageReference newSurveyPage = new PageReference('/apex/TTISGCreateSurvey?id='+survey.Id);
+            newSurveyPage.setRedirect(true);
+            return newSurveyPage;
         }
         catch (Exception dmlException) { 
             System.debug('An Exception Occured While DML'+dmlException.getMessage());
         }
+        return null;
     }
     /**
     * Saves the Survey and redirects the user to Send Survey page 
@@ -252,5 +257,15 @@ public with sharing class TTISGTrifectaSurveyController {
         public SurveyWrapper(){
         
         }
+    }
+
+    public PageReference cloneSurvey() {
+        if (surveyId != null) {
+            Id newSurveyId = surveyService.cloneSurvey(surveyId);
+            PageReference newSurveyPage = new PageReference('/apex/TTISGCreateSurvey?id='+newSurveyId);
+            newSurveyPage.setRedirect(true);
+            return newSurveyPage;
+        }
+        return null;
     }
 }

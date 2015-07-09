@@ -58,4 +58,42 @@ public with sharing class TTISGSurveyService {
                                                     isEdit__c = original.isEdit__c,
                                                     isRequired__c = original.isRequired__c);
     }
+
+    public Id cloneSurvey(Id surveyId) {
+        Trifecta_Survey__c oldSurvey = getSurveyById(surveyId);
+
+        List<String> oldQuestionIds = new List<String>();
+        for (Trifecta_Survey_Question__c eachQuestion : oldSurvey.Trifecta_Survey_Questions__r) {
+            oldQuestionIds.add(eachQuestion.id);
+        }
+        Map<String, List<Trifecta_Survey_Question_Choice__c>> oldChoices = getChoicesPerQuestion(oldQuestionIds);
+
+        // creating new survey
+        Trifecta_Survey__c newSurvey = new Trifecta_Survey__c(Name=oldSurvey.Name,
+                                                            Auto_Response_Message__c = oldSurvey.Auto_Response_Message__c,
+                                                            Description__c = oldSurvey.Description__c,
+                                                            Help_Text__c = oldSurvey.Help_Text__c,
+                                                            Load_Id__c = TTISGGuidUtil.NewGuid(),
+                                                            Threshold_Weightage__c = oldSurvey.Threshold_Weightage__c);
+        insert newSurvey;
+        
+        // creating new question with choices 
+        List<Trifecta_Survey_Question__c> childQuestions = new List<Trifecta_Survey_Question__c>();
+        List<Trifecta_Survey_Question_Choice__c> childChoices = new List<Trifecta_Survey_Question_Choice__c>();
+        for (Trifecta_Survey_Question__c eachQuestion : oldSurvey.Trifecta_Survey_Questions__r) {
+            Trifecta_Survey_Question__c newChildQuestion = cloneQuestion(eachQuestion);
+            newChildQuestion.Survey__c = newSurvey.Id;
+            for (Trifecta_Survey_Question_Choice__c eachChoice : oldChoices.get(eachQuestion.Load_Id__c)) {
+                Trifecta_Survey_Question_Choice__c newChoice = cloneChoice(eachChoice);
+                newChoice.Survey_Question__r = new Trifecta_Survey_Question__c(Load_Id__c = newChildQuestion.Load_Id__c );
+                childChoices.add(newChoice);
+            }            
+            childQuestions.add(newChildQuestion);
+        }
+        insert childQuestions;
+        insert childChoices;
+                
+        return newSurvey.Id;
+
+    }
 }

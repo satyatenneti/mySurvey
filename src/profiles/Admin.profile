@@ -454,6 +454,10 @@
         <apexPage>TTISGDisplayForm</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
+    <pageAccesses>
+        <apexPage>Survey_Report_Page</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <tabVisibilities>
         <tab>Trifecta_Survey_Submission__c</tab>
         <visibility>Hidden</visibility>

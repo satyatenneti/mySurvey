@@ -3,20 +3,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{!survey.Name}</title>
 </head>
-    <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/displayFormCSS.css')}"/>
-    <style>
-        .validation-error {   background-color: #FF4D4D; border: solid 3px #FF9999; color: white;}
-        .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
-        .trifecta-logo{ float: right; margin-top: -15px; margin-bottom: 5px;}
-        .clear {clear: both;}
-        @media screen and (max-width: 720px) {
-            .form-container { width: 85%; margin-top: 2px; height: 95%; }
-            .sg-logo { float: left;}
-            .trifecta-logo{ width: 75px; height: 50px; margin-top: -10px;}
-        }
-    </style>
+    
     <apex:form id="displaySurvey">
         <div class="form-container">
         <div>

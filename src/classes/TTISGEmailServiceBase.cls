@@ -2,8 +2,9 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
     
     public EmailTemplate EMAIL_TEMPLATE_FOR_USER {
         get {
-            if(EMAIL_TEMPLATE_FOR_USER != null) {
+            if(EMAIL_TEMPLATE_FOR_USER == null) {
                 EMAIL_TEMPLATE_FOR_USER = [select Id from EmailTemplate where name = :TTISGSurveyUtils.EMAIL_TEMPLATE_FOR_USER];
+
             }
             return EMAIL_TEMPLATE_FOR_USER;
         }
@@ -12,7 +13,7 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
 
     public EmailTemplate EMAIL_TEMPLATE_FOR_CONTACT {
         get {
-            if(EMAIL_TEMPLATE_FOR_CONTACT != null) {
+            if(EMAIL_TEMPLATE_FOR_CONTACT == null) {
                 EMAIL_TEMPLATE_FOR_CONTACT = [select Id from EmailTemplate where name = :TTISGSurveyUtils.EMAIL_TEMPLATE_FOR_CONTACT];
             }
             return EMAIL_TEMPLATE_FOR_CONTACT;

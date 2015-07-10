@@ -2,13 +2,6 @@
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
-    <style>
-        .other-details { float: left; height: 7em; min-height: 7em;  }
-        .other-right { margin-left: 20%;}
-        .ui-sortable-handle:hover { background-color: #F1F1F1; }
-        .grayed-out { cursor: pointer;}
-        .number {}
-    </style>
     <apex:form id="survey">
         <div class="form-container">
             <div><apex:pageMessages /></div>

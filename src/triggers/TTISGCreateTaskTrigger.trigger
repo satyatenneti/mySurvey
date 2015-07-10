@@ -11,7 +11,7 @@ trigger TTISGCreateTaskTrigger on Trifecta_Survey_Submission__c (after insert) {
     }
 
     for (Trifecta_Survey_Submission__c eachSubmission : trigger.new) {
-        if (eachSubmission.Submitted_To__c.substring(0,3) == Schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+        if (TTISGSurveyUtils.isValidId(eachSubmission.Submitted_To__c, 'User')) {
             Task task = new Task();
             task.Subject = 'Awaiting feedback for '+currentSurvey[0].Name;
             task.Priority = 'Normal';

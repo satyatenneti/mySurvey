@@ -9,10 +9,10 @@ public with sharing class TTISGConfirmationPageController {
         submissionId = ApexPages.currentPage().getParameters().get('Id');
         getSurveyDetails(submissionId.trim());
         confirmationMessage= [select Auto_Response_Message__c from Trifecta_Survey__c where Id =:surveyId].Auto_Response_Message__c;
-        if (submitterId.substring(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+        if (TTISGSurveyUtils.isValidId(submitterId, 'User')) {
             submitterName = [select Name from User where Id =:submitterId.trim()].Name;
         }
-        else if (submitterId.substring(0,3) == schema.getGlobalDescribe().get('Contact').getDescribe().getKeyPrefix()) {
+        else if (TTISGSurveyUtils.isValidId(submitterId, 'Contact')) {
             submitterName = [select Name from Contact where Id =:submitterId.trim()].Name;
         } else {
             // For External eamils default name set to email address of the User strripping the domain

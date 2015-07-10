@@ -73,7 +73,7 @@ private Integer getBalance() {
                 List<GroupMember> memberList =[select UserOrGroupId from GroupMember where GroupId = :selectedGroups];
                 Set<String> otherGroups = new Set<String>();
                 for (GroupMember eachMember : memberList) {
-                    if (String.valueOf(eachMember.UserOrGroupId).substring(0,3) ==schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix() ) {
+                    if (TTISGSurveyUtils.isValidId(String.valueOf(eachMember.UserOrGroupId), 'User')) {
                         submittedList.add(String.valueOf(eachMember.UserOrGroupId));
                     } else {
                         otherGroups.add(String.valueOf(eachMember.UserOrGroupId));
@@ -96,9 +96,9 @@ private Integer getBalance() {
         Set<String> output = new Set<String>();
 
         Set<String> nestedGroupIds = new Set<String>();
-        list<GroupMember> records = [ select Id, GroupId, UserOrGroupId from GroupMember where GroupId in :userOrGroupIds];
+        List<GroupMember> records = [ SELECT Id, GroupId, UserOrGroupId from GroupMember where GroupId in :userOrGroupIds];
         for (GroupMember record:records) {
-            if (String.valueOf(record.UserOrGroupId).substring(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+            if (TTISGSurveyUtils.isValidId(String.valueOf(record.UserOrGroupId), 'User')) {
                 nestedGroupIds.add(record.UserOrGroupId);   
             } else {
                 nestedGroupIds.add(record.UserOrGroupId);
@@ -116,7 +116,7 @@ private Integer getBalance() {
             //create the submission records for every user/contact/group member selected
             Map<Id, User> userList = new Map<Id, User>();
             Map<Id, Contact> contactList = new Map<Id, Contact>();
-            if (submittedList[0].substring(0,3) == schema.getGlobalDescribe().get('User').getDescribe().getKeyPrefix()) {
+            if (TTISGSurveyUtils.isValidId(submittedList[0], 'User')) {
                 userlist = new Map<Id, User>([SELECT Id, FirstName, LastName from User where id in :submittedList]);
             }
             else {

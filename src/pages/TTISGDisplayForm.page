@@ -40,9 +40,6 @@
             <div >
                 <table class="table">
                     <tr>
-                        <td><div><apex:pageMessages /></div></td>
-                    </tr>
-                    <tr>
                         <td><div class="error-message validation-error" style="display: none;">Oops!! required questions cannot be left blank</div></td>
                     </tr>
                     

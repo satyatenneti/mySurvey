@@ -47,11 +47,7 @@ public with sharing class TTISGTrifectaSurveyController {
         choiceLoadId = '';
         qType = '';
     }
-    private void loadExistingSurvey(String surveyId) {
-        survey  = surveyService.getSurveyById(surveyId);
-        surveyQuestions = survey.Trifecta_Survey_Questions__r;
-        surveyQuestionChoiceMap = surveyService.getChoicesPerQuestion(TTISGSObjectUtils.pluckIds(surveyQuestions, 'Id'));
-    }
+    
     /**
     * Adds new Question
     */
@@ -97,6 +93,77 @@ public with sharing class TTISGTrifectaSurveyController {
         }
         surveyQuestionChoiceMap.get(questionloadId).remove(rowIndex);
     }
+    
+    public List<SelectOption> getQuestionTypes() {
+        List<SelectOption> options = TTISGSurveyUtils.getAllQuestionTypes();
+        return options;
+    }
+
+    public void copyQuestion(){
+        Trifecta_Survey_Question__c currentQuestion = surveyQuestions.get(getQuestionIndex(questionloadId));
+        Trifecta_Survey_Question__c newQuestion = surveyService.cloneQuestion(currentQuestion);
+        surveyQuestions.add(newQuestion);
+
+        List<Trifecta_Survey_Question_Choice__c> clonedChoices = new List<Trifecta_Survey_Question_Choice__c>();
+
+        for (Trifecta_Survey_Question_Choice__c ch: surveyQuestionChoiceMap.get(questionloadId)) {
+            clonedChoices.add(surveyService.cloneChoice(ch));
+        }
+        
+        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c, clonedChoices);
+        newQuestion.isEdit__c = false;
+        
+        this.questionloadId = newQuestion.Load_Id__c;
+        toggleEdit();  
+    }
+    
+    public void toggleEdit() {
+        for(Integer i =0; i < surveyQuestions.size(); i++) {
+             if (surveyQuestions.get(i).Load_Id__c != questionloadId) {
+                surveyQuestions.get(i).isEdit__c = false;
+             } else {
+                surveyQuestions.get(i).isEdit__c = (surveyQuestions.get(i).isEdit__c) ? false: true;
+             }
+        }
+    }
+    
+    public void changeQuestionType() {
+        Trifecta_Survey_Question__c question = surveyQuestions.get(getQuestionIndex(questionloadId));
+        question.Type__c = qType;
+
+        if(qType == 'Text') {
+            surveyQuestionChoiceMap.get(questionloadId).clear();
+        } else {
+            if(surveyQuestionChoiceMap.get(questionloadId).size() == 0 ) {
+                surveyQuestionChoiceMap.get(questionloadId).add(getNewChoice(questionloadId));
+            }
+        }
+    }
+    
+    public void updateQuestionOrder() {
+        
+        Trifecta_Survey_Question__c question = surveyQuestions.remove(oldIndex);
+        
+        if(surveyQuestions.size()==newIndex)
+            surveyQuestions.add(question);
+        else
+            surveyQuestions.add(newIndex, question);
+    }
+    
+    /*
+    * Clones the survey given by surveyId. The Page is redirected to detail page of the 
+    * newly cloned survey.
+    */
+    public PageReference cloneSurvey() {
+        if (surveyId != null) {
+            Id newSurveyId = surveyService.cloneSurvey(surveyId);
+            PageReference newSurveyPage = new PageReference('/apex/TTISGCreateSurvey?id='+newSurveyId);
+            newSurveyPage.setRedirect(true);
+            return newSurveyPage;
+        }
+        return null;
+    }
+    
     /**
     * Saves the Current Survey
     */
@@ -144,6 +211,7 @@ public with sharing class TTISGTrifectaSurveyController {
         }
         return null;
     }
+    
     /**
     * Saves the Survey and redirects the user to Send Survey page 
     * @return PageReference Redirects the users to SendSurvey Page 
@@ -158,51 +226,13 @@ public with sharing class TTISGTrifectaSurveyController {
         return sendSurveyPage;
     }
     
-    public List<SelectOption> getQuestionTypes() {
-        List<SelectOption> options = new List<SelectOption>();
-        options.add(new SelectOption('Radio Button', 'Radio Button'));
-        options.add(new SelectOption('Text', 'Text'));
-        options.add(new SelectOption('Checkbox', 'Checkbox'));
-        return options;
+    
+    private void loadExistingSurvey(String surveyId) {
+        survey  = surveyService.getSurveyById(surveyId);
+        surveyQuestions = survey.Trifecta_Survey_Questions__r;
+        surveyQuestionChoiceMap = surveyService.getChoicesPerQuestion(TTISGSObjectUtils.pluckIds(surveyQuestions, 'Id'));
     }
-    public void copyQuestion(){
-        Trifecta_Survey_Question__c currentQuestion = surveyQuestions.get(getQuestionIndex(questionloadId));
-        Trifecta_Survey_Question__c newQuestion = surveyService.cloneQuestion(currentQuestion);
-        surveyQuestions.add(newQuestion);
-
-        List<Trifecta_Survey_Question_Choice__c> clonedChoices = new List<Trifecta_Survey_Question_Choice__c>();
-
-        for (Trifecta_Survey_Question_Choice__c ch: surveyQuestionChoiceMap.get(questionloadId)) {
-            clonedChoices.add(surveyService.cloneChoice(ch));
-        }
-        
-        surveyQuestionChoiceMap.put(newQuestion.Load_Id__c, clonedChoices);
-        newQuestion.isEdit__c = false;
-        
-        this.questionloadId = newQuestion.Load_Id__c;
-        toggleEdit();  
-    }
-    public void toggleEdit() {
-        for(Integer i =0; i < surveyQuestions.size(); i++) {
-             if (surveyQuestions.get(i).Load_Id__c != questionloadId) {
-                surveyQuestions.get(i).isEdit__c = false;
-             } else {
-                surveyQuestions.get(i).isEdit__c = (surveyQuestions.get(i).isEdit__c) ? false: true;
-             }
-        }
-    }
-    public void changeQuestionType() {
-        Trifecta_Survey_Question__c question = surveyQuestions.get(getQuestionIndex(questionloadId));
-        question.Type__c = qType;
-
-        if(qType == 'Text') {
-            surveyQuestionChoiceMap.get(questionloadId).clear();
-        } else {
-            if(surveyQuestionChoiceMap.get(questionloadId).size() == 0 ) {
-                surveyQuestionChoiceMap.get(questionloadId).add(getNewChoice(questionloadId));
-            }
-        }
-    }
+    
     private Integer getQuestionIndex(String qLoadId) {
         for(Integer i =0; i < surveyQuestions.size(); i++) {
             if (surveyQuestions.get(i).Load_Id__c == qLoadId) {
@@ -215,6 +245,7 @@ public with sharing class TTISGTrifectaSurveyController {
         }
         return null;
     }
+    
     private Trifecta_Survey_Question_Choice__c getNewChoice(String questionLoadId) {
         String defaultValue = 'Option ';
         defaultValue += (surveyQuestionChoiceMap.get(questionloadId) != null ) ? (String.valueOf(surveyQuestionChoiceMap.get(questionloadId).size()+1)) : '1';
@@ -229,6 +260,7 @@ public with sharing class TTISGTrifectaSurveyController {
                                       isRequired__c = false,
                                       isEdit__c=true);
     }
+    
     private static List<Trifecta_Survey_Question_Choice__c> prepareChoicesToUpsert(List<List<Trifecta_Survey_Question_Choice__c>> choicesList){
         List<Trifecta_Survey_Question_Choice__c> choicesToReturn = new List<Trifecta_Survey_Question_Choice__c>();
         for(List<Trifecta_Survey_Question_Choice__c> eachListOfChoices : choicesList){
@@ -237,35 +269,5 @@ public with sharing class TTISGTrifectaSurveyController {
             }
         }
         return choicesToReturn;
-    }
-
-    public void updateQuestionOrder() {
-        
-        Trifecta_Survey_Question__c question = surveyQuestions.remove(oldIndex);
-        
-        if(surveyQuestions.size()==newIndex)
-            surveyQuestions.add(question);
-        else
-            surveyQuestions.add(newIndex, question);
-    }
-
-    public class SurveyWrapper{
-        public Trifecta_Survey__c survey;
-        public Map<String,Trifecta_Survey_Question__c> surveyQuestions;
-        public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoices;
-
-        public SurveyWrapper(){
-        
-        }
-    }
-
-    public PageReference cloneSurvey() {
-        if (surveyId != null) {
-            Id newSurveyId = surveyService.cloneSurvey(surveyId);
-            PageReference newSurveyPage = new PageReference('/apex/TTISGCreateSurvey?id='+newSurveyId);
-            newSurveyPage.setRedirect(true);
-            return newSurveyPage;
-        }
-        return null;
     }
 }

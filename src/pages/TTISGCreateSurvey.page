@@ -14,11 +14,7 @@
             <div><apex:pageMessages /></div>
             <div class="section" >
                 <p><apex:inputText styleClass="font-survey-title" value="{!survey.Name}" maxlength="80" html-placeholder="Untitle Form"/></p>
-                <p><apex:inputText styleClass="help-text" value="{!survey.Help_Text__c}" maxlength="255" html-placeholder="Form Description"/></p>
-                <apex:outputPanel rendered="{!survey.Id != null}">
-                    <input type="button" value="Clone" class="control-button" onclick="cloneSurvey('{!survey.Id}')" />
-                </apex:outputPanel>
-                
+                <p><apex:inputText styleClass="help-text" value="{!survey.Help_Text__c}" maxlength="255" html-placeholder="Form Description"/></p>                
             </div>
             <div class="section">
                 <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
@@ -212,7 +208,11 @@
             </div>
             <div class="section">
                 <p><input type="button" value="Send Form" class="control-button" onclick="sendSurvey()" />
-                    <input type="button" value="Save" class="control-button" onclick="saveSurvey()" /></p>
+                    <input type="button" value="Save" class="control-button" onclick="saveSurvey()" />
+                    <apex:outputPanel rendered="{!survey.Id != null}">
+                    <input type="button" value="Clone" class="control-button" onclick="cloneSurvey('{!survey.Id}')" />
+                </apex:outputPanel>
+                    </p>
             </div>
         </div>
         <apex:inputHidden id="newIndex" value="{!newIndex}" />

@@ -127,7 +127,6 @@
             <useReportChart>false</useReportChart>
         </components>
     </rightSection>
-    <runningUser>ajay@mysurvey.app</runningUser>
     <textColor>#000000</textColor>
     <title>Survey Dashboards</title>
     <titleColor>#000000</titleColor>

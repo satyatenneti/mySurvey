@@ -79,15 +79,7 @@
         <detailHeading>true</detailHeading>
         <editHeading>false</editHeading>
         <label>Reports</label>
-        <layoutColumns>
-            <layoutItems>
-                <height>200</height>
-                <page>Survey_Report_Page</page>
-                <showLabel>false</showLabel>
-                <showScrollbars>true</showScrollbars>
-                <width>100%</width>
-            </layoutItems>
-        </layoutColumns>
+        <layoutColumns/>
         <style>OneColumn</style>
     </layoutSections>
     <layoutSections>

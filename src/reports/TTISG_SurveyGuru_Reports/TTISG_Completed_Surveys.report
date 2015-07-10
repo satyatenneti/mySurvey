@@ -9,12 +9,12 @@
             <column>RowCount</column>
         </chartSummaries>
         <chartType>VerticalColumnGrouped</chartType>
-        <enableHoverLabels>true</enableHoverLabels>
+        <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>true</expandOthers>
         <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_TOP</location>
-        <secondaryGroupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</secondaryGroupingColumn>
+        <secondaryGroupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
@@ -27,34 +27,18 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</field>
+    </columns>
+    <columns>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</field>
+    </columns>
+    <columns>
         <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Avg_Weightage__c</field>
     </columns>
     <columns>
         <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</field>
     </columns>
-    <columns>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</field>
-    </columns>
-    <columns>
-        <field>Trifecta_Survey__c$Threshold_Weightage__c</field>
-    </columns>
-    <filter>
-        <criteriaItems>
-            <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</column>
-            <operator>equals</operator>
-            <value>1</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Trifecta_Survey__c$Avg_Weightage__c</column>
-            <operator>notEqual</operator>
-            <value>0</value>
-        </criteriaItems>
-        <criteriaItems>
-            <column>Trifecta_Survey__c$Threshold_Weightage__c</column>
-            <operator>notEqual</operator>
-            <value>0</value>
-        </criteriaItems>
-    </filter>
+    <description>This report shows count of completed and non-completed surveys</description>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
@@ -63,10 +47,10 @@
     </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</field>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Weightage Indicator</name>
+    <name>Completed Surveys</name>
     <params>
         <name>co</name>
         <value>1</value>

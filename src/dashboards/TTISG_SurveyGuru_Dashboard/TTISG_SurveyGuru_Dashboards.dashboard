@@ -119,7 +119,7 @@
             <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
             <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</groupingColumn>
             <legendPosition>Right</legendPosition>
-            <report>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion</report>
+            <report>TTISG_SurveyGuru_Reports/TTISG_Completed_Surveys</report>
             <showPercentage>false</showPercentage>
             <showValues>false</showValues>
             <sortBy>RowLabelAscending</sortBy>

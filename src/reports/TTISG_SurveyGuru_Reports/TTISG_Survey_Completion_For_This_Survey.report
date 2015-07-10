@@ -8,18 +8,17 @@
             <axisBinding>y</axisBinding>
             <column>RowCount</column>
         </chartSummaries>
-        <chartType>VerticalColumnGrouped</chartType>
+        <chartType>Pie</chartType>
         <enableHoverLabels>true</enableHoverLabels>
-        <expandOthers>true</expandOthers>
-        <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
+        <expandOthers>false</expandOthers>
+        <groupingColumn>Trifecta_Survey_Submission__c.Completion_Indicator__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_TOP</location>
-        <secondaryGroupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
         <showValues>true</showValues>
-        <size>Large</size>
+        <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
         <textColor>#000000</textColor>
         <textSize>12</textSize>
@@ -27,30 +26,38 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Avg_Weightage__c</field>
+        <field>CUST_NAME</field>
     </columns>
-    <description>This report shows count of completed and non-completed surveys</description>
+    <columns>
+        <field>Trifecta_Survey_Submission__c.Submitted_To_Name__c</field>
+    </columns>
+    <columns>
+        <field>Trifecta_Survey_Submission__c.Avg_Weightage__c</field>
+    </columns>
+    <description>No. of Completed and Non Completed Submissions of Survey</description>
+    <filter>
+        <criteriaItems>
+            <column>CUST_ID</column>
+            <operator>equals</operator>
+            <value></value>
+        </criteriaItems>
+    </filter>
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c$Name</field>
+        <field>Trifecta_Survey_Submission__c.Completion_Indicator__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>Survey Completion</name>
+    <name>Survey Completion For This Survey</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>Trifecta_Survey__c</reportType>
-    <scope>user</scope>
+    <reportType>CustomEntityCustomEntity$Trifecta_Survey__c$Trifecta_Survey_Submission__c</reportType>
+    <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
-        <dateColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$LastActivityDate</dateColumn>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

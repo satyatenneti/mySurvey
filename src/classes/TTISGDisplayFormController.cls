@@ -70,6 +70,7 @@ public with sharing class TTISGDisplayFormController {
     
     public PageReference submitSurvey(){
         //Save the survey before the user can be redirected to Send Survey Page
+        Trifecta_Survey_Submission__c surveySubmitted = [select id, Submitted_To__c, Completed__c from Trifecta_Survey_Submission__c where Id =:submissionId];
         if(surveySubmitted != null && !surveySubmitted.Completed__c) {
             saveResponses();
 

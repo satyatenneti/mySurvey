@@ -8,17 +8,16 @@
             <axisBinding>y</axisBinding>
             <column>RowCount</column>
         </chartSummaries>
-        <chartType>VerticalColumnGrouped</chartType>
+        <chartType>Pie</chartType>
         <enableHoverLabels>true</enableHoverLabels>
-        <expandOthers>true</expandOthers>
-        <groupingColumn>Trifecta_Survey__c$Name</groupingColumn>
+        <expandOthers>false</expandOthers>
+        <groupingColumn>Trifecta_Survey_Submission__c.Weightage_Indicator__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_TOP</location>
-        <secondaryGroupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
-        <showValues>false</showValues>
+        <showValues>true</showValues>
         <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
         <textColor>#000000</textColor>
@@ -27,30 +26,36 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Avg_Weightage__c</field>
+        <field>CUST_NAME</field>
     </columns>
     <columns>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</field>
+        <field>Trifecta_Survey_Submission__c.Submitted_To_Name__c</field>
     </columns>
     <columns>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</field>
+        <field>Trifecta_Survey_Submission__c.Completion_Indicator__c</field>
     </columns>
     <columns>
-        <field>Trifecta_Survey__c$Threshold_Weightage__c</field>
+        <field>Trifecta_Survey_Submission__c.Avg_Weightage__c</field>
     </columns>
+    <description>Minimum Rating of Survey</description>
     <filter>
         <criteriaItems>
-            <column>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</column>
+            <column>CUST_ID</column>
+            <operator>equals</operator>
+            <value></value>
+        </criteriaItems>
+        <criteriaItems>
+            <column>Trifecta_Survey_Submission__c.Completed__c</column>
             <operator>equals</operator>
             <value>1</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Trifecta_Survey__c$Avg_Weightage__c</column>
+            <column>Trifecta_Survey_Submission__c.Avg_Weightage__c</column>
             <operator>notEqual</operator>
             <value>0</value>
         </criteriaItems>
         <criteriaItems>
-            <column>Trifecta_Survey__c$Threshold_Weightage__c</column>
+            <column>Trifecta_Survey__c.Threshold_Weightage__c</column>
             <operator>notEqual</operator>
             <value>0</value>
         </criteriaItems>
@@ -58,24 +63,19 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c$Name</field>
+        <field>Trifecta_Survey_Submission__c.Weightage_Indicator__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>Weightage Indicator</name>
+    <name>Minimum Rating For This Survey</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>Trifecta_Survey__c</reportType>
+    <reportType>CustomEntityCustomEntity$Trifecta_Survey__c$Trifecta_Survey_Submission__c</reportType>
     <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
-        <dateColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$LastActivityDate</dateColumn>
+        <dateColumn>CUST_CREATED_DATE</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>
     </timeFrameFilter>
 </Report>

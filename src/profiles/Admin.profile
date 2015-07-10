@@ -41,6 +41,10 @@
         <apexClass>TTISGTrifectaSurveyController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>TTISGReportIDsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>false</custom>
     <fieldPermissions>
         <editable>true</editable>
@@ -352,6 +356,11 @@
         <field>Trifecta_Survey__c.Threshold_Weightage__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trifecta_Survey_Submission__c.Completion_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <layoutAssignments>
         <layout>Trifecta_Email_Sent__c-Trifecta Email Sent Layout</layout>
     </layoutAssignments>
@@ -456,6 +465,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>Survey_Report_Page</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>TTISGGetReportIds</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <tabVisibilities>

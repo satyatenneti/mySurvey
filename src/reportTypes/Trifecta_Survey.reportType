@@ -105,6 +105,17 @@
             <field>Threshold_Weightage__c</field>
             <table>Trifecta_Survey__c</table>
         </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Survey ID</displayNameOverride>
+            <field>Survey__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Completion_Indicator__c</field>
+            <table>Trifecta_Survey__c.Trifecta_Survey_Submissions__r</table>
+        </columns>
         <masterLabel>Trifecta Survey Submissions</masterLabel>
     </sections>
 </ReportType>

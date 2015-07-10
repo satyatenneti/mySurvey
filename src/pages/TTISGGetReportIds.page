@@ -1,0 +1,9 @@
+<apex:page standardController="Trifecta_Survey__c"  extensions="TTISGReportIDsController" showHeader="false" sideBar="false">
+<apex:form >
+    <apex:repeat value="{!reportIds}" var="report">
+        <p> 
+            <a href="/{!report.id}?isdtp=vw&pv0={!LEFT(Trifecta_Survey__c.ID,15)}" target="_blank">{!report.name}</a> -- {!report.description}
+        </p>
+    </apex:repeat>       
+</apex:form>
+</apex:page>

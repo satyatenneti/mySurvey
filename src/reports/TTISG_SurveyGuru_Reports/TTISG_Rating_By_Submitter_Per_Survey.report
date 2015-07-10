@@ -45,6 +45,15 @@
     <columns>
         <field>Trifecta_Survey__c$Threshold_Weightage__c</field>
     </columns>
+    <columns>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</field>
+    </columns>
+    <columns>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</field>
+    </columns>
+    <columns>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</field>
+    </columns>
     <description>Report shows weightage of each submitter on Different Surveys</description>
     <filter>
         <criteriaItems>
@@ -62,6 +71,11 @@
             <operator>greaterThan</operator>
             <value>0</value>
         </criteriaItems>
+        <criteriaItems>
+            <column>Trifecta_Survey__c$Avg_Weightage__c</column>
+            <operator>notEqual</operator>
+            <value>0</value>
+        </criteriaItems>
     </filter>
     <format>Summary</format>
     <groupingsDown>
@@ -74,7 +88,7 @@
         <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Weightage of Survey Submitter</name>
+    <name>Rating By Submitter Per Survey</name>
     <params>
         <name>co</name>
         <value>1</value>

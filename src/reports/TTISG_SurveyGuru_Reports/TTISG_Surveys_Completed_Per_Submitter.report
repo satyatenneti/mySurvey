@@ -14,12 +14,12 @@
         <groupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Submitted_To_Name__c</groupingColumn>
         <legendPosition>Right</legendPosition>
         <location>CHART_TOP</location>
-        <secondaryGroupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</secondaryGroupingColumn>
+        <secondaryGroupingColumn>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
         <showValues>false</showValues>
-        <size>Large</size>
+        <size>Medium</size>
         <summaryAxisRange>Auto</summaryAxisRange>
         <textColor>#000000</textColor>
         <textSize>12</textSize>
@@ -27,7 +27,13 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>Trifecta_Survey__c$Avg_Weightage__c</field>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Avg_Weightage__c</field>
+    </columns>
+    <columns>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Weightage_Indicator__c</field>
+    </columns>
+    <columns>
+        <field>Trifecta_Survey__c$Threshold_Weightage__c</field>
     </columns>
     <format>Summary</format>
     <groupingsDown>
@@ -42,10 +48,10 @@
     </groupingsDown>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completed__c</field>
+        <field>Trifecta_Survey__c.Trifecta_Survey_Submissions__r$Completion_Indicator__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <name>Survey completion of each submitter</name>
+    <name>Surveys Completed Per Submitter</name>
     <params>
         <name>co</name>
         <value>1</value>

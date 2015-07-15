@@ -125,7 +125,7 @@ private Integer getBalance() {
             for(String eachId : submittedList) {
                 String name;
                 if (userList.size() > 0) {
-                    name = userlist.get(eachId).FirstName + userlist.get(eachId).LastName;
+                    name = userlist.get(eachId).FirstName +' '+ userlist.get(eachId).LastName;
                 }
                 else {
                     name = contactList.get(eachId).Name;

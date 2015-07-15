@@ -24,6 +24,10 @@
                 <behavior>Edit</behavior>
                 <field>Type__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Name_Link__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -65,9 +69,10 @@
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>
-        <customLabel>false</customLabel>
+        <customLabel>true</customLabel>
         <detailHeading>false</detailHeading>
         <editHeading>true</editHeading>
+        <label>Custom Links</label>
         <layoutColumns/>
         <layoutColumns/>
         <layoutColumns/>
@@ -75,7 +80,7 @@
     </layoutSections>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
+        <fields>Name_Link__c</fields>
         <fields>Value__c</fields>
         <fields>Weightage__c</fields>
         <relatedList>Trifecta_Survey_Question_Choice__c.Survey_Question__c</relatedList>
@@ -83,7 +88,7 @@
     <relatedLists>
         <customButtons>Delete_All_Responses</customButtons>
         <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
+        <fields>Name_Link__c</fields>
         <fields>Trifecta_Survey_Submission__c.Survey__c</fields>
         <fields>Answer__c</fields>
         <fields>weitage__c</fields>
@@ -94,4 +99,10 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
+    <summaryLayout>
+        <masterLabel>00h28000000PnkR</masterLabel>
+        <sizeX>4</sizeX>
+        <sizeY>0</sizeY>
+        <summaryLayoutStyle>Default</summaryLayoutStyle>
+    </summaryLayout>
 </Layout>

@@ -92,7 +92,7 @@
     </layoutSections>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
+        <fields>Name_Link__c</fields>
         <fields>Title__c</fields>
         <fields>Type__c</fields>
         <fields>isRequired__c</fields>
@@ -100,7 +100,7 @@
     </relatedLists>
     <relatedLists>
         <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
+        <fields>Name_Link__c</fields>
         <fields>Submitted_To_Name__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>Completed_Image__c</fields>

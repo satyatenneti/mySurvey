@@ -78,6 +78,18 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Name_Link__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&apos;/&apos;+  Id , IF(!ISBLANK(  Answer__c ), Answer__c ,  Name ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Name Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Survey_Question__c</fullName>
         <description>Id of the Survey Question in current context</description>
         <externalId>false</externalId>
@@ -129,7 +141,7 @@
     <pluralLabel>Trifecta Survey Question Responses</pluralLabel>
     <searchLayouts/>
     <sharingModel>ControlledByParent</sharingModel>
-	<webLinks>
+    <webLinks>
         <fullName>Delete_All_Responses</fullName>
         <availability>online</availability>
         <displayType>massActionButton</displayType>
@@ -138,28 +150,22 @@
         <openType>onClickJavaScript</openType>
         <protected>false</protected>
         <requireRowSelection>false</requireRowSelection>
-        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/connection.js&quot;)} 
-{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/apex.js&quot;)} 
+        <url>{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/connection.js&quot;)}
+{!REQUIRESCRIPT(&quot;/soap/ajax/32.0/apex.js&quot;)}
 
-var submissionObj = new sforce.SObject(&quot;Trifecta_Survey_Submission__c&quot;); 
-submissionObj.Id = &apos;{!Trifecta_Survey_Submission__c.Id}&apos;; 
-submissionObj.Completed__c = &apos;{!Trifecta_Survey_Submission__c.Completed__c}&apos;; 
+// Getting all the Trifecta Submission Records from the database
+var result = sforce.connection.query(&quot;Select Id From Trifecta_Survey_Question_Response__c where Survey_Submission__c = &apos;{!Trifecta_Survey_Submission__c.Id}&apos; &quot;);
+var records = result.getArray(&quot;records&quot;);
 
-// Getting all the Trifecta Submission Records from the database 
-var result = sforce.connection.query(&quot;Select Id From Trifecta_Survey_Question_Response__c where Survey_Submission__c = &apos;{!Trifecta_Survey_Submission__c.Id}&apos; &quot;); 
-var records = result.getArray(&quot;records&quot;); 
-
-// Iterating through the collection and collecting Ids of records to be deleted 
-var recordIds = []; 
-var index; 
-for (index = 0; index &lt; records.length; index++) { 
-recordIds[index] = records[index].Id 
-} 
-// Upon User confirming , we go ahead and delete the Submission records 
-if (confirm(&apos;Are you sure you want to delete all the records ?&apos;)) { 
-sforce.connection.deleteIds(recordIds); 
-submissionObj.Completed__c = false; 
-sforce.connection.update([submissionObj]); 
+// Iterating through the collection and collecting Ids of records to be deleted
+var recordIds = [];
+var index;
+for (index = 0; index &lt; records.length; index++) {
+    recordIds[index] = records[index].Id
+}
+// Upon User confirming , we go ahead and delete the Submission records
+if (confirm(&apos;Are you sure you want to delete all the records ?&apos;)) {
+   sforce.connection.deleteIds(recordIds); 
 }
 
 window.location.reload();</url>

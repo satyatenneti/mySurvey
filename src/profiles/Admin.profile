@@ -328,11 +328,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trifecta_Survey__c.Description__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Trifecta_Survey__c.Help_Text__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -18,7 +18,7 @@
             <tr>
                 <td colspan="2" align="left">
                     Dear User,<br /><br />
-                    Feedback recieved from {!submittedToName} for {!SurveyName} which needs your attention.
+                    Feedback recieved from {!submittedToName} for <strong>{!SurveyName}</strong> which needs your attention.
                     <br /><br />Following are the details: 
                     <br />Overall Rating: <bold>{!avgWeightage}</bold> 
                     <br /><br/>Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.

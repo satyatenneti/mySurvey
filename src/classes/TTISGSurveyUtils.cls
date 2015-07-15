@@ -2,6 +2,8 @@ public with sharing class TTISGSurveyUtils {
 
 	public static final String EMAIL_TEMPLATE_FOR_USER = 'TTISGSurvey Template User';
 	public static final String EMAIL_TEMPLATE_FOR_CONTACT = 'TTISGSurvey Template Contact';
+    public static final String SENDER_NAME = 'SurveyGuru';
+
 	private TTISGSurveyUtils() {
 		
 	}

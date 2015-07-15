@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="Feedback form for : {!relatedTo.Survey__r.Name}" recipientType="Contact" relatedToType="Trifecta_Survey_Submission__c">
+<messaging:emailTemplate subject="SurveyGuru | Help us with your feedback on : {!relatedTo.Survey__r.Name}" recipientType="Contact" relatedToType="Trifecta_Survey_Submission__c">
 <messaging:htmlEmailBody >
       <c:TTISGSendEmailComponent sender="{!relatedTo.Submitted_To__c}" submission="{!relatedTo.Id}"/>
 </messaging:htmlEmailBody>

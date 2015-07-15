@@ -193,7 +193,7 @@
                             });
                             </script>
                 </apex:outputPanel>
-                <input type="button" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only ui-state-hover" value="Add  Question" onclick="addNewQuestion()"/>
+                <input type="button" class="control-button" value="Add Question" onclick="addNewQuestion()"/>
             </div>
             <div class="section">
                 <label>Confirmation Message</label>

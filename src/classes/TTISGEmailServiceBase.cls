@@ -34,6 +34,7 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
                 mail.setTemplateId(EMAIL_TEMPLATE_FOR_CONTACT.Id);
                 mail.setSaveAsActivity(true);
             }
+            mail.setSenderDisplayName(TTISGSurveyUtils.SENDER_NAME);
             mail.setTargetObjectId(submission.Submitted_To__c);
             mail.setWhatId(submission.Id);
             mails.add(mail);
@@ -44,11 +45,10 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
       String surveyName =[SELECT Name from Trifecta_Survey__c WHERE Id = :surveyId].name;
       Messaging.SingleEmailMessage[] mails = new List<Messaging.SingleEmailMessage>();
       String siteURL = Survey_Global_Settings__c.getOrgDefaults().Site_Address__c;
-            
       for(Trifecta_Survey_Submission__c submission : submissions) {
             String SurveyURL = siteURL+'TTISGDisplayForm?Id='+submission.Id+'&Survey='+TTISGSurveyService.getSurveyId(submission.Id);
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-            mail.setSenderDisplayName('Trifecta Technologies');
+            mail.setSenderDisplayName(TTISGSurveyUtils.SENDER_NAME);
             mail.setSubject('Feedback form for '+surveyName);
             mail.setUseSignature(false);
             mail.setBccSender(false);

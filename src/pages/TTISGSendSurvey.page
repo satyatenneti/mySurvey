@@ -6,105 +6,111 @@
     
     <apex:form id="sendSurvey">
         <div class="form-container">
-            <div><apex:pageMessages /></div>
-            <div class="font-large bold-text margin-0.625em">{!survey.Name}</div>
-            <hr />
-            <table class="table">
-                <tr><th colspan="2" style="float: right;">
-                    Send Form to<select id="send-form-to-select" class="select-box">
-                            <option value="users">Users</option> 
-                            <option value="contacts">Contacts</option> 
-                            <option value="groups">Groups</option> 
-                            <option value="others">Others</option> 
-                    </select></th>
-                </tr>
-               <tr>
-                    <td><div id="users" class="section" style="display: none;">
+            <div id="show-img">
+                <img src="progress.gif" id="imgProg"
+                visible="false" alt="loading data..." />                
+            </div>
+            <div id="main-div" style="display: none;">
+                <div><apex:pageMessages /></div>
+                <div class="font-large bold-text margin-0.625em">{!survey.Name}</div>
+                <hr />
+                <table class="table">
+                    <tr><th colspan="2" style="float: right;">
+                        Send Form to<select id="send-form-to-select" class="select-box">
+                                <option value="users">Users</option> 
+                                <option value="contacts">Contacts</option> 
+                                <option value="groups">Groups</option> 
+                                <option value="others">Others</option> 
+                        </select></th>
+                    </tr>
+                   <tr>
+                        <td><div id="users" class="section" style="display: none;">
 
 
-                        <table id="usertable" class="display">
-                            <thead>
-                                <tr>
-                                    <th><input type="checkbox" id="userSelectAllChbx" /></th>
-                                    <th>First Name</th>
-                                    <th>Last Name</th>
-                                    <th>Image</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <apex:repeat value="{!userDetailsList}" var="userDetail">
-                                    <tr>
-                                        <td><input type="checkbox" data-id="{!userDetail.user.Id}" value="{!userDetail.selected}"  /></td> 
-                                        <td>{!userDetail.user.FirstName}</td>
-                                        <td>{!userDetail.user.LastName}</td>
-                                        <td><apex:image url="{!userDetail.user.smallphotourl}" /></td>
-                                    </tr>
-                                </apex:repeat>
-                            </tbody>
-                        </table>
-                        <apex:outputPanel rendered="{!userDetailsList.size == 0}">No Users exist.</apex:outputPanel>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="contacts" class="section" style="display: none;">
-
-                            <table id="contacttable" class="display">
+                            <table id="usertable" class="display">
                                 <thead>
                                     <tr>
-                                        <th><input type="checkbox" id="contactSelectAllChbx" /></th>
+                                        <th><input type="checkbox" id="userSelectAllChbx" /></th>
                                         <th>First Name</th>
                                         <th>Last Name</th>
+                                        <th>Image</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <apex:repeat value="{!contactDetailsList}" var="contactDetail">
+                                    <apex:repeat value="{!userDetailsList}" var="userDetail">
                                         <tr>
-                                            <td><input type="checkbox" data-id="{!contactDetail.contact.Id}" value="{!contactDetail.selected}"  /></td> 
-                                            <td>{!contactDetail.contact.FirstName}</td>
-                                            <td>{!contactDetail.contact.LastName}</td>
+                                            <td><input type="checkbox" data-id="{!userDetail.user.Id}" value="{!userDetail.selected}"  /></td> 
+                                            <td>{!userDetail.user.FirstName}</td>
+                                            <td>{!userDetail.user.LastName}</td>
+                                            <td><apex:image url="{!userDetail.user.smallphotourl}" /></td>
                                         </tr>
                                     </apex:repeat>
                                 </tbody>
                             </table>
-                            <apex:outputPanel rendered="{!contactDetailsList.size == 0}">No Contacts exist.</apex:outputPanel>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="groups" class="section" style="display: none;">
-                            <apex:outputPanel rendered="{! groupsList.size != 0}">
-                                    <label class="bold-text">Select Groups</label>
-                                    <apex:selectList styleClass="sender-list ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" id="select-groups" size="1" value="{!selectedGroups}">
-                                        <apex:selectOptions value="{!groupsList}"/>
-                                    </apex:selectList>
-                            </apex:outputPanel>
-                            <apex:outputPanel rendered="{!groupsList.size == 0}">No Groups exist.</apex:outputPanel>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div id="others" class="section" style="display: none;">
+                            <apex:outputPanel rendered="{!userDetailsList.size == 0}">No Users exist.</apex:outputPanel>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="contacts" class="section" style="display: none;">
+
+                                <table id="contacttable" class="display">
+                                    <thead>
+                                        <tr>
+                                            <th><input type="checkbox" id="contactSelectAllChbx" /></th>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <apex:repeat value="{!contactDetailsList}" var="contactDetail">
+                                            <tr>
+                                                <td><input type="checkbox" data-id="{!contactDetail.contact.Id}" value="{!contactDetail.selected}"  /></td> 
+                                                <td>{!contactDetail.contact.FirstName}</td>
+                                                <td>{!contactDetail.contact.LastName}</td>
+                                            </tr>
+                                        </apex:repeat>
+                                    </tbody>
+                                </table>
+                                <apex:outputPanel rendered="{!contactDetailsList.size == 0}">No Contacts exist.</apex:outputPanel>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="groups" class="section" style="display: none;">
+                                <apex:outputPanel rendered="{! groupsList.size != 0}">
+                                        <label class="bold-text">Select Groups</label>
+                                        <apex:selectList styleClass="sender-list ui-selectmenu-button ui-widget ui-state-default ui-corner-top" style="overflow:auto" id="select-groups" size="1" value="{!selectedGroups}">
+                                            <apex:selectOptions value="{!groupsList}"/>
+                                        </apex:selectList>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!groupsList.size == 0}">No Groups exist.</apex:outputPanel>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div id="others" class="section" style="display: none;">
+                                <apex:outputPanel >
+                                    <label class="bold-text">External Emails</label><br/ >
+                                    <label class="small-text">Please select list of comma seperated email ids.</label>
+                                    <br />
+                                    <apex:inputTextarea id="external-emails" value="{!externalContacts}" rows="5"  cols="100" /> 
+                                </apex:outputPanel><br/>
+                                <span id="email-error" class="error" style="display: none;">Invalid Email Ids</span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr><td>
                             <apex:outputPanel >
-                                <label class="bold-text">External Emails</label><br/ >
-                                <label class="small-text">Please select list of comma seperated email ids.</label>
-                                <br />
-                                <apex:inputTextarea id="external-emails" value="{!externalContacts}" rows="5"  cols="100" /> 
-                            </apex:outputPanel><br/>
-                            <span id="email-error" class="error" style="display: none;">Invalid Email Ids</span>
-                        </div>
-                    </td>
-                </tr>
-                <tr><td>
-                        <apex:outputPanel >
-                            <input type="button" style="display: none;" class="control-button" value="Send Form" onclick="doValidateAndSendForm()" />
-                        </apex:outputPanel>
-                    </td>
-                </tr>
-            </table>
+                                <input type="button" style="display: none;" class="control-button" value="Send Form" onclick="doValidateAndSendForm()" />
+                            </apex:outputPanel>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
         <apex:inputHidden value="{!sendTo}" id="sendTo"/>
         <apex:inputHidden value="{!selectedIds}" id="selectedIds"/>
@@ -115,6 +121,9 @@
         var ids = [];
         
         $(document).ready(function(){
+
+            $("#show-img").hide();
+            $("#main-div").show();
 
             $('div.section').hide();
             $('input.control-button').hide();

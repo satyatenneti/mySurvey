@@ -96,6 +96,18 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Edit__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&apos;/apex/TTISGCreateSurvey?id=&apos;+ Id , &apos;EDIT&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Edit</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Help_Text__c</fullName>
         <description>Inline help text for the purpose of the survey</description>
         <externalId>false</externalId>
@@ -179,24 +191,9 @@
         <columns>Description__c</columns>
         <columns>CREATED_DATE</columns>
         <columns>Avg_Weightage__c</columns>
+        <columns>Quick_Send_Link__c</columns>
         <filterScope>Everything</filterScope>
         <label>All</label>
-    </listViews>
-    <listViews>
-        <fullName>External_Surveys</fullName>
-        <columns>NAME</columns>
-        <columns>Description__c</columns>
-        <columns>CREATED_DATE</columns>
-        <filterScope>Everything</filterScope>
-        <label>External Surveys</label>
-    </listViews>
-    <listViews>
-        <fullName>Internal_Surveys</fullName>
-        <columns>NAME</columns>
-        <columns>Description__c</columns>
-        <columns>CREATED_DATE</columns>
-        <filterScope>Everything</filterScope>
-        <label>Internal Surveys</label>
     </listViews>
     <nameField>
         <label>Title</label>
@@ -208,6 +205,7 @@
         <customTabListAdditionalFields>Help_Text__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>
         <customTabListAdditionalFields>Avg_Weightage__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Edit__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>Quick_Send_Link__c</customTabListAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>

@@ -328,7 +328,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Trifecta_Survey__c.Description__c</field>
+        <field>Trifecta_Survey__c.Edit__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -84,18 +84,7 @@
         <unique>false</unique>
     </fields>
     <fields>
-        <fullName>Description__c</fullName>
-        <description>Description of the survey</description>
-        <externalId>false</externalId>
-        <label>Description</label>
-        <length>255</length>
-        <required>false</required>
-        <trackHistory>false</trackHistory>
-        <trackTrending>false</trackTrending>
-        <type>Text</type>
-        <unique>false</unique>
-    </fields>
-    <fields>
+<fields>
         <fullName>Edit__c</fullName>
         <externalId>false</externalId>
         <formula>HYPERLINK(&apos;/apex/TTISGCreateSurvey?id=&apos;+ Id , &apos;EDIT&apos;)</formula>

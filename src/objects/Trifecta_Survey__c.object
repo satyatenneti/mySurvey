@@ -84,7 +84,6 @@
         <unique>false</unique>
     </fields>
     <fields>
-<fields>
         <fullName>Edit__c</fullName>
         <externalId>false</externalId>
         <formula>HYPERLINK(&apos;/apex/TTISGCreateSurvey?id=&apos;+ Id , &apos;EDIT&apos;)</formula>

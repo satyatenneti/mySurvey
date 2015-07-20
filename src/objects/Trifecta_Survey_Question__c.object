@@ -79,6 +79,18 @@
         <unique>true</unique>
     </fields>
     <fields>
+        <fullName>Name_Link__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&apos;/&apos;+ Id , IF(!ISBLANK( Title__c ),  Title__c ,  Name ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Name Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Sort_Index__c</fullName>
         <description>Number to arrange the question in the survey form generated</description>
         <externalId>false</externalId>

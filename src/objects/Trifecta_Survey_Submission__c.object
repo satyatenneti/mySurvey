@@ -133,6 +133,18 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Name_Link__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&apos;/&apos;+  Id , IF(!ISBLANK(  Submitted_To_Name__c  ), Submitted_To_Name__c ,  Name ))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Name Link</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Submitted_To_Name__c</fullName>
         <externalId>false</externalId>
         <label>Submitted To</label>

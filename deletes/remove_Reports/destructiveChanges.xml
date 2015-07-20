@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <types>
+        <members>TTISG_SurveyGuru_Reports/TTISG_Avg_Rating_Per_Submitter_For_This_Survey</members>
+		<members>TTISG_SurveyGuru_Reports/TTISG_Minimum_Rating_For_This_Survey</members>
+		<members>TTISG_SurveyGuru_Reports/TTISG_Submitter_Completion_For_This_Survey</members>
+		<members>TTISG_SurveyGuru_Reports/TTISG_Submitter_Minimum_Rating_For_This_Survey</members>
+        <name>Report</name>
+    </types>
+</Package>

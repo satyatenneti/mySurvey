@@ -58,7 +58,7 @@
         <description>Action Points that you have planned to implement.</description>
         <externalId>false</externalId>
         <inlineHelpText>Action Points that you have planned to implement.</inlineHelpText>
-        <label>ActionPlan</label>
+        <label>Action Plan</label>
         <length>32768</length>
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
@@ -122,7 +122,7 @@
     <fields>
         <fullName>weitage__c</fullName>
         <externalId>false</externalId>
-        <label>weitage</label>
+        <label>Weightage</label>
         <precision>18</precision>
         <required>false</required>
         <scale>0</scale>

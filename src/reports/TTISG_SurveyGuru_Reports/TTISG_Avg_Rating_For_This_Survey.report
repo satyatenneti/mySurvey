@@ -48,7 +48,7 @@
         <aggregateTypes>Average</aggregateTypes>
         <field>Trifecta_Survey_Submission__c.Avg_Weightage__c</field>
     </columns>
-    <description>What is the Average Rating of the Survey?</description>
+    <description>Average rating of all submissions for this survey</description>
     <filter>
         <criteriaItems>
             <column>CUST_ID</column>

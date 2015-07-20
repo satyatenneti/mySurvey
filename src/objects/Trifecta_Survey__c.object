@@ -176,7 +176,7 @@
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
-        <columns>Description__c</columns>
+        <columns>Help_Text__c</columns>
         <columns>CREATED_DATE</columns>
         <columns>Avg_Weightage__c</columns>
         <columns>Quick_Send_Link__c</columns>

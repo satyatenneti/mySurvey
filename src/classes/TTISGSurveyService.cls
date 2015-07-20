@@ -116,7 +116,6 @@ public with sharing class TTISGSurveyService {
         // creating new survey
         Trifecta_Survey__c newSurvey = new Trifecta_Survey__c(Name=oldSurvey.Name,
                                                               Auto_Response_Message__c = oldSurvey.Auto_Response_Message__c,
-                                                              Description__c = oldSurvey.Description__c,
                                                               Help_Text__c = oldSurvey.Help_Text__c,
                                                               Load_Id__c = TTISGGuidUtil.NewGuid(),
                                                               Threshold_Weightage__c = oldSurvey.Threshold_Weightage__c);

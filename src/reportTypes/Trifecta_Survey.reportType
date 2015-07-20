@@ -18,11 +18,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Description__c</field>
-            <table>Trifecta_Survey__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Owner</field>
             <table>Trifecta_Survey__c</table>
         </columns>

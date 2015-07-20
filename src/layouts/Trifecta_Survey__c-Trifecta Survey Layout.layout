@@ -14,10 +14,6 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Description__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
                 <field>Help_Text__c</field>
             </layoutItems>
             <layoutItems>
@@ -81,7 +77,7 @@
         <label>Reports</label>
         <layoutColumns>
             <layoutItems>
-                <height>200</height>
+                <height>60</height>
                 <page>TTISGGetReportIds</page>
                 <showLabel>false</showLabel>
                 <showScrollbars>true</showScrollbars>

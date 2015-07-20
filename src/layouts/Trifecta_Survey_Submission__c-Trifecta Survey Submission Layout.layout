@@ -69,8 +69,7 @@
     <relatedLists>
         <customButtons>Delete_All_Responses</customButtons>
         <excludeButtons>New</excludeButtons>
-        <fields>NAME</fields>
-        <fields>Trifecta_Survey_Question__c.Title__c</fields>
+        <fields>Name_Link__c</fields>
         <fields>Answer__c</fields>
         <fields>weitage__c</fields>
         <fields>ActionPlan__c</fields>
@@ -81,10 +80,4 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
-    <summaryLayout>
-        <masterLabel>00h28000000PnkS</masterLabel>
-        <sizeX>4</sizeX>
-        <sizeY>0</sizeY>
-        <summaryLayoutStyle>Default</summaryLayoutStyle>
-    </summaryLayout>
 </Layout>

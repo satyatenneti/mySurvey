@@ -89,15 +89,6 @@
     <relatedLists>
         <excludeButtons>New</excludeButtons>
         <fields>Name_Link__c</fields>
-        <fields>Title__c</fields>
-        <fields>Type__c</fields>
-        <fields>isRequired__c</fields>
-        <relatedList>Trifecta_Survey_Question__c.Survey__c</relatedList>
-    </relatedLists>
-    <relatedLists>
-        <excludeButtons>New</excludeButtons>
-        <fields>Name_Link__c</fields>
-        <fields>Submitted_To_Name__c</fields>
         <fields>CREATED_DATE</fields>
         <fields>Completed_Image__c</fields>
         <fields>Avg_Weightage__c</fields>

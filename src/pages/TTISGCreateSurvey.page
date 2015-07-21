@@ -2,18 +2,16 @@
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
+    <style type="text/css">
+    .section-label {display: block; background-color: #eee; padding: 5px; margin-top: -15px; max-width: 25%; margin-left: -15px; font-weight: bold;}
+    </style>
     <apex:form id="survey">
         <div class="form-container">
             <div><apex:pageMessages /></div>
             <div class="section" >
-                <p><apex:inputText styleClass="font-survey-title" value="{!survey.Name}" maxlength="80" html-placeholder="Untitle Form"/></p>
+                <p><apex:inputText styleClass="font-survey-title" value="{!survey.Name}" maxlength="80" html-placeholder="Untitled Survey"/></p>
                 <p><apex:inputText styleClass="help-text" value="{!survey.Help_Text__c}" maxlength="255" html-placeholder="Form Description"/></p>                
             </div>
-            <div class="section">
-                <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
-                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
-            </div>
-
             <div class="section questions">
                 <apex:actionfunction action="{!cloneSurvey}" name="cloneSurvey" >
                     <apex:param name="surveyId" value="" assignTo="{!surveyId}"/>
@@ -54,7 +52,7 @@
                                             <tr>
                                                 <td class="question-container">
                                                     <ul class="control-buttons">
-                                                        <li class="ui-state-default ui-corner-all" title="Click to move the question to edit/preview mode"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
+                                                        <li class="ui-state-default ui-corner-all" title="Edit"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
                                                         <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
                                                         <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
                                                             <li class="ui-state-default ui-corner-all" title="Delete"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
@@ -98,7 +96,7 @@
                                                 <tr>
                                                     <td colspan="4">
                                                         <ul class="control-buttons">
-                                                            <li class="ui-state-default ui-corner-all" title="Click to move the question to edit/preview mode"><span class="ui-icon ui-icon-pencil pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
+                                                            <li class="ui-state-default ui-corner-all" title="Done"><span class="ui-icon ui-icon-check pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
                                                             <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
                                                             <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
                                                             <li class="ui-state-default ui-corner-all"  title="Delete"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
@@ -196,8 +194,13 @@
                 <input type="button" class="control-button" value="Add Question" onclick="addNewQuestion()"/>
             </div>
             <div class="section">
-                <label>Confirmation Message</label>
-                <p><apex:inputText value="{!survey.Auto_Response_Message__c}" maxlength="255" html-placeholder="Thank you for your time and feedback."/></p>
+                <label class="section-label">Confirmation Message</label>
+                <apex:inputText value="{!survey.Auto_Response_Message__c}" maxlength="255" html-placeholder="Thank you for your time and feedback."/>
+            </div>
+            <div class="section">
+                <label class="section-label">Survey Properties</label>
+                <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
+                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
             </div>
             <div class="section">
                 <p><input type="button" value="Send Form" class="control-button" onclick="sendSurvey()" />

@@ -6,10 +6,6 @@ public with sharing class TTISGTrifectaSurveyController {
     public String choiceLoadId{get;set;}
     public String qType{get;set;}
     public Map<String,List<Trifecta_Survey_Question_Choice__c>> surveyQuestionChoiceMap{get;set;}
-    public static final String QUESTION_TYPE_RADIO = 'Radio Button';
-    public static final String SEND_SURVEY_PAGE_URL = '/apex/TTISGSendSurvey?id=';
-    public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
-    public static final String DEFAULT_SURVEY_NAME = 'Untitled Survey';
     public TTISGSurveyService surveyService;
     public Integer newIndex {get; set;}
     public Integer oldIndex {get; set;}
@@ -28,7 +24,6 @@ public with sharing class TTISGTrifectaSurveyController {
         } else {
             // New survey
             survey = (Trifecta_Survey__c) controllerInstance.getRecord();
-            survey.Name = TTISGTrifectaSurveyController.DEFAULT_SURVEY_NAME;
 
             survey.Load_Id__c = TTISGGuidUtil.NewGuid();
 
@@ -41,8 +36,6 @@ public with sharing class TTISGTrifectaSurveyController {
             surveyQuestionChoiceMap.put(newQuestion.Load_Id__c,new List<Trifecta_Survey_Question_Choice__c>{getNewChoice(newQuestion.Load_Id__c)});
         }
 
-        
-        
         questionloadId = '';
         choiceLoadId = '';
         qType = '';
@@ -168,6 +161,17 @@ public with sharing class TTISGTrifectaSurveyController {
     * Saves the Current Survey
     */
     public PageReference saveSurvey(){
+
+        //fill non-required fields with default values.
+        if(String.isBlank(survey.Name)) {
+            survey.Name = TTISGSurveyUtils.DEFAULT_SURVEY_NAME;
+        }
+
+        if(String.isBlank(survey.Auto_Response_Message__c)) {
+            survey.Auto_Response_Message__c = TTISGSurveyUtils.DEFAULT_AUTO_RESPONSE;
+        }
+
+
       //Link Survey with Survey Questions via External Id
         Integer sortIndex = 0;
         for(Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
@@ -220,7 +224,7 @@ public with sharing class TTISGTrifectaSurveyController {
         //Save the survey before the user can be redirected to Send Survey Page
         saveSurvey();
         PageReference sendSurveyPage = 
-          new PageReference(TTISGTrifectaSurveyController.SEND_SURVEY_PAGE_URL+survey.Id);
+          new PageReference(TTISGSurveyUtils.SEND_SURVEY_PAGE_URL+survey.Id);
         
         sendSurveyPage.setRedirect(true);
         return sendSurveyPage;
@@ -254,9 +258,9 @@ public with sharing class TTISGTrifectaSurveyController {
 
     private Trifecta_Survey_Question__c getNewQuestion() {
       return new Trifecta_Survey_Question__c(
-                                      Type__c=TTISGTrifectaSurveyController.QUESTION_TYPE_RADIO, 
+                                      Type__c=TTISGSurveyUtils.QUESTION_TYPE_RADIO, 
                                       Load_Id__c=TTISGGuidUtil.NewGuid(),
-                                      Title__c=TTISGTrifectaSurveyController.DEFAULT_QUESTION_TITLE,
+                                      Title__c=TTISGSurveyUtils.DEFAULT_QUESTION_TITLE,
                                       isRequired__c = false,
                                       isEdit__c=true);
     }

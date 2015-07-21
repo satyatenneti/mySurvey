@@ -38,6 +38,8 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
             mail.setTargetObjectId(submission.Submitted_To__c);
             mail.setWhatId(submission.Id);
             mails.add(mail);
+
+            
         }
         Messaging.sendEmail(mails,false);
     }

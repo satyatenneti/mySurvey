@@ -40,6 +40,11 @@
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
                 <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender=""/>
+                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="">
+                    <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
+                    <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
+                    <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
+                </apex:actionFunction>
                 <apex:outputPanel id="questions" html-data-sortable="true">
                     <div id="sortable">
                      <apex:repeat value="{!surveyQuestions}" var="question">
@@ -121,10 +126,11 @@
                                             <tr>
                                                 <th colspan=""></th>
                                                 <td><div id="choices" class="choice">
-                                                    <table>
-                                                        <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
+                                                    <table id="sortable-choices">
+                                                        <tbody>
+                                                            <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
                                                             <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
-                                                            <tr>
+                                                            <tr data-qLoadId="{!question.Load_Id__c}">
                                                                 <td>
                                                                     <apex:inputText styleClass="ui-autocomplete-input 
                                                                                                 ui-corner-all input-choice" maxlength="255" value="{!choice.Value__c}" />
@@ -136,7 +142,7 @@
                                                                 <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
                                                                     </apex:outputPanel></td>
                                                             </tr>
-                                                        </apex:repeat>
+                                                        </apex:repeat>  
                                                         <tr>
                                                             <td>
                                                                 <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
@@ -145,7 +151,8 @@
                                                                                        onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>
                                                                 </apex:outputPanel>
                                                             </td>
-                                                        </tr>
+                                                        </tr>  
+                                                        </tbody>
                                                     </table>
                                                     </div>
                                                 </td>
@@ -168,27 +175,64 @@
                         </div>
                         <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
                          <script>
-                            $(function() {
-                                $( "#sortable" ).sortable({
+                             
 
-                                    start: function(event, ui) {
-                                        $(this).attr('data-previndex', ui.item.index());
-                                    },
+                                $(function() {
+                                    // Return a helper with preserved width of cells
+                                    var fixHelper = function(e, ui) {
+                                        ui.children().each(function() {
+                                            $(this).width($(this).width());
+                                        });
+                                        return ui;
+                                    };
 
-                                    stop: function(event, ui) {
-                                         var newIndex = ui.item.index();
-                                         var oldIndex = $(this).attr('data-previndex');
-                                         $(this).removeAttr('data-previndex');
+                                    $("#sortable-choices tbody").sortable({
+                                        helper: fixHelper,
+                                        start: function(event, ui) {
+                                                $(this).attr('data-previndex', ui.item.index());
+                                            },
 
-                                         if(oldIndex != newIndex) {
-                                            $('[id*="newIndex"]').val(newIndex);
-                                            $('[id*="oldIndex"]').val(oldIndex);
-                                            updateQuestionOrder(newIndex, oldIndex);
+                                        stop: function(event, ui) {
+                                            var newIndex = ui.item.index();
+                                            var oldIndex = $(this).attr('data-previndex');
+                                            var qLoadId = $(this).attr('data-qLoadId');
+                                            $(this).removeAttr('data-previndex');
+                                            if(oldIndex != newIndex) {
+                                                $('[id*="newIndex"]').val(newIndex);
+                                                $('[id*="oldIndex"]').val(oldIndex);
+                                                updateChoiceOrder(qLoadId, newIndex, oldIndex);
+                                            }
                                         }
+                                    });
 
-                                    }
+
+                                    $( "#sortable" ).sortable({
+                                        start: function(event, ui) {
+                                            $(this).attr('data-previndex', ui.item.index());
+                                        },
+
+                                        stop: function(event, ui) {
+                                            debugger;
+                                            console.log(ui.item);
+                                             var newIndex = ui.item.index();
+                                             var oldIndex = $(this).attr('data-previndex');
+                                             var qLoadId = $(this).attr('data-qLoadId');
+                                                $(this).removeAttr('data-previndex');
+                                                if(oldIndex != newIndex) {
+                                                    $('[id*="newIndex"]').val(newIndex);
+                                                    $('[id*="oldIndex"]').val(oldIndex);
+                                                    updateChoiceOrder(qLoadId, newIndex, oldIndex);
+                                                }
+
+                                        }
+                                    });
+
+                                    $('.number').bind('keyup change', function(){
+                                        if (!/^[0-9]*$/.test($(this).val())) {
+                                            $(this).val("");
+                                        }         
+                                    });
                                 });
-                            });
                             </script>
                 </apex:outputPanel>
                 <input type="button" class="control-button" value="Add Question" onclick="addNewQuestion()"/>
@@ -225,7 +269,34 @@
     
     
     <script>
+
         $(function() {
+            // Return a helper with preserved width of cells
+            var fixHelper = function(e, ui) {
+                ui.children().each(function() {
+                    $(this).width($(this).width());
+                });
+                return ui;
+            };
+
+            $("#sortable-choices tbody").sortable({
+                helper: fixHelper,
+                start: function(event, ui) {
+                    $(this).attr('data-previndex', ui.item.index());
+                },
+                stop: function(event, ui) {
+                    var newIndex = ui.item.index();
+                    var oldIndex = $(this).attr('data-previndex');
+                    var qLoadId = $(this).attr('data-qLoadId');
+                    $(this).removeAttr('data-previndex');
+                    if(oldIndex != newIndex) {
+                        $('[id*="newIndex"]').val(newIndex);
+                        $('[id*="oldIndex"]').val(oldIndex);
+                        updateChoiceOrder(qLoadId, newIndex, oldIndex);
+                    }
+                }
+            });
+
             $( "#sortable" ).sortable({
                 start: function(event, ui) {
                     $(this).attr('data-previndex', ui.item.index());

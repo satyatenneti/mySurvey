@@ -144,13 +144,13 @@ public with sharing class TTISGTrifectaSurveyController {
     }
 
     public void updateChoiceOrder() {
-        System.assert(false, JSON.serializePretty(questionloadId+' : old: '+oldIndex+' : new: '+newIndex));
         Trifecta_Survey_Question_Choice__c choice = surveyQuestionChoiceMap.get(questionloadId).remove(oldIndex);
         
-        if(surveyQuestionChoiceMap.get(questionloadId).size()==newIndex)
+        if(surveyQuestionChoiceMap.get(questionloadId).size()==newIndex) {
             surveyQuestionChoiceMap.get(questionloadId).add(choice);
-        else
+        } else {
             surveyQuestionChoiceMap.get(questionloadId).add(newIndex, choice);
+        }
     }
     
     /*

@@ -2,9 +2,7 @@
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
-    <style type="text/css">
-    .section-label {display: block; background-color: #eee; padding: 5px; margin-top: -15px; max-width: 25%; margin-left: -15px; font-weight: bold;}
-    </style>
+
     <apex:form id="survey">
         <div class="form-container">
             <div><apex:pageMessages /></div>
@@ -40,7 +38,7 @@
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
                 <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender=""/>
-                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="">
+                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="questions">
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
                     <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
@@ -195,7 +193,7 @@
                                         stop: function(event, ui) {
                                             var newIndex = ui.item.index();
                                             var oldIndex = $(this).attr('data-previndex');
-                                            var qLoadId = $(this).attr('data-qLoadId');
+                                            var qLoadId = ui.item.attr('data-qloadid');
                                             $(this).removeAttr('data-previndex');
                                             if(oldIndex != newIndex) {
                                                 $('[id*="newIndex"]').val(newIndex);
@@ -212,8 +210,6 @@
                                         },
 
                                         stop: function(event, ui) {
-                                            debugger;
-                                            console.log(ui.item);
                                              var newIndex = ui.item.index();
                                              var oldIndex = $(this).attr('data-previndex');
                                              var qLoadId = $(this).attr('data-qLoadId');

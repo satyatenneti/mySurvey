@@ -199,8 +199,15 @@
             </div>
             <div class="section">
                 <label class="section-label">Survey Properties</label>
-                <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
-                <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
+                <div>
+                    <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
+                    <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
+                </div>
+                <div>
+                    <label>Anonymous Survey</label>&nbsp;&nbsp;
+                    <apex:inputCheckbox value="{!survey.Is_Anonymous__c}" ></apex:inputCheckbox>    
+                </div>
+                
             </div>
             <div class="section">
                 <p><input type="button" value="Send Form" class="control-button" onclick="sendSurvey()" />

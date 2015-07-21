@@ -67,6 +67,34 @@
         <protected>false</protected>
     </fieldUpdates>
     <rules>
+        <fullName>Completion Rule</fullName>
+        <actions>
+            <name>Completion_Action</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Trifecta_Survey_Submission__c.Completed__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>Non Completion Rule</fullName>
+        <actions>
+            <name>Not_Completed_Action</name>
+            <type>FieldUpdate</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Trifecta_Survey_Submission__c.Completed__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
         <fullName>Weightage greater than Threshold</fullName>
         <actions>
             <name>Weightage_greater_than_Threshold</name>
@@ -102,34 +130,6 @@
         </actions>
         <active>true</active>
         <formula>Completed__c  = true  &amp;&amp;  Avg_Weightage__c  &lt;  Survey__r.Threshold_Weightage__c</formula>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
-    <rules>
-        <fullName>Completion Rule</fullName>
-        <actions>
-            <name>Completion_Action</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>true</active>
-        <criteriaItems>
-            <field>Trifecta_Survey_Submission__c.Completed__c</field>
-            <operation>equals</operation>
-            <value>True</value>
-        </criteriaItems>
-        <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
-    <rules>
-        <fullName>Non Completion Rule</fullName>
-        <actions>
-            <name>Not_Completed_Action</name>
-            <type>FieldUpdate</type>
-        </actions>
-        <active>true</active>
-        <criteriaItems>
-            <field>Trifecta_Survey_Submission__c.Completed__c</field>
-            <operation>equals</operation>
-            <value>False</value>
-        </criteriaItems>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
 </Workflow>

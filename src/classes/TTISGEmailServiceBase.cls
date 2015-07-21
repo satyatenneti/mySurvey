@@ -49,7 +49,7 @@ public with sharing class TTISGEmailServiceBase implements TTISGEmailService {
             String SurveyURL = siteURL+'TTISGDisplayForm?Id='+submission.Id+'&Survey='+TTISGSurveyService.getSurveyId(submission.Id);
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
             mail.setSenderDisplayName(TTISGSurveyUtils.SENDER_NAME);
-            mail.setSubject('Feedback form for '+surveyName);
+            mail.setSubject('SurveyGuru | Feeback form for '+surveyName);
             mail.setUseSignature(false);
             mail.setBccSender(false);
             mail.setSaveAsActivity(false);

@@ -7,8 +7,8 @@
     <apex:form id="sendSurvey">
         <div class="form-container">
             <div id="show-img">
-                <img src="progress.gif" id="imgProg"
-                visible="false" alt="loading data..." />                
+                <img src="/servlet/servlet.FileDownload?file=015c0000000NFvn" id="imgProg"
+                visible="false" alt="loading data..." /> <label>Loading data..</label>              
             </div>
             <div id="main-div" style="display: none;">
                 <div><apex:pageMessages /></div>
@@ -119,7 +119,7 @@
     <script type="text/javascript">
 
         var ids = [];
-        
+        $("#show-img").show();
         $(document).ready(function(){
 
             $("#show-img").hide();

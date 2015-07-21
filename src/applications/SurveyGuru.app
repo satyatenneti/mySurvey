@@ -4,5 +4,4 @@
     <label>SurveyGuru</label>
     <tab>standard-report</tab>
     <tab>Trifecta_Survey__c</tab>
-    <tab>Trifecta_Survey_Submission__c</tab>
 </CustomApplication>

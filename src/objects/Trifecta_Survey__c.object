@@ -188,7 +188,7 @@
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Trifecta Surveys</pluralLabel>
+    <pluralLabel>Survey Guru</pluralLabel>
     <searchLayouts>
         <customTabListAdditionalFields>Help_Text__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>

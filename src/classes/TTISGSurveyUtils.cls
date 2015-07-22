@@ -35,10 +35,14 @@ public with sharing class TTISGSurveyUtils {
 	}
 
 	public static List<SelectOption> getAllQuestionTypes() {
-		List<SelectOption> options = new List<SelectOption>();
-        options.add(new SelectOption('Radio Button', 'Radio Button'));
-        options.add(new SelectOption('Text', 'Text'));
-        options.add(new SelectOption('Checkbox', 'Checkbox'));
-        return options;
-	}
+		List<SelectOption> options = new list<SelectOption>();
+		Map<String, Schema.SObjectField> fieldMap = Trifecta_Survey_Question__c.getSObjectType().getDescribe().fields.getMap(); 
+		// Get the list of picklist values for this field.
+		List<Schema.PicklistEntry> values = fieldMap.get('Type__c').getDescribe().getPickListValues();
+		// Add these values to the selectoption list.
+		for(Schema.PicklistEntry a : values) { 
+			options.add(new SelectOption(a.getLabel(), a.getValue())); 
+		}
+		return options;
+	} 
 }

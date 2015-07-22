@@ -118,6 +118,8 @@ public with sharing class TTISGSurveyService {
                                                               Auto_Response_Message__c = oldSurvey.Auto_Response_Message__c,
                                                               Help_Text__c = oldSurvey.Help_Text__c,
                                                               Load_Id__c = TTISGGuidUtil.NewGuid(),
+                                                              RecordTypeId = oldSurvey.RecordTypeId,
+                                                              Is_Anonymous__c = oldSurvey.Is_Anonymous__c,
                                                               Threshold_Weightage__c = oldSurvey.Threshold_Weightage__c);
         insert newSurvey;
         

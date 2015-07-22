@@ -2,9 +2,7 @@
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
-    <style type="text/css">
-    .section-label {display: block; background-color: #eee; padding: 5px; margin-top: -15px; max-width: 25%; margin-left: -15px; font-weight: bold;}
-    </style>
+    
     <apex:form id="survey">
         <div class="form-container">
             <div><apex:pageMessages /></div>
@@ -40,9 +38,14 @@
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
                 <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender=""/>
+                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="questions">
+                    <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
+                    <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
+                    <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
+                </apex:actionFunction>
                 <apex:outputPanel id="questions" html-data-sortable="true">
                     <div id="sortable">
-                     <apex:repeat value="{!surveyQuestions}" var="question">
+                        <apex:repeat value="{!surveyQuestions}" var="question">
                             <div html-data-load-id="{!question.Load_Id__c}">
                                 <apex:inputText style="display: none;" styleClass="{!question.Load_Id__c}_sort_index" value="{!question.Sort_Index__c}"/>
                                 <!-- preview mode starts here -->
@@ -93,17 +96,17 @@
                                 <apex:outputPanel rendered="{! (question.isEdit__c)}">
                                     <div class="question section">
                                         <table class="table">
-                                                <tr>
-                                                    <td colspan="4">
-                                                        <ul class="control-buttons">
-                                                            <li class="ui-state-default ui-corner-all" title="Done"><span class="ui-icon ui-icon-check pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
-                                                            <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
-                                                            <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
+                                            <tr>
+                                                <td colspan="4">
+                                                    <ul class="control-buttons">
+                                                        <li class="ui-state-default ui-corner-all" title="Done"><span class="ui-icon ui-icon-check pointer" onclick="toggleEdit('{!question.Load_Id__c}')"></span></li>
+                                                        <li class="ui-state-default ui-corner-all" title="Clone to create a new question"><span class="ui-icon ui-icon-copy pointer" onclick="copyQuestion('{!question.Load_Id__c}')"></span></li>
+                                                        <apex:outputPanel rendered="{! (surveyQuestions.size != 1) }">
                                                             <li class="ui-state-default ui-corner-all"  title="Delete"><span class="ui-icon ui-icon-trash pointer" onclick="deleteQuestion('{!question.Load_Id__c}')"></span></li>
-                                                            </apex:outputPanel>
-                                                        </ul>
-                                                    </td>
-                                                </tr>
+                                                        </apex:outputPanel>
+                                                    </ul>
+                                                </td>
+                                            </tr>
                                             
                                             <tr>
                                                 <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" maxlength="255" value="{!question.Title__c}" /></td>
@@ -114,38 +117,40 @@
                                             <tr>
                                                 <th><label>Question Type</label></th><td>
                                                 <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" 
-                                                    onchange="changeQuestionType('{!question.Load_Id__c}', this.value)" size="1" value="{!question.Type__c}">
+                                                                 onchange="changeQuestionType('{!question.Load_Id__c}', this.value)" size="1" value="{!question.Type__c}">
                                                     <apex:selectOptions value="{!questionTypes}" />
                                                 </apex:selectList></td>
                                             </tr>
                                             <tr>
                                                 <th colspan=""></th>
                                                 <td><div id="choices" class="choice">
-                                                    <table>
-                                                        <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
-                                                            <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
+                                                    <table id="sortable-choices">
+                                                        <tbody>
+                                                            <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
+                                                                <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
+                                                                <tr data-qLoadId="{!question.Load_Id__c}">
+                                                                    <td>
+                                                                        <apex:inputText styleClass="ui-autocomplete-input 
+                                                                                                    ui-corner-all input-choice" maxlength="255" value="{!choice.Value__c}" />
+                                                                    </td>
+                                                                    <td style="width: 1.5em">
+                                                                        <apex:inputText rendered="{!question.Type__c == 'Radio Button'}" styleClass="ui-corner-all input-choice number" maxlength="2" value="{!choice.Weightage__c}" title="Weightage for this choice" />
+                                                                        
+                                                                    </td>
+                                                                    <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
+                                                                        </apex:outputPanel></td>
+                                                                </tr>
+                                                            </apex:repeat>  
                                                             <tr>
                                                                 <td>
-                                                                    <apex:inputText styleClass="ui-autocomplete-input 
-                                                                                                ui-corner-all input-choice" maxlength="255" value="{!choice.Value__c}" />
+                                                                    <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
+                                                                        <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
+                                                                                           html-placeholder="Click to add new choice" html-readonly="true"  
+                                                                                           onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>
+                                                                    </apex:outputPanel>
                                                                 </td>
-                                                                <td style="width: 1.5em">
-                                                                    <apex:inputText rendered="{!question.Type__c == 'Radio Button'}" styleClass="ui-corner-all input-choice number" maxlength="2" value="{!choice.Weightage__c}" title="Weightage for this choice" />
-                                                                    
-                                                                </td>
-                                                                <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
-                                                                    </apex:outputPanel></td>
-                                                            </tr>
-                                                        </apex:repeat>
-                                                        <tr>
-                                                            <td>
-                                                                <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
-                                                                    <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
-                                                                                       html-placeholder="Click to add new choice" html-readonly="true"  
-                                                                                       onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>
-                                                                </apex:outputPanel>
-                                                            </td>
-                                                        </tr>
+                                                            </tr>  
+                                                        </tbody>
                                                     </table>
                                                     </div>
                                                 </td>
@@ -165,31 +170,66 @@
                                 <!-- edit mode ends here -->
                             </div>
                         </apex:repeat>
-                        </div>
-                        <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
-                         <script>
-                            $(function() {
-                                $( "#sortable" ).sortable({
-
-                                    start: function(event, ui) {
-                                        $(this).attr('data-previndex', ui.item.index());
-                                    },
-
-                                    stop: function(event, ui) {
-                                         var newIndex = ui.item.index();
-                                         var oldIndex = $(this).attr('data-previndex');
-                                         $(this).removeAttr('data-previndex');
-
-                                         if(oldIndex != newIndex) {
-                                            $('[id*="newIndex"]').val(newIndex);
-                                            $('[id*="oldIndex"]').val(oldIndex);
-                                            updateQuestionOrder(newIndex, oldIndex);
-                                        }
-
-                                    }
-                                });
+                    </div>
+                    <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
+                    <script>
+                    $(function() {
+                        // Return a helper with preserved width of cells
+                        var fixHelper = function(e, ui) {
+                            ui.children().each(function() {
+                                $(this).width($(this).width());
                             });
-                            </script>
+                            return ui;
+                        };
+                        
+                        $("#sortable-choices tbody").sortable({
+                            helper: fixHelper,
+                            containment: 'parent',
+                            start: function(event, ui) {
+                                $(this).attr('data-previndex', ui.item.index());
+                            },
+                            
+                            stop: function(event, ui) {
+                                var newIndex = ui.item.index();
+                                var oldIndex = $(this).attr('data-previndex');
+                                var qLoadId = ui.item.attr('data-qloadid');
+                                $(this).removeAttr('data-previndex');
+                                if(oldIndex != newIndex) {
+                                    $('[id*="newIndex"]').val(newIndex);
+                                    $('[id*="oldIndex"]').val(oldIndex);
+                                    updateChoiceOrder(qLoadId, newIndex, oldIndex);
+                                }
+                            }
+                        });
+                        
+                        
+                        $( "#sortable" ).sortable({
+                            containment: 'parent',
+                            start: function(event, ui) {
+                                $(this).attr('data-previndex', ui.item.index());
+                            },
+                            
+                            stop: function(event, ui) {
+                                var newIndex = ui.item.index();
+                                var oldIndex = $(this).attr('data-previndex');
+                                var qLoadId = $(this).attr('data-qLoadId');
+                                $(this).removeAttr('data-previndex');
+                                if(oldIndex != newIndex) {
+                                    $('[id*="newIndex"]').val(newIndex);
+                                    $('[id*="oldIndex"]').val(oldIndex);
+                                    updateChoiceOrder(qLoadId, newIndex, oldIndex);
+                                }
+                                
+                            }
+                        });
+                        
+                        $('.number').bind('keyup change', function(){
+                            if (!/^[0-9]*$/.test($(this).val())) {
+                                $(this).val("");
+                            }         
+                        });
+                    });
+                    </script>
                 </apex:outputPanel>
                 <input type="button" class="control-button" value="Add Question" onclick="addNewQuestion()"/>
             </div>
@@ -213,44 +253,13 @@
                 <p><input type="button" value="Send Form" class="control-button" onclick="sendSurvey()" />
                     <input type="button" value="Save" class="control-button" onclick="saveSurvey()" />
                     <apex:outputPanel rendered="{!survey.Id != null}">
-                    <input type="button" value="Clone" class="control-button" onclick="cloneSurvey('{!survey.Id}')" />
-                </apex:outputPanel>
-                    </p>
+                        <input type="button" value="Clone" class="control-button" onclick="cloneSurvey('{!survey.Id}')" />
+                    </apex:outputPanel>
+                </p>
             </div>
         </div>
         <apex:inputHidden id="newIndex" value="{!newIndex}" />
         <apex:inputHidden id="oldIndex" value="{!oldIndex}" />
         
     </apex:form>
-    
-    
-    <script>
-        $(function() {
-            $( "#sortable" ).sortable({
-                start: function(event, ui) {
-                    $(this).attr('data-previndex', ui.item.index());
-                },
-
-                stop: function(event, ui) {
-                     var newIndex = ui.item.index();
-                     var oldIndex = $(this).attr('data-previndex');
-                     $(this).removeAttr('data-previndex');
-
-                     if(oldIndex != newIndex) {
-                        $('[id*="newIndex"]').val(newIndex);
-                        $('[id*="oldIndex"]').val(oldIndex);
-                        updateQuestionOrder(newIndex, oldIndex);
-                    }
-
-                }
-            });
-
-            $('.number').bind('keyup change', function(){
-                if (!/^[0-9]*$/.test($(this).val())) {
-                    $(this).val("");
-                }         
-            });
-        });
-    </script>
-    
 </apex:page>

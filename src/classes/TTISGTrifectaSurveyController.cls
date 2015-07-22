@@ -134,13 +134,32 @@ public with sharing class TTISGTrifectaSurveyController {
     }
     
     public void updateQuestionOrder() {
+        try {
+            Trifecta_Survey_Question__c question = surveyQuestions.remove(oldIndex);
+            if(surveyQuestions.size()==newIndex) {
+                surveyQuestions.add(question);    
+            }
+            else {
+                surveyQuestions.add(newIndex, question);
+            }
+        } catch(Exception e) {
+            System.debug('Error while ordering the questions: '+e.getMessage());
+        }
+    }
+
+    public void updateChoiceOrder() {
+        try {
+            Trifecta_Survey_Question_Choice__c choice = surveyQuestionChoiceMap.get(questionloadId).remove(oldIndex);
         
-        Trifecta_Survey_Question__c question = surveyQuestions.remove(oldIndex);
-        
-        if(surveyQuestions.size()==newIndex)
-            surveyQuestions.add(question);
-        else
-            surveyQuestions.add(newIndex, question);
+            if(surveyQuestionChoiceMap.get(questionloadId).size()==newIndex) {
+                surveyQuestionChoiceMap.get(questionloadId).add(choice);
+            } else {
+                surveyQuestionChoiceMap.get(questionloadId).add(newIndex, choice);
+            }
+
+        } catch (Exception e) {
+                System.debug('Error while ordering the choices: '+e.getMessage());       
+        }
     }
     
     /*

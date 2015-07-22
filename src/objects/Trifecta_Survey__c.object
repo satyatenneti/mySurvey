@@ -33,7 +33,7 @@
     <actionOverrides>
         <actionName>New</actionName>
         <content>TTISGCreateSurvey</content>
-        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <skipRecordTypeSelect>true</skipRecordTypeSelect>
         <type>Visualforce</type>
     </actionOverrides>
     <actionOverrides>
@@ -181,7 +181,7 @@
         <type>Number</type>
         <unique>false</unique>
     </fields>
-    <label>Trifecta Survey</label>
+    <label>Survey</label>
     <listViews>
         <fullName>All</fullName>
         <columns>NAME</columns>
@@ -198,6 +198,31 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Survey Guru</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>IDC_Feedback</fullName>
+        <active>true</active>
+        <description>Survey for IDC</description>
+        <label>IDC Feedback</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Lunch_n_Learn</fullName>
+        <active>true</active>
+        <description>Survey for Lunch n Learn session feedback</description>
+        <label>Lunch n Learn</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Other</fullName>
+        <active>true</active>
+        <description>Survey for other type of feedback</description>
+        <label>Other</label>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Project_Feedback</fullName>
+        <active>true</active>
+        <description>Survey for Project Feedback</description>
+        <label>Project Feedback</label>
+    </recordTypes>
     <searchLayouts>
         <customTabListAdditionalFields>Help_Text__c</customTabListAdditionalFields>
         <customTabListAdditionalFields>CREATED_DATE</customTabListAdditionalFields>

@@ -38,7 +38,7 @@
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
                 <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender=""/>
-                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="questions">
+                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="">
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
                     <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
@@ -140,8 +140,13 @@
                                                                     <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
                                                                         </apex:outputPanel></td>
                                                                 </tr>
+                                                                <tr><td></td></tr>
                                                             </apex:repeat>  
-                                                            <tr>
+                                                             
+                                                        </tbody>
+                                                    </table>
+                                                    <table>
+                                                        <tr>
                                                                 <td>
                                                                     <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
                                                                         <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
@@ -149,8 +154,7 @@
                                                                                            onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>
                                                                     </apex:outputPanel>
                                                                 </td>
-                                                            </tr>  
-                                                        </tbody>
+                                                            </tr> 
                                                     </table>
                                                     </div>
                                                 </td>
@@ -184,7 +188,7 @@
                         
                         $("#sortable-choices tbody").sortable({
                             helper: fixHelper,
-                            containment: 'parent',
+                            containment: '#choices',
                             start: function(event, ui) {
                                 $(this).attr('data-previndex', ui.item.index());
                             },
@@ -204,7 +208,6 @@
                         
                         
                         $( "#sortable" ).sortable({
-                            containment: 'parent',
                             start: function(event, ui) {
                                 $(this).attr('data-previndex', ui.item.index());
                             },

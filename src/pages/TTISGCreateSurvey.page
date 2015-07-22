@@ -37,8 +37,8 @@
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="choiceLoadId"  value="" assignTo="{!choiceLoadId}"/>
                 </apex:actionFunction>
-                <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender=""/>
-                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="">
+                <apex:actionFunction name="updateQuestionOrder" action="{!updateQuestionOrder}" reRender="" />
+                <apex:actionFunction name="updateChoiceOrder" action="{!updateChoiceOrder}" reRender="questions">
                     <apex:param name="questionloadId"  value="" assignTo="{!questionloadId}"/>
                     <apex:param name="newIndex"  value="" assignTo="{!newIndex}"/>
                     <apex:param name="oldIndex"  value="" assignTo="{!oldIndex}"/>
@@ -71,18 +71,20 @@
                                             <tr><td>
                                                 <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
                                                     <apex:outputPanel rendered="{! question.Type__c == 'Radio Button'}">
-                                                        <div>
+                                                        <div class="choice-preview">
                                                             <input type="radio" name="radio" />&nbsp;<span class="font-question-choice">{! choice.Value__c}</span>
                                                         </div>
                                                     </apex:outputPanel>
                                                     <apex:outputPanel rendered="{! question.Type__c == 'Checkbox'}">
-                                                        <div>
+                                                        <div class="choice-preview">
                                                             <input type="checkbox" />&nbsp;<span class="font-question-choice">{! choice.Value__c}</span>
                                                         </div>
                                                     </apex:outputPanel>
                                                 </apex:repeat>
                                                 <apex:outputPanel rendered="{! question.Type__c == 'Text'}">
-                                                    <input type="text" disabled="true"/>
+                                                    <div class="choice-preview">
+                                                        <input type="text" disabled="true"/>
+                                                    </div>
                                                 </apex:outputPanel>
                                                 </td>
                                             </tr>
@@ -109,15 +111,14 @@
                                             </tr>
                                             
                                             <tr>
-                                                <th><label>Question Title</label></th><td><apex:inputText styleClass="ui-corner-all" maxlength="255" value="{!question.Title__c}" /></td>
+                                                <th><label>Question Title</label></th><td><apex:inputText  maxlength="255" value="{!question.Title__c}" /></td>
                                             </tr>
                                             <tr>
-                                                <th><label>Help Text</label></th><td><apex:inputText styleClass="ui-corner-all" maxlength="80" value="{!question.Help_text__c}" /> </td>
+                                                <th><label>Help Text</label></th><td><apex:inputText  maxlength="80" value="{!question.Help_text__c}" /> </td>
                                             </tr>
                                             <tr>
                                                 <th><label>Question Type</label></th><td>
-                                                <apex:selectList styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" 
-                                                                 onchange="changeQuestionType('{!question.Load_Id__c}', this.value)" size="1" value="{!question.Type__c}">
+                                                <apex:selectList onchange="changeQuestionType('{!question.Load_Id__c}', this.value)" size="1" value="{!question.Type__c}">
                                                     <apex:selectOptions value="{!questionTypes}" />
                                                 </apex:selectList></td>
                                             </tr>
@@ -130,17 +131,15 @@
                                                                 <apex:variable value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choiceList"/>
                                                                 <tr data-qLoadId="{!question.Load_Id__c}">
                                                                     <td>
-                                                                        <apex:inputText styleClass="ui-autocomplete-input 
-                                                                                                    ui-corner-all input-choice" maxlength="255" value="{!choice.Value__c}" />
+                                                                        <apex:inputText styleClass="input-choice" maxlength="255" value="{!choice.Value__c}" />
                                                                     </td>
                                                                     <td style="width: 1.5em">
-                                                                        <apex:inputText rendered="{!question.Type__c == 'Radio Button'}" styleClass="ui-corner-all input-choice number" maxlength="2" value="{!choice.Weightage__c}" title="Weightage for this choice" />
+                                                                        <apex:inputText rendered="{!question.Type__c == 'Radio Button'}" styleClass="input-choice number" maxlength="2" value="{!choice.Weightage__c}" title="Weightage for this choice" />
                                                                         
                                                                     </td>
                                                                     <td style="padding: 20px 0 0 30px; "><apex:outputPanel rendered="{! (choiceList.size !=  1) }"><span class="pointer x-box" onclick="deleteChoice('{!question.Load_Id__c}', '{!choice.Load_Id__c}')"> x </span>
                                                                         </apex:outputPanel></td>
                                                                 </tr>
-                                                                <tr><td></td></tr>
                                                             </apex:repeat>  
                                                              
                                                         </tbody>
@@ -149,7 +148,7 @@
                                                         <tr>
                                                                 <td>
                                                                     <apex:outputPanel rendered="{! question.Type__c != 'Text'}">
-                                                                        <p><apex:inputText styleClass="grayed-out ui-autocomplete-input ui-corner-all" 
+                                                                        <p><apex:inputText styleClass="grayed-out" 
                                                                                            html-placeholder="Click to add new choice" html-readonly="true"  
                                                                                            onclick="addNewSurveyQuestion('{!question.Load_Id__c}')"/></p>
                                                                     </apex:outputPanel>
@@ -215,12 +214,11 @@
                             stop: function(event, ui) {
                                 var newIndex = ui.item.index();
                                 var oldIndex = $(this).attr('data-previndex');
-                                var qLoadId = $(this).attr('data-qLoadId');
                                 $(this).removeAttr('data-previndex');
                                 if(oldIndex != newIndex) {
                                     $('[id*="newIndex"]').val(newIndex);
                                     $('[id*="oldIndex"]').val(oldIndex);
-                                    updateChoiceOrder(qLoadId, newIndex, oldIndex);
+                                    updateQuestionOrder();
                                 }
                                 
                             }
@@ -246,7 +244,7 @@
                 <label class="section-label">Survey Properties</label>
                 <div class="section-child-row">
                     <label>Survey Type</label>&nbsp;&nbsp;
-                    <apex:selectList value="{!survey.RecordTypeId}" size="1" styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" >
+                    <apex:selectList value="{!survey.RecordTypeId}" size="1" >
                         <apex:selectOptions value="{!recordTypes}" />
                     </apex:selectList>    
                 </div>

@@ -2,9 +2,9 @@
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
-    
     <apex:form id="survey">
         <div class="form-container">
+            <div class='sg-logo-header'><img src='/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ&lastMod=1436364030000' /></div>
             <div><apex:pageMessages /></div>
             <div class="section" >
                 <p><apex:inputText styleClass="font-survey-title" value="{!survey.Name}" maxlength="80" html-placeholder="Untitled Survey"/></p>
@@ -235,18 +235,28 @@
             </div>
             <div class="section">
                 <label class="section-label">Confirmation Message</label>
-                <apex:inputText value="{!survey.Auto_Response_Message__c}" maxlength="255" html-placeholder="Thank you for your time and feedback."/>
+                <div class="section-child-row">
+                    <apex:inputText value="{!survey.Auto_Response_Message__c}" maxlength="255" html-placeholder="Thank you for your time and feedback."/>    
+                </div>
             </div>
             <div class="section">
                 <label class="section-label">Survey Properties</label>
-                <div>
+                <div class="section-child-row">
+                    <label>Survey Type</label>&nbsp;&nbsp;
+                    <apex:selectList value="{!survey.RecordTypeId}" size="1" styleClass="ui-selectmenu-button ui-widget ui-state-default ui-corner-top" >
+                        <apex:selectOptions value="{!recordTypes}" />
+                    </apex:selectList>    
+                </div>
+                
+                <div class="section-child-row"> 
                     <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
                     <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
                 </div>
-                <div>
-                    <label>Anonymous Survey</label>&nbsp;&nbsp;
+                <div class="section-child-row">
+                    <label>Make this an anonymous survey</label>&nbsp;&nbsp;
                     <apex:inputCheckbox value="{!survey.Is_Anonymous__c}" ></apex:inputCheckbox>    
                 </div>
+                 
                 
             </div>
             <div class="section">

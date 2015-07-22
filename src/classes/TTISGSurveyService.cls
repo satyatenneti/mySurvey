@@ -149,4 +149,18 @@ public with sharing class TTISGSurveyService {
     public static Id getSurveyId(Id submissionId) {
       return [Select Survey__c from Trifecta_Survey_Submission__c Where Id =:submissionId][0].Survey__c;
     }
+
+
+    public List<SelectOption> getSurveyRecordTypes() {
+        Map<String, Schema.RecordTypeInfo> mapOfInfos = Schema.getGlobalDescribe().get('Trifecta_Survey__c').getDescribe().getRecordTypeInfosByName();
+
+        List<SelectOption> recordTypes = new List<SelectOption>();
+        for(String recordTypeName: mapOfInfos.keySet()) {
+            //Skip the default Master Record type.
+            if(!recordTypeName.equalsIgnoreCase('Master')) {
+                recordTypes.add(new SelectOption(String.valueOf(mapOfInfos.get(recordTypeName).getRecordTypeId()), recordTypeName));    
+            }
+        }
+        return recordTypes;
+    }
 }

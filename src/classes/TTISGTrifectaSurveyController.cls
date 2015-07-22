@@ -249,7 +249,10 @@ public with sharing class TTISGTrifectaSurveyController {
         return sendSurveyPage;
     }
     
-    
+    public List<SelectOption> getRecordTypes () {
+        return surveyService.getSurveyRecordTypes();
+    }
+
     private void loadExistingSurvey(String surveyId) {
         survey  = surveyService.getSurveyById(surveyId);
         surveyQuestions = survey.Trifecta_Survey_Questions__r;

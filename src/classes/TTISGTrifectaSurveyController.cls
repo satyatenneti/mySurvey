@@ -168,6 +168,8 @@ public with sharing class TTISGTrifectaSurveyController {
     */
     public PageReference cloneSurvey() {
         if (surveyId != null) {
+            //update the current survey before cloning.
+            update survey;
             Id newSurveyId = surveyService.cloneSurvey(surveyId);
             PageReference newSurveyPage = new PageReference('/apex/TTISGCreateSurvey?id='+newSurveyId);
             newSurveyPage.setRedirect(true);

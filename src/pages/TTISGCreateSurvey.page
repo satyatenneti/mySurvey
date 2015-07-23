@@ -257,6 +257,10 @@
                     <label>Make this an anonymous survey</label>&nbsp;&nbsp;
                     <apex:inputCheckbox value="{!survey.Is_Anonymous__c}" ></apex:inputCheckbox>    
                 </div>
+                <div class="section-child-row">
+                    <label>Receive notification upon each feedback submission</label>&nbsp;&nbsp;
+                    <apex:inputCheckbox value="{!survey.Receive_Feedback_Notifications__c}" ></apex:inputCheckbox>    
+                </div>
                  
                 
             </div>

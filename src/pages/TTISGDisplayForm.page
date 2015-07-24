@@ -27,7 +27,7 @@
                     </tr>
                 </table>
             
-            <div >
+            <div id="displayForm">
                 <table class="table">
                     <tr>
                         <td><div class="error-message validation-error" style="display: none;">Oops!! required questions cannot be left blank</div></td>
@@ -35,31 +35,39 @@
                     
                     <apex:repeat value="{!surveyQuestions}" var="question">
                         <tr>
-                            <td class="question-container {! IF(question.isRequired__c, 'required','')}">
+                            <td class="question-container {! IF(question.isRequired__c, 'required','')} {! IF(question.Justification_Required__c, 'justification-required','')}" >
                                 <div class="question-section">
-                                    <p class="font-question-title">
+                                    <p class="font-question-title" data-qloadid="{!question.Load_Id__c}" >
                                     {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">&nbsp;*&nbsp;</apex:outputPanel></p>
                                     <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
-                            
+                           
                                 <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
-                                    <apex:selectRadio value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"  styleClass="options" layout="pageDirection">
-                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
+                                    <apex:selectRadio value="{!questionChoices[question.Load_Id__c].answer}" styleClass="options"  layout="pageDirection">
+                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c].choiceValues}"/>
                                     </apex:selectRadio>
+                                    <apex:outputPanel rendered="{!questionChoices[question.Load_Id__c].justificationRequired == true}" >
+                                        <label>Can you tell us why you aren't happy ? <span class="error">*</span></label><br />
+                                        <apex:inputTextarea value="{!questionChoices[question.Load_Id__c].justificationMessage}" rows="3" cols="20"  />
+                                    </apex:outputPanel>
                                 </apex:outputPanel>
                                 <apex:outputPanel rendered="{!question.Type__c == 'Checkbox'}">
-                                    <apex:selectCheckboxes value="{!checkboxChoiceMap[question.Load_Id__c]}" styleClass="options" layout="pageDirection">
-                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c]}"/>
+                                    <apex:selectCheckboxes value="{!questionChoices[question.Load_Id__c].checkboxChoices}" styleClass="options" layout="pageDirection">
+                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c].choiceValues}"/>
                                     </apex:selectCheckboxes>
                                 </apex:outputPanel>
                                 <apex:outputPanel rendered="{!question.Type__c == 'Text'}">
-                                    <apex:inputText maxlength="255" value="{!surveyQuestionChoiceMap[question.Load_Id__c]}"/>
+                                    <apex:inputText maxlength="255" value="{!questionChoices[question.Load_Id__c].answer}"/>
                                 </apex:outputPanel>
                             </td>
                         </tr>
                     </apex:repeat>
                 </table>
                 <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
+                <apex:actionfunction action="{!verifyResponse}" name="verifyResponse" reRender="displayForm" >
+                    <apex:param  name="questionLoadId" assignTo="{!questionLoadId}"  value=""/>
+                    <apex:param  name="selection" assignTo="{!selection}" value="" />
+                 </apex:actionfunction>
             </div>
             <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
             <input type="button" value="Submit Survey" class="control-button" onclick="submitSurveyJS()" />
@@ -74,12 +82,14 @@
                 var checkedRadio = $(this).find('input[type=radio]:checked').val();
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
                 var textValue = $(this).find('input[type=text]').val();
+                var messages = $(this).find('textarea').val();
                 var question = $(this).find('.font-question-title');
 
                 if(checkedRadio == undefined 
                     && checkedCheckbox === undefined 
                     && (textValue === undefined 
-                        || (textValue != undefined && textValue.trim().length == 0))){
+                        || (textValue != undefined && textValue.trim().length == 0))
+                    && (messages != undefined && messages.trim().length == 0)){
 
                     $(question).addClass('validation-error');
                     $('.error-message').show();
@@ -91,8 +101,24 @@
             });
 
             if(isValid) {
-                 submitSurvey();
+                $('.justification-required').each(function() {
+                    var checkedRadio = $(this).find('input[type=radio]:checked').val();
+                    var textareaValue = $(this).find('textarea').val();
+                    var question = $(this).find('.font-question-title');
+                    if(checkedRadio != undefined && 
+                        textareaValue != undefined && 
+                        textareaValue.trim().length == 0 ) {
+
+                        console.log('QUestion ', question);
+                        console.log('CHoice ', checkedRadio);
+                        verifyResponse($(question).attr('data-qloadid'), checkedRadio);
+                    }
+                });
+                console.log('ready for submission');
+                 //submitSurvey();
             }
         }
+
+        
     </script>
 </apex:page>

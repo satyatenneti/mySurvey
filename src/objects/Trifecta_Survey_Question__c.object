@@ -54,6 +54,17 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>Choices__c</fullName>
+        <description>Comma Seperated values of the question choices</description>
+        <externalId>false</externalId>
+        <label>Choices</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>Help_text__c</fullName>
         <description>Help text to explain the user about the sample response to be filled.</description>
         <externalId>false</externalId>
@@ -64,6 +75,16 @@
         <trackTrending>false</trackTrending>
         <type>Text</type>
         <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Justification_Required__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check this box if you would like the users to file in Justification message if they give feedback lower than what you expect.</description>
+        <externalId>false</externalId>
+        <label>Justification Required</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
     </fields>
     <fields>
         <fullName>Load_Id__c</fullName>

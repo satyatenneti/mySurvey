@@ -158,14 +158,24 @@
                                                     </div>
                                                 </td>
                                             </tr>
+
                                             <tr>
-                                                <th>
-                                                    <input type="button" class="control-button" value="Done" onclick="toggleEdit('{!question.Load_Id__c}')" />
-                                                </th>
+                                                <th></th>
                                                 <th>
                                                     <apex:inputCheckbox value="{!question.isRequired__c}"/>
                                                     <label>Required question</label>
                                                 </th>
+                                            </tr>
+                                            <tr>
+                                                <th>
+                                                    <input type="button" class="control-button" value="Done" onclick="toggleEdit('{!question.Load_Id__c}')" />
+                                                </th>
+                                                <!-- <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}"> -->
+                                                <th>
+                                                    <apex:inputCheckbox value="{!question.Justification_Required__c}"/>
+                                                    <label>I would like to know why the submitter isn't happy about this ?</label>
+                                                </th>
+                                                <!-- </apex:outputPanel> -->
                                             </tr>
                                         </table>
                                     </div>

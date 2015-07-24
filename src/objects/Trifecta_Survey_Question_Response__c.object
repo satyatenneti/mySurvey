@@ -78,6 +78,16 @@
         <unique>false</unique>
     </fields>
     <fields>
+        <fullName>Justification_Message__c</fullName>
+        <externalId>false</externalId>
+        <label>Justification Message</label>
+        <length>32768</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
         <fullName>Name_Link__c</fullName>
         <externalId>false</externalId>
         <formula>HYPERLINK(&apos;/&apos;+  Id , IF(!ISBLANK(   Survey_Question__r.Title__c  ),  Survey_Question__r.Title__c ,  Name ))</formula>

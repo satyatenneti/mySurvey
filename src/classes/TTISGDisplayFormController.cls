@@ -14,11 +14,12 @@ public with sharing class TTISGDisplayFormController {
     
     public List<Trifecta_Survey_Question_Response__c> surveyResponses {get; set;}
     
-    public Map<String,List<SelectOption>> questionChoices {get; set;}
+    public Map<String,ChoiceWrapper> questionChoices {get; set;}
     
     public Map<String,String> surveyQuestionChoiceMap{get;set;} 
-    public Map<String,List<String>> checkboxChoiceMap {get; set;}
     public Trifecta_Survey_Submission__c surveySubmitted {get; set;}
+    public String questionLoadId {get; set;}
+    public String selection {get; set;}
 
     public TTISGDisplayFormController() {
         surveyId = ApexPages.currentPage().getParameters().get('Survey');
@@ -48,23 +49,13 @@ public with sharing class TTISGDisplayFormController {
     private void loadResponseMaps () {
     
         surveyQuestionChoiceMap = new Map<String,String>();
-        checkboxChoiceMap = new Map<String, List<String>>();
-        questionChoices = new Map<String,List<SelectOption>>();
+        questionChoices = new Map<String,ChoiceWrapper>();
         
         for (Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
-            List<SelectOption> tempOptions = new List<SelectOption>();
-            if (surveyQuestionChoices.size() != 0 && eachQuestion.Type__c != 'Text' ) {
-                for(Trifecta_Survey_Question_Choice__c eachChoice : surveyQuestionChoices.get(eachQuestion.Load_Id__c)){
-                    tempOptions.add(new SelectOption(eachChoice.Value__c,eachChoice.Value__c));
-                }
-                questionChoices.put(eachQuestion.Load_Id__c, tempOptions);
-            }
-            if (eachQuestion.Type__c == 'Checkbox') {
-                checkboxChoiceMap.put(eachQuestion.Load_Id__c,new List<String>());
-            }
-            else {
-                surveyQuestionChoiceMap.put(eachQuestion.Load_Id__c,'');
-            }
+            ChoiceWrapper wr = new ChoiceWrapper();
+            wr.choices = surveyQuestionChoices;
+            wr.generateChoiceValues();
+            questionChoices.put(eachQuestion.Load_Id__c, wr);
         }
     }
     
@@ -87,23 +78,26 @@ public with sharing class TTISGDisplayFormController {
             return confirmationPage;
         } else {
              isSubmittedAlready = true;
-             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'This survey form has been submitted already.'));
+             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Sorry, this survey form has been submitted already.'));
              return null;
         }        
     }   
 
     private void saveResponses() {
         surveyResponses = new List<Trifecta_Survey_Question_Response__c>();
-        Trifecta_Survey_Question_Response__c surveyResponse = new Trifecta_Survey_Question_Response__c();
+       
         
         for (Trifecta_Survey_Question__c eachQuestion: surveyQuestions) {
-            surveyResponse = new Trifecta_Survey_Question_Response__c(Survey_Submission__c=submissionId, 
-                                Survey_Question__c = eachQuestion.Id);
+            ChoiceWrapper wr = questionChoices.get(eachQuestion.Load_Id__c);
+            Trifecta_Survey_Question_Response__c surveyResponse = new Trifecta_Survey_Question_Response__c(
+                                                                        Survey_Submission__c=submissionId, 
+                                                                        Survey_Question__c = eachQuestion.Id);
             if (eachQuestion.Type__c == 'Checkbox') {
                 //for checkbox type questions, choices will be returned as List<String> from UI
-                surveyResponse.Answer__c = String.join(checkboxChoiceMap.get(eachQuestion.Load_Id__c), ','); 
+                surveyResponse.Answer__c = String.join(wr.checkboxChoices, ','); 
             } else {
-                surveyResponse.Answer__c = surveyQuestionChoiceMap.get(eachQuestion.Load_Id__c);
+                surveyResponse.Answer__c = wr.answer;
+                surveyResponse.Justification_Message__c = wr.justificationMessage;
             }
             surveyResponses.add(surveyResponse);
         }
@@ -115,7 +109,55 @@ public with sharing class TTISGDisplayFormController {
         //upsert eachTask;
         //}
     }
+    /* Used to control the display of Trifecta Logo from Salesforce Users */
     public Boolean getUser() {
         return TTISGSurveyUtils.isValidId(surveySubmitted.Submitted_To__c, 'User');
+    }
+
+    public void verifyResponse() {
+       // System.assert(false, 'Load Id: '+questionLoadId+' CHoice: '+selection);
+        for(Trifecta_Survey_Question__c question: surveyQuestions) {
+            if(question.Load_Id__c == questionLoadId) {
+                ChoiceWrapper wr = questionChoices.get(questionLoadId);
+
+                for(Trifecta_Survey_Question_Choice__c ch: wr.choices.get(questionLoadId)) {
+                    if(ch.Value__c == selection 
+                        && ch.Weightage__c <= survey.Threshold_Weightage__c 
+                        && String.isBlank(wr.justificationMessage.trim())) {
+                        wr.justificationRequired = true;
+                    }
+                }
+            }
+        }
+        System.assert(false, JSON.serializePretty(questionChoices.get(questionLoadId).choices+'----:----'+questionChoices.get(questionLoadId).justificationRequired));
+    }
+
+    public class ChoiceWrapper {
+        public List<String> checkboxChoices {get; set;} 
+        public String justificationMessage {get; set;}
+        public Boolean justificationRequired {get; set;}
+        public String answer{get; set;}
+        public Decimal expectedWeightage{get; set;}
+        public Map<String, List<Trifecta_Survey_Question_Choice__c>> choices {get; set;} 
+        public List<SelectOption> choiceValues {get; set;} 
+
+        public ChoiceWrapper() {
+            checkboxChoices = new List<String>();
+            justificationMessage = '';
+            answer = '';
+            expectedWeightage = 0.0;
+            choices = new Map<String, List<Trifecta_Survey_Question_Choice__c>>();
+        }
+
+        public void generateChoiceValues() {
+            if(choices != null & choices.size() > 0) {
+                for(String qLoadId : choices.keySet()) {
+                    choiceValues = new List<SelectOption>();
+                    for(Trifecta_Survey_Question_Choice__c choice: choices.get(qLoadId)) {
+                        choiceValues.add(new SelectOption(choice.Value__c, choice.Value__c));
+                    }
+                }
+            }
+        }
     }
 }

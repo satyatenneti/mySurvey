@@ -4,6 +4,8 @@ public with sharing class TTISGSurveyUtils {
 	public static final String EMAIL_TEMPLATE_FOR_CONTACT = 'TTISGSurvey Template Contact';
     public static final String SENDER_NAME = 'SurveyGuru';
     public static final String QUESTION_TYPE_RADIO = 'Radio Button';
+	public static final String QUESTION_TYPE_CHECKBOX = 'Checkbox';
+    public static final String QUESTION_TYPE_TEXT = 'Text';
     public static final String SEND_SURVEY_PAGE_URL = '/apex/TTISGSendSurvey?id=';
     public static final String DEFAULT_QUESTION_TITLE = 'Untitled Question';
     public static final String DEFAULT_SURVEY_NAME = 'Untitled Survey';

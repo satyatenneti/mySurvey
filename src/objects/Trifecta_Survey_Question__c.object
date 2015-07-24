@@ -54,6 +54,21 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <fields>
+        <fullName>AvgWeightage__c</fullName>
+        <description>avg weightage of all responses received for a question</description>
+        <externalId>false</externalId>
+        <formula>if(count_responses_received__c &gt; 0 , totalweightage__c  /  count_responses_received__c , 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>AvgWeightage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
         <fullName>Help_text__c</fullName>
         <description>Help text to explain the user about the sample response to be filled.</description>
         <externalId>false</externalId>
@@ -154,6 +169,17 @@
         <type>Picklist</type>
     </fields>
     <fields>
+        <fullName>count_responses_received__c</fullName>
+        <description>count of responses received for a question</description>
+        <externalId>false</externalId>
+        <label>count_responses_received</label>
+        <summaryForeignKey>Trifecta_Survey_Question_Response__c.Survey_Question__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
         <fullName>isEdit__c</fullName>
         <defaultValue>false</defaultValue>
         <description>Boolean flag to indicate whether this question is under edit mode or preview mode</description>
@@ -172,6 +198,18 @@
         <trackHistory>false</trackHistory>
         <trackTrending>false</trackTrending>
         <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>totalweightage__c</fullName>
+        <description>total of all weightages, this is used in formula field for calculating average of all weightage</description>
+        <externalId>false</externalId>
+        <label>totalweightage</label>
+        <summarizedField>Trifecta_Survey_Question_Response__c.weitage__c</summarizedField>
+        <summaryForeignKey>Trifecta_Survey_Question_Response__c.Survey_Question__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
     </fields>
     <label>Trifecta Survey Question</label>
     <nameField>

@@ -11,7 +11,7 @@ public with sharing class TTISGSendEmailComponentController {
             String siteURL = settings.Site_Address__c;
             String loginURL = settings.Login_URL__c;
             Trifecta_Survey__c survey = [Select Name, Is_Anonymous__c from Trifecta_Survey__c where Id =:TTISGSurveyService.getSurveyId(submissionId)];
-            if (survey.Is_Anonymous__c) {
+            if (survey.Is_Anonymous__c || TTISGSurveyUtils.isValidId(submission.Submitted_To__c, 'Contact')) {
                 SurveyURL = siteURL+'TTISGDisplayForm?Id='+submissionId+'&Survey='+TTISGSurveyService.getSurveyId(submissionId);
             } else if (TTISGSurveyUtils.isValidId(submission.Submitted_To__c, 'User')) {
                 SurveyURL = loginURL+'apex/TTISGDisplayForm?Id='+submissionId+'&Survey='+TTISGSurveyService.getSurveyId(submissionId);

@@ -8,7 +8,7 @@
             <type>creator</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>SurveyGuruEmails/TTISGLow_Weightage_alert</template>
+        <template>SurveyGuruEmails/TTISGNotificationEmail</template>
     </alerts>
     <alerts>
         <fullName>Send_Email_to_an_SurveyCreator</fullName>
@@ -102,6 +102,26 @@
             <operation>equals</operation>
             <value>False</value>
         </criteriaItems>
+        <triggerType>onCreateOrTriggeringUpdate</triggerType>
+    </rules>
+    <rules>
+        <fullName>NotifyUponFeedbackReceive</fullName>
+        <actions>
+            <name>Notification_Email_upon_Feedback_Received</name>
+            <type>Alert</type>
+        </actions>
+        <active>true</active>
+        <criteriaItems>
+            <field>Trifecta_Survey_Submission__c.Completed__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <criteriaItems>
+            <field>Trifecta_Survey__c.Receive_Feedback_Notifications__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </criteriaItems>
+        <description>User should be notified with email whenever the feedback is received for this survey</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>

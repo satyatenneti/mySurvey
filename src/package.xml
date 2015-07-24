@@ -22,6 +22,7 @@
     </types>
     <types>
         <members>EmailsSentPerDay__c</members>
+        <members>Default_Attachment_Description__c</members>
         <members>Survey_Global_Settings__c</members>
         <members>Trifecta_Email_Sent__c</members>
         <members>Trifecta_Survey_Question_Choice__c</members>

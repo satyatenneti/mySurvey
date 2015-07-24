@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workflow xmlns="http://soap.sforce.com/2006/04/metadata">
     <alerts>
+        <fullName>Notification_Email_upon_Feedback_Received</fullName>
+        <description>Notification Email upon Feedback Received</description>
+        <protected>false</protected>
+        <recipients>
+            <type>creator</type>
+        </recipients>
+        <senderType>CurrentUser</senderType>
+        <template>SurveyGuruEmails/TTISGLow_Weightage_alert</template>
+    </alerts>
+    <alerts>
         <fullName>Send_Email_to_an_SurveyCreator</fullName>
         <description>Send Email to an SurveyCreator</description>
         <protected>false</protected>

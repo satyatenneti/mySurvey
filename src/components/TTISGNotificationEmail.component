@@ -1,0 +1,29 @@
+<apex:component controller="TTISGSendEmailComponentController" access="global" >
+  <apex:attribute name="sender" description="The ID of the User or Contact" type="String" assignTo="{!senderId}"/>
+  <apex:attribute name="submission" description="Trifecta Survey Submission record Id" type="String" assignTo="{!submissionId}" />
+  <div style="width:800px;background-color:#f7f7f7;border:1px solid #d1d1d1;padding:10px;">
+        <table border="0" style="width:100%;">
+            <tr>
+                <td style="font-size:10pt;font-weight:bold;text-align:left;">
+                    <img src="https://trifecta--ttidevfull--c.cs14.content.force.com/servlet/servlet.ImageServer?id=015c0000000Mwb5&oid=00Dc0000003ugjQ" height="70" width="100" />
+                </td>
+                <td style="font-size:32pt;font-weight:bold;text-align:center;">
+                    {!surveyName}
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div style="width:800px;background-color:#f7f7f7;border:1px solid #d1d1d1;padding:10px;">
+        <table border="0" style="width:100%;">
+            <tr>
+                <td colspan="2" align="left">
+                    Dear {!$User.firstName}&nbsp;{!$User.lastName}
+                    <br /><br />
+                    Feedback recieved from {!submittedToName} for your survey <strong>{!SurveyName}</strong>.
+                    <br /><br/>Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.
+                    <br /><br /> <br /><hr /><img src="https://trifecta--ttidevfull--c.cs14.content.force.com/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ" width="170" height="30" alt="Survey Guru" />
+                </td>
+            </tr>
+        </table>
+    </div>
+</apex:component>

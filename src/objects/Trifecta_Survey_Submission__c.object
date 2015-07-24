@@ -185,7 +185,7 @@
 	<fields>
         <fullName>Share_Link__c</fullName>
         <externalId>false</externalId>
-        <formula>IF(AND(NOT(CONTAINS(Submitted_To__c,&apos;@&apos;)),Completed__c),HYPERLINK(&apos;/apex/TTISGShareLinkPage?id=&apos;&amp;Id+&apos;&amp;Survey=&apos;&amp;Survey__c,&apos;Share&apos;),&apos;&apos;)</formula>
+        <formula>IF(Completed__c,HYPERLINK(&apos;/apex/TTISGShareLinkPage?id=&apos;&amp;Id+&apos;&amp;Survey=&apos;&amp;Survey__c,&apos;Share&apos;),&apos;&apos;)</formula>
         <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
         <label>Share via Chatter</label>
         <required>false</required>

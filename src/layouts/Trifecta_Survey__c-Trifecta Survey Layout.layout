@@ -96,6 +96,7 @@
         <fields>CREATED_DATE</fields>
         <fields>Completed_Image__c</fields>
         <fields>Avg_Weightage__c</fields>
+		<fields>Share_Link__c</fields>
         <relatedList>Trifecta_Survey_Submission__c.Survey__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

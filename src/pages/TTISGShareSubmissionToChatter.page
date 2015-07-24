@@ -1,0 +1,70 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" controller="TTISGShareSubmissionToChatterController" >
+<head>  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>{!survey.Name}</title>
+</head>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/displayFormCSS.css')}"/>
+    <style type="text/css">
+    	.form-container { width: 80%;}
+    	ul.answer li {
+    		list-style-type : square;
+    		margin-left : 40px;
+    	}
+    </style>
+    <apex:form id="displaySurvey">
+        <div class="form-container">
+        <div>
+            <img class="sg-logo" src="{!URLFOR($Resource.SurveyGuru, 'images/TabImage.gif')}" width="170" height="30" />
+            <img style="display: true"  class="trifecta-logo" src="{!URLFOR($Resource.SurveyGuru, 'images/Trifecta_Logo.png')}" height="70" width="120" />
+        </div>
+        <div class="clear"><hr style="margin: 10px -20px; color: #eee;" /></div>
+
+        <apex:pageMessages />
+            <apex:outputPanel >
+                <table class="table">
+                    <tr>
+                        <td>
+                            <div class="font-survey-title">{!survey.Name}</div>
+                            <div class="help-text">{!survey.Help_Text__c}</div>
+                        </td>
+                        
+                    </tr>
+                </table>
+            
+            <div >
+                <table class="table">
+                    
+                    <apex:repeat value="{!surveyQuestions}" var="question">
+                        <tr>
+                            <td >
+                                <div class="question-section">
+                                    <p class="font-question-title">
+                                    {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">&nbsp;*&nbsp;</apex:outputPanel></p>
+                                    <p class="help-text">{!question.Help_text__c}</p>
+                                </div>
+                            
+                                <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
+                                    <ul class="answer">
+                                    	<li><apex:outputText value="{!surveyResponses[question.Load_Id__c].Answer__c}"/></li>
+                                    </ul>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!question.Type__c == 'Checkbox'}">
+                                    <ul class="answer">
+                                    	<li style=""><apex:outputText value="{!surveyResponses[question.Load_Id__c].Answer__c}"/></li>
+                                    </ul>
+                                </apex:outputPanel>
+                                <apex:outputPanel rendered="{!question.Type__c == 'Text'}">
+                                    <ul class="answer"><li><apex:outputText value="{!surveyResponses[question.Load_Id__c].Answer__c}"/></li></ul>
+                                </apex:outputPanel>
+                            </td>
+                        </tr>
+                    </apex:repeat>
+                </table>
+            </div>
+            <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
+            </apex:outputPanel> 
+        </div>
+    </apex:form>
+    
+</apex:page>

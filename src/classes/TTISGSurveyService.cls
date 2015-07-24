@@ -165,4 +165,19 @@ public with sharing class TTISGSurveyService {
         }
         return recordTypes;
     }
+	
+	public Map<String,Trifecta_Survey_Question_Response__c> getSurveySubmissionResponses(String submissionId) {
+       List<String> surveyResponseFields = TTISGSoqlUtils.star('Trifecta_Survey_Question_Response__c');
+       surveyResponseFields.add('Survey_Question__r.Load_Id__c');
+
+       Map<String,Trifecta_Survey_Question_Response__c> questionResponseMap = new Map<String,Trifecta_Survey_Question_Response__c>();
+
+        TTISGSoqlUtils.Soqlquery query = TTISGSoqlUtils.getSelect(surveyResponseFields,'Trifecta_Survey_Question_Response__c')
+                                                        .withCondition(TTISGSoqlUtils.getEq('Survey_Submission__c',submissionId));
+        
+        for(Trifecta_Survey_Question_Response__c eachResponse : Database.query(query.toString()) ) {
+            questionResponseMap.put(eachResponse.Survey_Question__r.Load_Id__c,eachResponse);
+        }
+        return questionResponseMap;
+    }
 }

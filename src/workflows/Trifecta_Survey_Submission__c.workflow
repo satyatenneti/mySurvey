@@ -121,6 +121,11 @@
             <operation>equals</operation>
             <value>True</value>
         </criteriaItems>
+        <criteriaItems>
+            <field>Trifecta_Survey__c.Is_Anonymous__c</field>
+            <operation>equals</operation>
+            <value>False</value>
+        </criteriaItems>
         <description>User should be notified with email whenever the feedback is received for this survey</description>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>

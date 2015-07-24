@@ -91,6 +91,7 @@
         <style>OneColumn</style>
     </layoutSections>
     <relatedLists>
+        <excludeButtons>New</excludeButtons>
         <fields>Title__c</fields>
         <fields>Type__c</fields>
         <fields>AvgWeightage__c</fields>

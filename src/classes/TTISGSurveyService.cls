@@ -165,6 +165,9 @@ public with sharing class TTISGSurveyService {
         }
         return recordTypes;
     }
+    public List<Report> getReportsForDisplay() {
+        return [SELECT Id,Name,Description FROM Report WHERE Name like '%Avg Rating For This Survey%' OR Name like '%Survey Completion For This Survey%'];
+    }
 	
 	public Map<String,Trifecta_Survey_Question_Response__c> getSurveySubmissionResponses(String submissionId) {
        List<String> surveyResponseFields = TTISGSoqlUtils.star('Trifecta_Survey_Question_Response__c');

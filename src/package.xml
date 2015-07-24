@@ -43,6 +43,7 @@
     <types>
         <members>SurveyGuruEmails</members>
         <members>SurveyGuruEmails/TTISGLow_Weightage_alert</members>
+        <members>SurveyGuruEmails/TTISGNotificationEmail</members>
         <members>SurveyGuruEmails/TTISGSurvey_Template_Contact</members>
         <members>SurveyGuruEmails/TTISGSurvey_Template_EmailAddress</members>
         <members>SurveyGuruEmails/TTISGSurvey_Template_User</members>

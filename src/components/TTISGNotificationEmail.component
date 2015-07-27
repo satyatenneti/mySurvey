@@ -17,7 +17,7 @@
         <table border="0" style="width:100%;">
             <tr>
                 <td colspan="2" align="left">
-                    Dear {!$User.firstName}&nbsp;{!$User.lastName}
+                    Dear {!userName}
                     <br /><br />
                     Feedback recieved from {!submittedToName} for your survey <strong>{!SurveyName}</strong>.
                     <br /><br/>Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.

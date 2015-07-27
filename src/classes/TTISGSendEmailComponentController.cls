@@ -27,4 +27,10 @@ public with sharing class TTISGSendEmailComponentController {
         Trifecta_Survey__c currentSurvey = [Select Name from Trifecta_Survey__c where Id =:TTISGSurveyService.getSurveyId(submissionId)];
         return currentSurvey.Name;
     }
+
+    public String getUserName(){
+        Trifecta_Survey__c currentSurvey = [select id, OwnerId from Trifecta_Survey__c where id =:TTISGSurveyService.getSurveyId(submissionId)];
+        User info =[Select FirstName, LastName from User where id= :currentSurvey.OwnerId];
+        return info.FirstName+' '+info.LastName;
+    }
 }

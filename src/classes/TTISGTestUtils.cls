@@ -64,4 +64,33 @@ public with sharing class TTISGTestUtils {
         insert choiceList;
   		return choiceList;
   	}
+	
+	public static Account createAccount(String accName) { 
+        Account testAcc = new Account(Name=accName); 
+        insert testAcc;
+        return testAcc;
+    }
+    public static Contact createContact(String firstName,String lastName,Account acc) {
+        Contact testContact = new Contact(AccountId= acc.Id,LastName=lastName,FirstName=firstName);
+        insert testContact;
+        return testContact;
+    }
+
+    public static Trifecta_Survey_Question_Response__c createResponseForQuestion(Id submissionId,Id questionId,String answer) {
+        Trifecta_Survey_Question_Response__c responseToReturn = new Trifecta_Survey_Question_Response__c();
+        responseToReturn.Survey_Submission__c = submissionId;
+        responseToReturn.Survey_Question__c = questionId;
+        responseToReturn.Answer__c = answer;
+        return responseToReturn;
+    }
+
+    public static Trifecta_Survey_Submission__c createSubmission(Id surveyId,Id submittedToId,String submittedToName,Boolean isCompleted) {
+        Trifecta_Survey_Submission__c submission = new Trifecta_Survey_Submission__c();
+        submission.Survey__c = surveyId;
+        submission.Submitted_To__c = submittedToId;
+        submission.Submitted_To_Name__c = submittedToName;
+        submission.Completed__c = isCompleted;
+        insert submission;
+        return submission;
+    }
 }

@@ -2,6 +2,31 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{!survey.Name}</title>
+  <style type="text/css">
+
+    textarea {resize: none; width: 100%; height: 100px; padding: 10px; width: 97%;}
+     * { margin: 0; padding: 0;}
+        body { font-size: 1em; font-family: Arial; background-color: #eee;}
+        .form-container {width: 60%; padding: 1.25em; margin: 1.25em auto; background-color: #fff; box-shadow: 0px 0px 0.5em #888888; border-radius: 0.313em;}
+        .font-question-title { font-size: 1.15em;}
+        .help-text { font-size: 0.9em; margin-bottom: 0.5em; color: #717171; }
+        .font-survey-title { font-size: 1.5em;}
+        *[data-preview='on'] {  background-color: #eee; }
+        .table {margin: 0.313em; width: 100%; padding: 0.625em;}
+        .question-container { height: 3em; min-height: 3em; }
+        table.options { margin-left: 0.625em; }
+        table.options tr { height: 1.875em; min-height: 1.875em; }
+        .question-section { margin-top: 0.625em;}
+        .validation-error {   background-color: #FF4D4D; border: solid 3px #FF9999; color: white;}
+        .error-message {  padding: 0.625em; border-radius: 0.313em; font-size: 0.9em; }
+        .trifecta-logo{ float: right; margin-top: -15px; margin-bottom: 5px;}
+        .clear {clear: both;}
+        @media screen and (max-width: 720px) {
+            .form-container { width: 85%; margin-top: 2px; height: 95%; }
+            .sg-logo { float: left;}
+            .trifecta-logo{ width: 75px; height: 50px; margin-top: -10px;}
+        }
+  </style>
 </head>
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
@@ -34,22 +59,27 @@
                     </tr>
                     
                     <apex:repeat value="{!surveyQuestions}" var="question">
+                        <apex:variable var="qLoadId"  value="{!question.Load_Id__c}" />
                         <tr>
                             <td class="question-container {! IF(question.isRequired__c, 'required','')} {! IF(question.Justification_Required__c, 'justification-required','')}" >
                                 <div class="question-section">
-                                    <p class="font-question-title" data-qloadid="{!question.Load_Id__c}" >
+                                    <p class="font-question-title" data-qloadid="{!qLoadId}" data-threshold="{!survey.Threshold_Weightage__c}" >
                                     {!question.Title__c}<apex:outputPanel rendered="{!question.isRequired__c}" styleClass="error">&nbsp;*&nbsp;</apex:outputPanel></p>
                                     <p class="help-text">{!question.Help_text__c}</p>
                                 </div>
                            
                                 <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
-                                    <apex:selectRadio value="{!questionChoices[question.Load_Id__c].answer}" styleClass="options"  layout="pageDirection">
-                                        <apex:selectOptions value="{!questionChoices[question.Load_Id__c].choiceValues}"/>
+                                    <apex:selectRadio html-data-qloadid="{!qLoadId}" value="{!questionChoices[qLoadId].answer}" styleClass="options"  layout="pageDirection">
+                                        <apex:selectOptions html-data-weightage="{!questionChoices[qLoadId]}" value="{!questionChoices[qLoadId].choiceValues}"/>    
+                                        <apex:repeat value="{!questionChoices[qLoadId].choices}" var="key">
+                                            <input type="hidden" data-weightage="{!questionChoices[qLoadId].choices[key].Weightage__c}" id="{!qLoadId}_{!questionChoices[qLoadId].choices[key].Value__c}" />
+                                        </apex:repeat>
+                                        
                                     </apex:selectRadio>
-                                    <apex:outputPanel rendered="{!questionChoices[question.Load_Id__c].justificationRequired == true}" >
-                                        <label>Can you tell us why you aren't happy ? <span class="error">*</span></label><br />
-                                        <apex:inputTextarea value="{!questionChoices[question.Load_Id__c].justificationMessage}" rows="3" cols="20"  />
-                                    </apex:outputPanel>
+                                    <div class="justification" style="display: none;">
+                                     <label>Can you tell us why you aren't happy ? <span class="error">*</span></label><br />
+                                        <apex:inputTextarea value="{!questionChoices[qLoadId].justificationMessage}" rows="3" cols="20"  />
+                                    </div>
                                 </apex:outputPanel>
                                 <apex:outputPanel rendered="{!question.Type__c == 'Checkbox'}">
                                     <apex:selectCheckboxes value="{!questionChoices[question.Load_Id__c].checkboxChoices}" styleClass="options" layout="pageDirection">
@@ -64,10 +94,6 @@
                     </apex:repeat>
                 </table>
                 <apex:actionfunction action="{!submitSurvey}" name="submitSurvey" />
-                <apex:actionfunction action="{!verifyResponse}" name="verifyResponse" reRender="displayForm" >
-                    <apex:param  name="questionLoadId" assignTo="{!questionLoadId}"  value=""/>
-                    <apex:param  name="selection" assignTo="{!selection}" value="" />
-                 </apex:actionfunction>
             </div>
             <br/><span class="help-text">(<span class="error">*</span>) Required Question </span><br/><br/>
             <input type="button" value="Submit Survey" class="control-button" onclick="submitSurveyJS()" />
@@ -75,21 +101,49 @@
         </div>
     </apex:form>
     <script type="text/javascript">
+    $(document).ready(function() {
+        console.log('On load invoked');
+        $('.justification-required').each(function() {
+            var qLoadId = $(this).find('.font-question-title').attr('data-qloadid');
+            var threshold = $(this).find('.font-question-title').attr('data-threshold');
+            var justificationMessage = $(this).find('.justification');
+            var checkedRadio = $(this).find('input[type=radio]').change(function(){
+            var currentSelection = $(this).val();
+            var currentChoiceWeightage = $('#'+qLoadId+"_"+currentSelection).attr('data-weightage');
+
+                if(currentChoiceWeightage <= threshold) {
+                    $(justificationMessage).show();
+                    $(justificationMessage).find('textarea').focus();
+                } else {
+                    $(justificationMessage).hide();
+                }
+            });
+        });
+
+    });
+
         function submitSurveyJS() {
             var isValid = true;
             //verify all required questions
             $('.required').each(function() {
-                var checkedRadio = $(this).find('input[type=radio]:checked').val();
+                var checkedRadio = $(this).find('input[type=radio]:checked');
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
                 var textValue = $(this).find('input[type=text]').val();
                 var messages = $(this).find('textarea').val();
+                var messageEnabled = $(messages).css('display') == 'none' ? true: false;
                 var question = $(this).find('.font-question-title');
+                var qLoadId = $(question).attr('data-qloadid');
+                var threshold = $(question).attr('data-threshold');
 
-                if(checkedRadio == undefined 
+                var currentSelection = $(checkedRadio).val();
+                var currentChoiceWeightage = $('#'+qLoadId+"_"+currentSelection).attr('data-weightage');
+
+                if((checkedRadio.val() == undefined || (currentChoiceWeightage <= threshold && messages == undefined) 
+                    || (messageEnabled && messages.trim().length == 0))
                     && checkedCheckbox === undefined 
                     && (textValue === undefined 
                         || (textValue != undefined && textValue.trim().length == 0))
-                    && (messages != undefined && messages.trim().length == 0)){
+                    ){
 
                     $(question).addClass('validation-error');
                     $('.error-message').show();
@@ -101,21 +155,7 @@
             });
 
             if(isValid) {
-                $('.justification-required').each(function() {
-                    var checkedRadio = $(this).find('input[type=radio]:checked').val();
-                    var textareaValue = $(this).find('textarea').val();
-                    var question = $(this).find('.font-question-title');
-                    if(checkedRadio != undefined && 
-                        textareaValue != undefined && 
-                        textareaValue.trim().length == 0 ) {
-
-                        console.log('QUestion ', question);
-                        console.log('CHoice ', checkedRadio);
-                        verifyResponse($(question).attr('data-qloadid'), checkedRadio);
-                    }
-                });
-                console.log('ready for submission');
-                 //submitSurvey();
+                submitSurvey();
             }
         }
 

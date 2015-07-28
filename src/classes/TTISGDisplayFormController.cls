@@ -53,7 +53,10 @@ public with sharing class TTISGDisplayFormController {
         
         for (Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
             ChoiceWrapper wr = new ChoiceWrapper();
-            wr.choices = surveyQuestionChoices;
+            wr.choices.clear();
+            for(Trifecta_Survey_Question_Choice__c ch: surveyQuestionChoices.get(eachQuestion.Load_Id__c)) {
+                wr.choices.put(ch.Value__c, ch);
+            }
             wr.generateChoiceValues();
             questionChoices.put(eachQuestion.Load_Id__c, wr);
         }
@@ -114,23 +117,23 @@ public with sharing class TTISGDisplayFormController {
         return TTISGSurveyUtils.isValidId(surveySubmitted.Submitted_To__c, 'User');
     }
 
-    public void verifyResponse() {
-       // System.assert(false, 'Load Id: '+questionLoadId+' CHoice: '+selection);
-        for(Trifecta_Survey_Question__c question: surveyQuestions) {
-            if(question.Load_Id__c == questionLoadId) {
-                ChoiceWrapper wr = questionChoices.get(questionLoadId);
+    //public void verifyResponse() {
+    //    System.assert(false, 'Load Id: '+questionLoadId+' CHoice: '+selection);
+    //    for(Trifecta_Survey_Question__c question: surveyQuestions) {
+    //        if(question.Load_Id__c == questionLoadId) {
+    //            ChoiceWrapper wr = questionChoices.get(questionLoadId);
 
-                for(Trifecta_Survey_Question_Choice__c ch: wr.choices.get(questionLoadId)) {
-                    if(ch.Value__c == selection 
-                        && ch.Weightage__c <= survey.Threshold_Weightage__c 
-                        && String.isBlank(wr.justificationMessage.trim())) {
-                        wr.justificationRequired = true;
-                    }
-                }
-            }
-        }
-        System.assert(false, JSON.serializePretty(questionChoices.get(questionLoadId).choices+'----:----'+questionChoices.get(questionLoadId).justificationRequired));
-    }
+    //            for(Trifecta_Survey_Question_Choice__c ch: wr.choices) {
+    //                if(ch.Value__c == selection 
+    //                    && ch.Weightage__c <= survey.Threshold_Weightage__c 
+    //                    && String.isBlank(wr.justificationMessage.trim())) {
+    //                    wr.justificationRequired = true;
+    //                }
+    //            }
+    //        }
+    //    }
+    //    System.assert(false, JSON.serializePretty(questionChoices.get(questionLoadId).choices+'----:----'+questionChoices.get(questionLoadId).justificationRequired));
+    //}
 
     public class ChoiceWrapper {
         public List<String> checkboxChoices {get; set;} 
@@ -138,7 +141,7 @@ public with sharing class TTISGDisplayFormController {
         public Boolean justificationRequired {get; set;}
         public String answer{get; set;}
         public Decimal expectedWeightage{get; set;}
-        public Map<String, List<Trifecta_Survey_Question_Choice__c>> choices {get; set;} 
+        public Map<String, Trifecta_Survey_Question_Choice__c> choices {get; set;} 
         public List<SelectOption> choiceValues {get; set;} 
 
         public ChoiceWrapper() {
@@ -146,17 +149,15 @@ public with sharing class TTISGDisplayFormController {
             justificationMessage = '';
             answer = '';
             expectedWeightage = 0.0;
-            choices = new Map<String, List<Trifecta_Survey_Question_Choice__c>>();
+            choices = new Map<String, Trifecta_Survey_Question_Choice__c>();
         }
 
         public void generateChoiceValues() {
             if(choices != null & choices.size() > 0) {
-                for(String qLoadId : choices.keySet()) {
                     choiceValues = new List<SelectOption>();
-                    for(Trifecta_Survey_Question_Choice__c choice: choices.get(qLoadId)) {
+                    for(Trifecta_Survey_Question_Choice__c choice: choices.values()) {
                         choiceValues.add(new SelectOption(choice.Value__c, choice.Value__c));
                     }
-                }
             }
         }
     }

@@ -167,15 +167,17 @@
                                                 </th>
                                             </tr>
                                             <tr>
-                                                <th>
+                                                <td>
                                                     <input type="button" class="control-button" value="Done" onclick="toggleEdit('{!question.Load_Id__c}')" />
-                                                </th>
-                                                <!-- <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}"> -->
-                                                <th>
+                                                </td>
+                                                <td>
+                                                <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
+                                                
                                                     <apex:inputCheckbox value="{!question.Justification_Required__c}"/>
                                                     <label>I would like to know why the submitter isn't happy about this ?</label>
-                                                </th>
-                                                <!-- </apex:outputPanel> -->
+                                                
+                                                </apex:outputPanel>
+                                                </td>
                                             </tr>
                                         </table>
                                     </div>

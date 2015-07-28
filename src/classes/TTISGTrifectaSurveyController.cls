@@ -20,6 +20,7 @@ public with sharing class TTISGTrifectaSurveyController {
         if(surveyId != null) {
             //Load the current Survey details
             loadExistingSurvey(surveyId);
+            checkSurveyStatus(surveyId);
 
         } else {
             // New survey
@@ -297,5 +298,12 @@ public with sharing class TTISGTrifectaSurveyController {
             }
         }
         return choicesToReturn;
+    }
+
+    private void checkSurveyStatus(String surveyId) {
+        Integer count = [SELECT count() FROM Trifecta_Survey_Submission__c where Survey__c  = :surveyId and Completed__c = false];
+        if(count > 0) {
+             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'This Survey has been locked for responses. You cannot make any changes.')); 
+        }
     }
 }

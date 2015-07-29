@@ -156,7 +156,9 @@ public with sharing class TTISGDisplayFormController {
             if(choices != null & choices.size() > 0) {
                     choiceValues = new List<SelectOption>();
                     for(Trifecta_Survey_Question_Choice__c choice: choices.values()) {
-                        choiceValues.add(new SelectOption(choice.Value__c, choice.Value__c));
+                        String valueString = choice.Value__c;
+                        valueString.replaceAll(' ', '\\ ');
+                        choiceValues.add(new SelectOption(valueString, choice.Value__c));
                     }
             }
         }

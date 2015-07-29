@@ -129,8 +129,8 @@
                 var checkedRadio = $(this).find('input[type=radio]:checked');
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
                 var textValue = $(this).find('input[type=text]').val();
-                var messages = $(this).find('textarea').val();
-                var messageEnabled = $(messages).css('display') == 'none' ? true: false;
+                var messages = $(this).find('textarea');
+                var messageEnabled = $(messages).css('display') == 'none'? false: true;
                 var question = $(this).find('.font-question-title');
                 var qLoadId = $(question).attr('data-qloadid');
                 var threshold = $(question).attr('data-threshold');
@@ -138,8 +138,8 @@
                 var currentSelection = $(checkedRadio).val();
                 var currentChoiceWeightage = $('#'+qLoadId+"_"+currentSelection).attr('data-weightage');
 
-                if((checkedRadio.val() == undefined || (currentChoiceWeightage <= threshold && messages == undefined) 
-                    || (messageEnabled && messages.trim().length == 0))
+                if((checkedRadio.val() == undefined || (checkedRadio.val() != undefined && messageEnabled 
+                    && messages.val().trim().length == 0))
                     && checkedCheckbox === undefined 
                     && (textValue === undefined 
                         || (textValue != undefined && textValue.trim().length == 0))
@@ -148,6 +148,7 @@
                     $(question).addClass('validation-error');
                     $('.error-message').show();
                     isValid = false;
+                    return false;
                 } else {
                     $(question).removeClass('validation-error');
                     $('.error-message').hide();
@@ -155,6 +156,7 @@
             });
 
             if(isValid) {
+                console.log('Ready for submission');
                 submitSurvey();
             }
         }

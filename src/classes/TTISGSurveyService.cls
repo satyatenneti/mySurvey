@@ -166,7 +166,7 @@ public with sharing class TTISGSurveyService {
         return recordTypes;
     }
     public List<Report> getReportsForDisplay() {
-        return [SELECT Id,Name,Description FROM Report WHERE Name like '%Avg Rating For This Survey%' OR Name like '%Survey Completion For This Survey%'];
+        return [SELECT Id,Name,Description FROM Report WHERE Name like '%Avg Rating For This Survey%' OR Name like '%Survey Completion For This Survey%' OR Name like '%TTISGAverageRating_Per_Question%'];
     }
 	
 	public Map<String,Trifecta_Survey_Question_Response__c> getSurveySubmissionResponses(String submissionId) {

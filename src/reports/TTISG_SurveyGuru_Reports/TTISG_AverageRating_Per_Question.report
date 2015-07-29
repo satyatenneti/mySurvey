@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
+    <aggregates>
+        <calculatedFormula>Trifecta_Survey__c.Avg_Weightage__c:SUM</calculatedFormula>
+        <datatype>number</datatype>
+        <developerName>FORMULA1</developerName>
+        <downGroupingContext>Trifecta_Survey_Question__c.Title__c</downGroupingContext>
+        <isActive>true</isActive>
+        <isCrossBlock>false</isCrossBlock>
+        <masterLabel>Average Rating</masterLabel>
+        <scale>2</scale>
+    </aggregates>
     <chart>
         <backgroundColor1>#FFFFFF</backgroundColor1>
         <backgroundColor2>#FFFFFF</backgroundColor2>
         <backgroundFadeDir>Diagonal</backgroundFadeDir>
         <chartSummaries>
             <axisBinding>y</axisBinding>
-            <column>RowCount</column>
+            <column>FORMULA1</column>
         </chartSummaries>
-        <chartType>VerticalColumnGrouped</chartType>
+        <chartType>VerticalColumn</chartType>
         <enableHoverLabels>true</enableHoverLabels>
         <expandOthers>true</expandOthers>
-        <groupingColumn>Trifecta_Survey_Submission__c.Submitted_To_Name__c</groupingColumn>
-        <legendPosition>Right</legendPosition>
+        <groupingColumn>Trifecta_Survey_Question__c.Title__c</groupingColumn>
         <location>CHART_TOP</location>
-        <secondaryGroupingColumn>Trifecta_Survey_Submission__c.Completion_Indicator__c</secondaryGroupingColumn>
         <showAxisLabels>true</showAxisLabels>
         <showPercentage>false</showPercentage>
         <showTotal>false</showTotal>
@@ -30,11 +38,9 @@
         <field>CUST_NAME</field>
     </columns>
     <columns>
-        <field>Trifecta_Survey_Submission__c.Avg_Weightage__c</field>
+        <field>Trifecta_Survey_Question__c.AvgWeightage__c</field>
     </columns>
-    <columns>
-        <field>Trifecta_Survey_Submission__c.Weightage_Indicator__c</field>
-    </columns>
+    <description>Shows Average Rating per Each Question of the Survey</description>
     <filter>
         <criteriaItems>
             <column>CUST_ID</column>
@@ -45,21 +51,16 @@
     <format>Summary</format>
     <groupingsDown>
         <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey_Submission__c.Submitted_To_Name__c</field>
+        <field>Trifecta_Survey_Question__c.Title__c</field>
         <sortOrder>Asc</sortOrder>
     </groupingsDown>
-    <groupingsDown>
-        <dateGranularity>Day</dateGranularity>
-        <field>Trifecta_Survey_Submission__c.Completion_Indicator__c</field>
-        <sortOrder>Asc</sortOrder>
-    </groupingsDown>
-    <name>Survey Completion Status Per Submitter</name>
+    <name>TTISG_AverageRating_Per_Question</name>
     <params>
         <name>co</name>
         <value>1</value>
     </params>
-    <reportType>CustomEntityCustomEntity$Trifecta_Survey__c$Trifecta_Survey_Submission__c</reportType>
-    <scope>user</scope>
+    <reportType>CustomEntityCustomEntity$Trifecta_Survey__c$Trifecta_Survey_Question__c</reportType>
+    <scope>organization</scope>
     <showDetails>true</showDetails>
     <timeFrameFilter>
         <dateColumn>CUST_CREATED_DATE</dateColumn>

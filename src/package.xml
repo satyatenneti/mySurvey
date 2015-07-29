@@ -72,6 +72,7 @@
         <name>Profile</name>
     </types>
     <types>
+        <members>TTISG_SurveyGuru_Reports/TTISG_AverageRating_Per_Question</members>
         <members>TTISG_SurveyGuru_Reports/TTISG_Avg_Rating_For_This_Survey</members>
         <members>TTISG_SurveyGuru_Reports/TTISG_Completed_Surveys</members>
         <members>TTISG_SurveyGuru_Reports/TTISG_Rating_By_Submitter_Per_Survey</members>

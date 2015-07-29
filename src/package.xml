@@ -94,5 +94,9 @@
         <members>Trifecta_Survey_Submission__c</members>
         <name>Workflow</name>
     </types>
+	<types>
+		<members>Survey_Guru_Permissions</members>
+		<name>PermissionSet</name>
+	</types>
     <version>32.0</version>
 </Package>

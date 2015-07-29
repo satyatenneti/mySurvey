@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Report xmlns="http://soap.sforce.com/2006/04/metadata">
     <aggregates>
-        <calculatedFormula>Trifecta_Survey__c.Avg_Weightage__c:SUM</calculatedFormula>
+        <calculatedFormula>Trifecta_Survey_Question__c.AvgWeightage__c:SUM</calculatedFormula>
         <datatype>number</datatype>
+        <description>displays average rating of responses per question</description>
         <developerName>FORMULA1</developerName>
         <downGroupingContext>Trifecta_Survey_Question__c.Title__c</downGroupingContext>
         <isActive>true</isActive>
         <isCrossBlock>false</isCrossBlock>
-        <masterLabel>Average Rating</masterLabel>
+        <masterLabel>average rating</masterLabel>
         <scale>2</scale>
     </aggregates>
     <chart>
@@ -18,8 +19,8 @@
             <axisBinding>y</axisBinding>
             <column>FORMULA1</column>
         </chartSummaries>
-        <chartType>VerticalColumn</chartType>
-        <enableHoverLabels>true</enableHoverLabels>
+        <chartType>HorizontalBar</chartType>
+        <enableHoverLabels>false</enableHoverLabels>
         <expandOthers>true</expandOthers>
         <groupingColumn>Trifecta_Survey_Question__c.Title__c</groupingColumn>
         <location>CHART_TOP</location>
@@ -35,10 +36,10 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>CUST_NAME</field>
+        <field>Trifecta_Survey_Question__c.AvgWeightage__c</field>
     </columns>
     <columns>
-        <field>Trifecta_Survey_Question__c.AvgWeightage__c</field>
+        <field>CUST_NAME</field>
     </columns>
     <description>Shows Average Rating per Each Question of the Survey</description>
     <filter>

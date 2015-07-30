@@ -208,7 +208,7 @@
         <trackHistory>false</trackHistory>
         <type>Text</type>
     </nameField>
-    <pluralLabel>Survey Guru</pluralLabel>
+    <pluralLabel>SurveyMaker</pluralLabel>
     <recordTypeTrackHistory>false</recordTypeTrackHistory>
     <recordTypes>
         <fullName>IDC_Feedback</fullName>

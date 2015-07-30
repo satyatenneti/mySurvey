@@ -8,7 +8,7 @@
             <type>creator</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>SurveyGuruEmails/TTISGNotificationEmail</template>
+        <template>SurveyMakerEmails/TTISGNotificationEmail</template>
     </alerts>
     <alerts>
         <fullName>Send_Email_to_an_SurveyCreator</fullName>
@@ -18,7 +18,7 @@
             <type>owner</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>SurveyGuruEmails/TTISGLow_Weightage_alert</template>
+        <template>SurveyMakerEmails/TTISGLow_Weightage_alert</template>
     </alerts>
     <alerts>
         <fullName>Send_Email_to_an_SurveyCreator_s_Manager</fullName>
@@ -29,7 +29,7 @@
             <type>email</type>
         </recipients>
         <senderType>CurrentUser</senderType>
-        <template>SurveyGuruEmails/TTISGLow_Weightage_alert</template>
+        <template>SurveyMakerEmails/TTISGLow_Weightage_alert</template>
     </alerts>
     <fieldUpdates>
         <fullName>AssignEmail</fullName>

@@ -53,9 +53,8 @@ public with sharing class TTISGDisplayFormController {
         
         for (Trifecta_Survey_Question__c eachQuestion : surveyQuestions) {
             ChoiceWrapper wr = new ChoiceWrapper();
-            wr.choices.clear();
             for(Trifecta_Survey_Question_Choice__c ch: surveyQuestionChoices.get(eachQuestion.Load_Id__c)) {
-                wr.choices.put(ch.Value__c, ch);
+                wr.choices.add(ch);
             }
             wr.generateChoiceValues();
             questionChoices.put(eachQuestion.Load_Id__c, wr);
@@ -141,7 +140,7 @@ public with sharing class TTISGDisplayFormController {
         public Boolean justificationRequired {get; set;}
         public String answer{get; set;}
         public Decimal expectedWeightage{get; set;}
-        public Map<String, Trifecta_Survey_Question_Choice__c> choices {get; set;} 
+        public List<Trifecta_Survey_Question_Choice__c> choices {get; set;} 
         public List<SelectOption> choiceValues {get; set;} 
 
         public ChoiceWrapper() {
@@ -149,13 +148,13 @@ public with sharing class TTISGDisplayFormController {
             justificationMessage = '';
             answer = '';
             expectedWeightage = 0.0;
-            choices = new Map<String, Trifecta_Survey_Question_Choice__c>();
+            choices = new List<Trifecta_Survey_Question_Choice__c>();
         }
 
         public void generateChoiceValues() {
             if(choices != null & choices.size() > 0) {
                     choiceValues = new List<SelectOption>();
-                    for(Trifecta_Survey_Question_Choice__c choice: choices.values()) {
+                    for(Trifecta_Survey_Question_Choice__c choice: choices) {
                         String valueString = choice.Value__c;
                         valueString.replaceAll(' ', '\\ ');
                         choiceValues.add(new SelectOption(valueString, choice.Value__c));

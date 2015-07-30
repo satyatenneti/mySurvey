@@ -70,9 +70,11 @@
                            
                                 <apex:outputPanel rendered="{!question.Type__c == 'Radio Button'}">
                                     <apex:selectRadio html-data-qloadid="{!qLoadId}" value="{!questionChoices[qLoadId].answer}" styleClass="options"  layout="pageDirection">
-                                        <apex:selectOptions html-data-weightage="{!questionChoices[qLoadId]}" value="{!questionChoices[qLoadId].choiceValues}"/>    
-                                        <apex:repeat value="{!questionChoices[qLoadId].choices}" var="key">
-                                            <input type="hidden" data-weightage="{!questionChoices[qLoadId].choices[key].Weightage__c}" id="{!qLoadId}_{!questionChoices[qLoadId].choices[key].Value__c}" />
+                                        <apex:selectOptions value="{!questionChoices[qLoadId].choiceValues}"/>  
+                                        <apex:variable var="i" value="{!0}"/>   
+                                        <apex:repeat value="{!questionChoices[qLoadId].choices}" var="choiceObj">
+                                            <input type="hidden" id="{!qLoadId}_{!i}" value="{!choiceObj.Weightage__c}" />
+                                            <apex:variable var="i" value="{!i+1}"/>
                                         </apex:repeat>
                                         
                                     </apex:selectRadio>
@@ -107,11 +109,18 @@
             var qLoadId = $(this).find('.font-question-title').attr('data-qloadid');
             var threshold = $(this).find('.font-question-title').attr('data-threshold');
             var justificationMessage = $(this).find('.justification');
-            var checkedRadio = $(this).find('input[type=radio]').change(function(){
-            var currentSelection = $(this).val();
-            var currentChoiceWeightage = $('#'+qLoadId+"_"+currentSelection).attr('data-weightage');
+            var radioButtons =  $(this).find('input[type=radio]');
+            var checkedRadio = $(this)
+                .find('input[type=radio]')
+                    .change(function(){
+                         console.log('on change invoked');
+                var selectedIndex = radioButtons.index($(this));
 
-                if(currentChoiceWeightage <= threshold) {
+                var currentChoiceWeightage = $('#'+qLoadId+'_'+selectedIndex).val();
+                console.log('currentweightage'+currentChoiceWeightage+', threshold - '+threshold);
+                if(parseInt(currentChoiceWeightage, 10) <= parseInt(threshold,10)) {
+                    console.log('justification msg');
+
                     $(justificationMessage).show();
                     $(justificationMessage).find('textarea').focus();
                 } else {
@@ -134,9 +143,18 @@
                 var question = $(this).find('.font-question-title');
                 var qLoadId = $(question).attr('data-qloadid');
                 var threshold = $(question).attr('data-threshold');
+                var radioButtons =  $(question).find('input[type=radio]');
 
-                var currentSelection = $(checkedRadio).val();
-                var currentChoiceWeightage = $('#'+qLoadId+"_"+currentSelection).attr('data-weightage');
+                var selectedIndex = radioButtons.index($(checkedRadio));
+                
+                var currentChoiceWeightage = $('#'+qLoadId+'_'+selectedIndex).val();
+
+                console.log('messages '+messages);
+                console.log('textValue - '+textValue);
+                console.log('checkedRadio '+checkedRadio);
+                console.log('messageEnabled'+messageEnabled);
+                console.log('checkedCheckbox'+checkedCheckbox);
+
 
                 if((checkedRadio.val() == undefined || (checkedRadio.val() != undefined && messageEnabled 
                     && messages.val().trim().length == 0))
@@ -157,7 +175,7 @@
 
             if(isValid) {
                 console.log('Ready for submission');
-                submitSurvey();
+               // submitSurvey();
             }
         }
 

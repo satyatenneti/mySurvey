@@ -1,6 +1,6 @@
 <apex:component >
-    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'scripts/jquery-ui.css')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.SurveyGuru, 'scripts/external/jquery/jquery.js')}"/>
-    <apex:includeScript value="{!URLFOR($Resource.SurveyGuru, 'scripts/jquery-ui.min.js')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'scripts/jquery-ui.css')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SurveyMaker, 'scripts/external/jquery/jquery.js')}"/>
+    <apex:includeScript value="{!URLFOR($Resource.SurveyMaker, 'scripts/jquery-ui.min.js')}"/>
     <apex:includescript value="//cdn.datatables.net/1.10.4/js/jquery.dataTables.min.js" />
 </apex:component>

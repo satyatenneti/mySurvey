@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="SurveyGuru | Feedback received for {!relatedTo.Survey__r.Name}" recipientType="User" relatedToType="Trifecta_Survey_Submission__c">
+<messaging:emailTemplate subject="SurveyMaker | Feedback received for {!relatedTo.Survey__r.Name}" recipientType="User" relatedToType="Trifecta_Survey_Submission__c">
 <messaging:htmlEmailBody >
     <c:TTISGNotificationEmail sender="{!relatedTo.Submitted_To__c}" submission="{!relatedTo.Id}"/>
 </messaging:htmlEmailBody>

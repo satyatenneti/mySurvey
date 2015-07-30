@@ -1,15 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>*</members>
+        <members>TTISGConfirmationPageController</members>
+        <members>TTISGConfirmationPageControllerTest</members>
+        <members>TTISGDisplayFormController</members>
+        <members>TTISGDisplayFormControllerTest</members>
+        <members>TTISGEmailService</members>
+        <members>TTISGEmailServiceBase</members>
+        <members>TTISGGuidUtil</members>
+        <members>TTISGReportIDsController</members>
+        <members>TTISGReportIDsControllerTest</members>
+        <members>TTISGSObjectUtils</members>
+        <members>TTISGSendEmailComponentController</members>
+        <members>TTISGSendSurveyController</members>
+        <members>TTISGSendSurveyControllerTest</members>
+        <members>TTISGShareLinkPageController</members>
+        <members>TTISGShareLinkTest</members>
+        <members>TTISGShareSubmissionToChatterController</members>
+        <members>TTISGSoqlUtils</members>
+        <members>TTISGSurveyService</members>
+        <members>TTISGSurveyUtils</members>
+        <members>TTISGTestUtils</members>
+        <members>TTISGTrifectaSurveyController</members>
+        <members>TTISGTrifectaSurveyControllerTest</members>
         <name>ApexClass</name>
     </types>
     <types>
-        <members>*</members>
+        <members>TTISGAlertEmailComponent</members>
+        <members>TTISGNotificationEmail</members>
+        <members>TTISGScriptIncludes</members>
+        <members>TTISGSendEmailComponent</members>
         <name>ApexComponent</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Survey_Report_Page</members>
+        <members>TTISGConfirmation</members>
+        <members>TTISGCreateSurvey</members>
+        <members>TTISGDisplayForm</members>
+        <members>TTISGGetReportIds</members>
+        <members>TTISGSendSurvey</members>
+        <members>TTISGShareLinkPage</members>
+        <members>TTISGShareSubmissionToChatter</members>
         <name>ApexPage</name>
     </types>
     <types>
@@ -17,12 +48,12 @@
         <name>ApexTrigger</name>
     </types>
     <types>
-        <members>SurveyGuru</members>
+        <members>SurveyMaker</members>
         <name>CustomApplication</name>
     </types>
     <types>
-        <members>EmailsSentPerDay__c</members>
         <members>Default_Attachment_Description__c</members>
+        <members>EmailsSentPerDay__c</members>
         <members>Survey_Global_Settings__c</members>
         <members>Trifecta_Email_Sent__c</members>
         <members>Trifecta_Survey_Question_Choice__c</members>
@@ -33,30 +64,29 @@
         <name>CustomObject</name>
     </types>
     <types>
-        <members>*</members>
+        <members>Trifecta_Survey__c</members>
         <name>CustomTab</name>
     </types>
     <types>
-        <members>TTISG_SurveyGuru_Dashboard</members>
-        <members>TTISG_SurveyGuru_Dashboard/TTISG_SurveyGuru_Dashboards</members>
+        <members>TTISG_SurveyMaker_Dashboard</members>
+        <members>TTISG_SurveyMaker_Dashboard/TTISG_SurveyMaker_Dashboards</members>
         <name>Dashboard</name>
     </types>
     <types>
-        <members>SurveyGuruEmails</members>
-        <members>SurveyGuruEmails/TTISGLow_Weightage_alert</members>
-        <members>SurveyGuruEmails/TTISGNotificationEmail</members>
-        <members>SurveyGuruEmails/TTISGSurvey_Template_Contact</members>
-        <members>SurveyGuruEmails/TTISGSurvey_Template_EmailAddress</members>
-        <members>SurveyGuruEmails/TTISGSurvey_Template_User</members>
+        <members>SurveyMaker</members>
+        <members>SurveyMaker/Quick_Send_Image.png</members>
+        <members>SurveyMaker/Survey_Guru_Tab_Logo.png</members>
+        <members>SurveyMaker/Tick_Image.png</members>
+        <name>Document</name>
+    </types>
+    <types>
+        <members>SurveyMakerEmails</members>
+        <members>SurveyMakerEmails/TTISGLow_Weightage_alert</members>
+        <members>SurveyMakerEmails/TTISGNotificationEmail</members>
+        <members>SurveyMakerEmails/TTISGSurvey_Template_Contact</members>
+        <members>SurveyMakerEmails/TTISGSurvey_Template_EmailAddress</members>
+        <members>SurveyMakerEmails/TTISGSurvey_Template_User</members>
         <name>EmailTemplate</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>HomePageComponent</name>
-    </types>
-    <types>
-        <members>*</members>
-        <name>HomePageLayout</name>
     </types>
     <types>
         <members>Trifecta_Email_Sent__c-Trifecta Email Sent Layout</members>
@@ -68,36 +98,32 @@
         <name>Layout</name>
     </types>
     <types>
-        <members>Admin</members>
-        <name>Profile</name>
+        <members>*</members>
+        <name>PermissionSet</name>
     </types>
     <types>
-        <members>TTISG_SurveyGuru_Reports/TTISG_AverageRating_Per_Question</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Avg_Rating_For_This_Survey</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Completed_Surveys</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_By_Submitter_Per_Survey</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Per_Survey</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Report</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Rating_Survey</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Survey_Completion_For_This_Survey</members>
-        <members>TTISG_SurveyGuru_Reports/TTISG_Surveys_Completed_Per_Submitter</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_AverageRating_Per_Question</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Avg_Rating_For_This_Survey</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Completed_Surveys</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Rating_By_Submitter_Per_Survey</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Rating_Per_Survey</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Rating_Report</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Rating_Survey</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Survey_Completion_For_This_Survey</members>
+        <members>TTISG_SurveyMaker_Reports/TTISG_Surveys_Completed_Per_Submitter</members>
         <name>Report</name>
     </types>
     <types>
-        <members>Trifecta_Survey</members>
+        <members>*</members>
         <name>ReportType</name>
     </types>
     <types>
-        <members>*</members>
+        <members>SurveyMaker</members>
         <name>StaticResource</name>
     </types>
     <types>
         <members>Trifecta_Survey_Submission__c</members>
         <name>Workflow</name>
     </types>
-	<types>
-		<members>Survey_Guru_Permissions</members>
-		<name>PermissionSet</name>
-	</types>
-    <version>32.0</version>
+    <version>31.0</version>
 </Package>

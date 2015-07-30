@@ -21,7 +21,7 @@
                     <br /><br />
                     Feedback recieved from {!submittedToName} for your survey <strong>{!SurveyName}</strong>.
                     <br /><br/>Click&nbsp;<apex:outputLink value="{!DetailUrl}" >here</apex:outputLink>&nbsp;to veiw the response.
-                    <br /><br /> <br /><hr /><img src="https://trifecta--ttidevfull--c.cs14.content.force.com/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ" width="170" height="30" alt="Survey Guru" />
+                    <br /><br /> <br /><hr /><img src="https://trifecta--ttidevfull--c.cs14.content.force.com/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ" width="170" height="30" alt="Survey Maker" />
                 </td>
             </tr>
         </table>

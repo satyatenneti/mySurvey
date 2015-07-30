@@ -2,7 +2,7 @@ public with sharing class TTISGSurveyUtils {
 
 	public static final String EMAIL_TEMPLATE_FOR_USER = 'TTISGSurvey Template User';
 	public static final String EMAIL_TEMPLATE_FOR_CONTACT = 'TTISGSurvey Template Contact';
-    public static final String SENDER_NAME = 'SurveyGuru';
+    public static final String SENDER_NAME = 'SurveyMaker';
     public static final String QUESTION_TYPE_RADIO = 'Radio Button';
 	public static final String QUESTION_TYPE_CHECKBOX = 'Checkbox';
     public static final String QUESTION_TYPE_TEXT = 'Text';

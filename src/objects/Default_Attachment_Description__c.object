@@ -5,7 +5,7 @@
     <enableFeeds>false</enableFeeds>
     <fields>
         <fullName>Description__c</fullName>
-        <description>The default description for attachment used in Survey Guru</description>
+        <description>The default description for attachment used in Survey Maker</description>
         <externalId>false</externalId>
         <label>Description</label>
         <length>255</length>

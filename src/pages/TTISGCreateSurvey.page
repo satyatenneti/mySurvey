@@ -1,7 +1,7 @@
 <apex:page standardController="Trifecta_Survey__c" sidebar="false"  extensions="TTISGTrifectaSurveyController">
     <c:TTISGScriptIncludes />
-    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
-    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/createSurveyCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'styles/custom/createSurveyCSS.css')}"/>
     <apex:form id="survey">
         <div class="form-container">
             <div class='sg-logo-header'><img src='/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ&lastMod=1436364030000' /></div>
@@ -111,10 +111,10 @@
                                             </tr>
                                             
                                             <tr>
-                                                <th><label>Question Title</label></th><td><apex:inputText  maxlength="255" value="{!question.Title__c}" /></td>
+                                                <th><label>Question Title</label></th><td><apex:inputText maxlength="255" value="{!question.Title__c}" /></td>
                                             </tr>
                                             <tr>
-                                                <th><label>Help Text</label></th><td><apex:inputText  maxlength="80" value="{!question.Help_text__c}" /> </td>
+                                                <th><label>Help Text</label></th><td><apex:inputText maxlength="80" value="{!question.Help_text__c}" /> </td>
                                             </tr>
                                             <tr>
                                                 <th><label>Question Type</label></th><td>

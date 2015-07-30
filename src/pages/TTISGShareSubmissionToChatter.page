@@ -3,8 +3,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>{!survey.Name}</title>
 </head>
-    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/globalCSS.css')}"/>
-    <apex:stylesheet value="{!URLFOR($Resource.SurveyGuru, 'styles/custom/displayFormCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'styles/custom/globalCSS.css')}"/>
+    <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'styles/custom/displayFormCSS.css')}"/>
     <style type="text/css">
     	.form-container { width: 80%;}
     	ul.answer li {

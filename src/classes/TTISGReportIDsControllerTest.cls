@@ -10,7 +10,7 @@ private class TTISGReportIDsControllerTest {
 
 		TTISGReportIDsController extension = new TTISGReportIDsController(stdController);
 
-		System.assertEquals(2,extension.reportIds.size(),'Failed Asserting Report Collection Size');
+		System.assertEquals(3,extension.reportIds.size(),'Failed Asserting Report Collection Size');
 		
 		Set<String> orgReportNames = new Set<String>();
 		for(Report eachReport : extension.reportIds) {
@@ -19,7 +19,7 @@ private class TTISGReportIDsControllerTest {
 		
 		System.assertEquals(true,orgReportNames.contains('Survey Completion For This Survey'),'Failed Asserting for the Report Name 1');
 		System.assertEquals(true,orgReportNames.contains('Avg Rating For This Survey'),'Failed Asserting for the Report Name 2');
-
+		System.assertEquals(true,orgReportNames.contains('TTISG_AverageRating_Per_Question'),'Failed Asserting for the Report Name 3');
 	}
 	
 }

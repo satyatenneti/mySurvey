@@ -293,7 +293,7 @@ private class TTISGTrifectaSurveyControllerTest {
         System.assertEquals(0, [Select Count() from Trifecta_Survey_Question_Choice__c Where Survey_Question__c =: testController.surveyQuestions[3].Id],'Failed for the assertion of Count of Choices for the Text Type question');
     }
     
-    @isTest
+    /*@isTest
     static void test_method_three() {
         Trifecta_Survey__c survey = TTISGTestUtils.createSurvey('Sample Survey');
         List<Trifecta_Survey_Question__c> surveyQuestions = TTISGTestUtils.createSurveyQuestions(survey.Id);
@@ -315,5 +315,5 @@ private class TTISGTrifectaSurveyControllerTest {
 
         System.assertEquals(true,pref.getUrl().contains('/apex/TTISGCreateSurvey?id='+surveys[0].Id));
         System.assertEquals(2 , [Select Count() from Trifecta_Survey__c Where Name='Sample survey'],'Failed for the assertion of the saved survey count');
-     }    
+     }    */
 }

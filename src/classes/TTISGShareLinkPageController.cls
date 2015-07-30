@@ -15,7 +15,12 @@ public with sharing class TTISGShareLinkPageController {
 	  Trifecta_Survey__c survey = new TTISGSurveyService().getSurveyById(surveyId);
 
       Attachment a = new Attachment();
-      a.Body = pref.getContentAsPDF();
+      if(Test.isRunningTest()) {
+      	a.Body = Blob.valueOf('Sample Test');	
+      }
+      else {
+      	a.Body = pref.getContentAsPDF();
+      }
       a.ParentID = submissionId;
       a.Name = survey.Name+'.pdf';
       insert a;

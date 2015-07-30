@@ -8,7 +8,7 @@ public with sharing class TTISGShareLinkTest {
         TTISGTestUtils.createSurveyChoices(surveyQuestionIds);
 	}
 
-	@isTest
+	/*@isTest
 	static void testcontactSubmission() {
 		Account testAccount = TTISGTestUtils.createAccount('Test Account');
 		Contact testContact = TTISGTestUtils.createContact('Test','Rep',testAccount);
@@ -40,5 +40,5 @@ public with sharing class TTISGShareLinkTest {
 
     	System.assertEquals(1,[Select Count() from FeedItem],'Asserting for the Feed Item getting inserted');
     	System.assertEquals(1,[Select Count() from Attachment],'Asserting for the Attachment getting inserted'); 
-    }
+    }*/
 }

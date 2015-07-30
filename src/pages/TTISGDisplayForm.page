@@ -104,7 +104,6 @@
     </apex:form>
     <script type="text/javascript">
     $(document).ready(function() {
-        console.log('On load invoked');
         $('.justification-required').each(function() {
             var qLoadId = $(this).find('.font-question-title').attr('data-qloadid');
             var threshold = $(this).find('.font-question-title').attr('data-threshold');
@@ -113,7 +112,6 @@
             var checkedRadio = $(this)
                 .find('input[type=radio]')
                     .change(function(){
-                         console.log('on change invoked');
                 var selectedIndex = radioButtons.index($(this));
 
                 var currentChoiceWeightage = $('#'+qLoadId+'_'+selectedIndex).val();
@@ -122,7 +120,9 @@
                     console.log('justification msg');
 
                     $(justificationMessage).show();
-                    $(justificationMessage).find('textarea').focus();
+                    var textareaObj = $(justificationMessage).find('textarea');
+                    textareaObj.val('');
+                    textareaObj.focus();
                 } else {
                     $(justificationMessage).hide();
                 }
@@ -135,33 +135,26 @@
             var isValid = true;
             //verify all required questions
             $('.required').each(function() {
-                var checkedRadio = $(this).find('input[type=radio]:checked');
+                var checkedRadio = $(this).find('input[type=radio]:checked').val();
                 var checkedCheckbox = $(this).find('input[type=checkbox]:checked').val();
                 var textValue = $(this).find('input[type=text]').val();
-                var messages = $(this).find('textarea');
-                var messageEnabled = $(messages).css('display') == 'none'? false: true;
                 var question = $(this).find('.font-question-title');
-                var qLoadId = $(question).attr('data-qloadid');
-                var threshold = $(question).attr('data-threshold');
-                var radioButtons =  $(question).find('input[type=radio]');
 
-                var selectedIndex = radioButtons.index($(checkedRadio));
-                
-                var currentChoiceWeightage = $('#'+qLoadId+'_'+selectedIndex).val();
-
+                var messages = $(this).find('textarea');
+                var messageEnabled = $(messages).is(':visible');
+/*
                 console.log('messages '+messages);
+                console.log('messages val'+messages.val());
+                console.log('messageEnabled '+messageEnabled);
                 console.log('textValue - '+textValue);
                 console.log('checkedRadio '+checkedRadio);
                 console.log('messageEnabled'+messageEnabled);
-                console.log('checkedCheckbox'+checkedCheckbox);
+                console.log('checkedCheckbox'+checkedCheckbox);*/
 
-
-                if((checkedRadio.val() == undefined || (checkedRadio.val() != undefined && messageEnabled 
-                    && messages.val().trim().length == 0))
+                if((checkedRadio == undefined || (messageEnabled && messages.val().trim().length==0))
                     && checkedCheckbox === undefined 
                     && (textValue === undefined 
-                        || (textValue != undefined && textValue.trim().length == 0))
-                    ){
+                        || (textValue != undefined && textValue.trim().length == 0))){    
 
                     $(question).addClass('validation-error');
                     $('.error-message').show();
@@ -175,7 +168,7 @@
 
             if(isValid) {
                 console.log('Ready for submission');
-               // submitSurvey();
+                submitSurvey();
             }
         }
 

@@ -103,33 +103,31 @@
         </div>
     </apex:form>
     <script type="text/javascript">
-    $(document).ready(function() {
-        $('.justification-required').each(function() {
-            var qLoadId = $(this).find('.font-question-title').attr('data-qloadid');
-            var threshold = $(this).find('.font-question-title').attr('data-threshold');
-            var justificationMessage = $(this).find('.justification');
-            var radioButtons =  $(this).find('input[type=radio]');
-            var checkedRadio = $(this)
-                .find('input[type=radio]')
-                    .change(function(){
-                var selectedIndex = radioButtons.index($(this));
+        $(document).ready(function() {
 
-                var currentChoiceWeightage = $('#'+qLoadId+'_'+selectedIndex).val();
-                console.log('currentweightage'+currentChoiceWeightage+', threshold - '+threshold);
-                if(parseInt(currentChoiceWeightage, 10) <= parseInt(threshold,10)) {
-                    console.log('justification msg');
+            $('.justification-required').each(function() {
+                var qLoadId = $(this).find('.font-question-title').attr('data-qloadid');
+                var threshold = $(this).find('.font-question-title').attr('data-threshold');
+                var justificationMessage = $(this).find('.justification');
+                var radioButtons =  $(this).find('input[type=radio]');
+                var checkedRadio = $(this)
+                    .find('input[type=radio]')
+                        .change(function(){
+                    var selectedIndex = radioButtons.index($(this));
 
-                    $(justificationMessage).show();
-                    var textareaObj = $(justificationMessage).find('textarea');
-                    textareaObj.val('');
-                    textareaObj.focus();
-                } else {
-                    $(justificationMessage).hide();
-                }
+                    var currentChoiceWeightage = $('#'+qLoadId+'_'+selectedIndex).val();
+                    console.log('currentweightage'+currentChoiceWeightage+', threshold - '+threshold);
+                    if(parseInt(currentChoiceWeightage, 10) <= parseInt(threshold,10)) {
+                        console.log('justification msg');
+
+                        $(justificationMessage).show();
+                        $(justificationMessage).find('textarea').focus();
+                    } else {
+                        $(justificationMessage).hide();
+                    }
+                });
             });
         });
-
-    });
 
         function submitSurveyJS() {
             var isValid = true;
@@ -142,14 +140,6 @@
 
                 var messages = $(this).find('textarea');
                 var messageEnabled = $(messages).is(':visible');
-/*
-                console.log('messages '+messages);
-                console.log('messages val'+messages.val());
-                console.log('messageEnabled '+messageEnabled);
-                console.log('textValue - '+textValue);
-                console.log('checkedRadio '+checkedRadio);
-                console.log('messageEnabled'+messageEnabled);
-                console.log('checkedCheckbox'+checkedCheckbox);*/
 
                 if((checkedRadio == undefined || (messageEnabled && messages.val().trim().length==0))
                     && checkedCheckbox === undefined 
@@ -170,8 +160,6 @@
                 console.log('Ready for submission');
                 submitSurvey();
             }
-        }
-
-        
+        }        
     </script>
 </apex:page>

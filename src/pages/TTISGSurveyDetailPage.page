@@ -1,0 +1,4 @@
+<apex:page showHeader="true" sidebar="true" standardController="Trifecta_Survey__c">
+	<img src='{!URLFOR($Resource.SurveyMaker, "images/TabImage.gif")}' width="200px" height="45px" />
+	<apex:detail subject="{!Trifecta_Survey__c.Id}" title="false"/>
+</apex:page> 

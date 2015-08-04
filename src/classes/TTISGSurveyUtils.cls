@@ -47,4 +47,12 @@ public with sharing class TTISGSurveyUtils {
 		}
 		return options;
 	} 
+	
+	public static List<Trifecta_Survey__c> getUserOwnedSurveys(Id userId) {
+		return [Select Id,Name,Help_Text__c,CreatedDate,Avg_Weightage__c,Edit__c,Quick_Send_Link__c FROM Trifecta_Survey__c Where OwnerId =:userId AND CreatedById =:userId];
+	}
+
+	public static String getCreateSurveyPage() {
+		return [Select Id,Name from ApexPage Where Name = 'TTISGCreateSurvey'].Name;
+	}
 }

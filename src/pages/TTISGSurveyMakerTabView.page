@@ -1,0 +1,23 @@
+<apex:page showHeader="true" sidebar="false" standardController="Trifecta_Survey__c" recordSetVar="surveysToDisplay" extensions="TTISGSurveyMakerTabViewController">
+    <apex:form >
+        <img src='{!URLFOR($Resource.SurveyMaker, "images/TabImage.gif")}' width="200px" height="45px" />
+        <br/>
+        <br/>
+        <br/>
+        <apex:pageBlock title="Your Surveys">
+            <apex:pageBlockButtons location="top">
+                <apex:commandButton action="{!redirectToNewSurvey}" value="New"/>
+            </apex:pageBlockButtons>
+            <apex:pageBlockTable value="{!surveysToDisplay}" var="survey">
+                <apex:column headerValue="Title">
+                    <apex:outputLink value="/{!survey.Id}">{!survey.Name}</apex:outputLink>
+                </apex:column>
+                <apex:column value="{!survey.Help_Text__c}"/>
+                <apex:column value="{!survey.CreatedDate}"/>
+                <apex:column value="{!survey.Avg_Weightage__c}"/>
+                <apex:column value="{!survey.Edit__c}"/>
+                <apex:column value="{!survey.Quick_Send_Link__c}"/>
+            </apex:pageBlockTable>
+        </apex:pageBlock>
+    </apex:form> 
+</apex:page>

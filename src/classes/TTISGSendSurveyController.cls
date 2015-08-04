@@ -161,7 +161,7 @@ private Integer getBalance() {
                 insert sentMails;
                 externalContacts = '';
                 emailService.sendExternalEmailNotifications(submissionList, surveyId);
-                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully submitted.'));     
+                ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.INFO, 'Your Survey form has been successfully sent.'));     
             }
         } else {
             ApexPages.addMessage(new ApexPages.Message(ApexPages.Severity.ERROR, 'You should select atleast one recipent.'));

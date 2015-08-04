@@ -2,6 +2,8 @@
     <c:TTISGScriptIncludes />
     <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'styles/custom/globalCSS.css')}"/>
     <apex:stylesheet value="{!URLFOR($Resource.SurveyMaker, 'styles/custom/createSurveyCSS.css')}"/>
+    <style type="text/css">
+    </style>
     <apex:form id="survey">
         <div class="form-container">
             <div class='sg-logo-header'><img src='/servlet/servlet.ImageServer?id=015c0000000Mwaq&oid=00Dc0000003ugjQ&lastMod=1436364030000' /></div>
@@ -62,7 +64,7 @@
                                                         </apex:outputPanel>
                                                     </ul>
                                                     <div>
-                                                        <p class="font-question-title">{!question.Title__c}<apex:outputPanel styleClass="error" rendered="{!question.isRequired__c}">&nbsp;*&nbsp;</apex:outputPanel></p>
+                                                        <p class="font-question-title" style="word-break: break-all">{!question.Title__c}<apex:outputPanel styleClass="error" rendered="{!question.isRequired__c}">&nbsp;*&nbsp;</apex:outputPanel></p>
                                                         <p class="help-text">{!question.Help_text__c}</p>
                                                     </div>
                                                 </td>
@@ -72,12 +74,12 @@
                                                 <apex:repeat value="{!surveyQuestionChoiceMap[question.Load_Id__c]}" var="choice"> 
                                                     <apex:outputPanel rendered="{! question.Type__c == 'Radio Button'}">
                                                         <div class="choice-preview">
-                                                            <input type="radio" name="radio" />&nbsp;<span class="font-question-choice">{! choice.Value__c}</span>
+                                                            <input type="radio" name="radio" />&nbsp;<span class="font-question-choice" style="word-break: break-all">{! choice.Value__c}</span>
                                                         </div>
                                                     </apex:outputPanel>
                                                     <apex:outputPanel rendered="{! question.Type__c == 'Checkbox'}">
                                                         <div class="choice-preview">
-                                                            <input type="checkbox" />&nbsp;<span class="font-question-choice">{! choice.Value__c}</span>
+                                                            <input type="checkbox" />&nbsp;<span class="font-question-choice" style="word-break: break-all">{! choice.Value__c}</span>
                                                         </div>
                                                     </apex:outputPanel>
                                                 </apex:repeat>
@@ -250,7 +252,7 @@
                 </div>
                 
                 <div class="section-child-row"> 
-                    <label>Minimum Rating that I expect for this survey. (optional)<i></i></label>
+                    <label>Minimum Rating that I expect for this survey(Optional).<i></i></label>
                     <apex:inputText style="width: 3.25em; display: inline; margin-top: 2px;" styleClass="number" value="{!survey.Threshold_Weightage__c}" maxlength="2" ></apex:inputText>
                 </div>
                 <div class="section-child-row">

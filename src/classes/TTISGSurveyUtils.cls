@@ -46,5 +46,18 @@ public with sharing class TTISGSurveyUtils {
 			options.add(new SelectOption(a.getLabel(), a.getValue())); 
 		}
 		return options;
-	} 
+	}
+
+	public static String checkForRecordOwnerShip(Id recordOwner,Id currentLoggedInUser,String dmlType) {
+        if(recordOwner != currentLoggedInUser){
+            if(dmlType == 'Update') {
+                return 'You Do Not Have Permissions to Modify the Record';
+            } else {
+                return 'You Do Not Have Permissions to Delete the Record';
+            }
+        }
+        else{
+            return null;
+        }
+    }	
 }
